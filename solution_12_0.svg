@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 450" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="245.0" y="20" text-anchor="middle" font-family="monospace" font-size="14" fill="#333">
+    n=12 Missing-Center Solution — Distance Rings Colored
+  </text>
+  <g stroke="#ddd" stroke-width="0.5">
+    <line x1="40" y1="40" x2="40" y2="370"/>
+    <line x1="40" y1="40" x2="370" y2="40"/>
+    <line x1="70" y1="40" x2="70" y2="370"/>
+    <line x1="40" y1="70" x2="370" y2="70"/>
+    <line x1="100" y1="40" x2="100" y2="370"/>
+    <line x1="40" y1="100" x2="370" y2="100"/>
+    <line x1="130" y1="40" x2="130" y2="370"/>
+    <line x1="40" y1="130" x2="370" y2="130"/>
+    <line x1="160" y1="40" x2="160" y2="370"/>
+    <line x1="40" y1="160" x2="370" y2="160"/>
+    <line x1="190" y1="40" x2="190" y2="370"/>
+    <line x1="40" y1="190" x2="370" y2="190"/>
+    <line x1="220" y1="40" x2="220" y2="370"/>
+    <line x1="40" y1="220" x2="370" y2="220"/>
+    <line x1="250" y1="40" x2="250" y2="370"/>
+    <line x1="40" y1="250" x2="370" y2="250"/>
+    <line x1="280" y1="40" x2="280" y2="370"/>
+    <line x1="40" y1="280" x2="370" y2="280"/>
+    <line x1="310" y1="40" x2="310" y2="370"/>
+    <line x1="40" y1="310" x2="370" y2="310"/>
+    <line x1="340" y1="40" x2="340" y2="370"/>
+    <line x1="40" y1="340" x2="370" y2="340"/>
+    <line x1="370" y1="40" x2="370" y2="370"/>
+    <line x1="40" y1="370" x2="370" y2="370"/>
+  </g>
+  <g fill="#999" font-family="monospace" font-size="10">
+    <text x="40" y="415" text-anchor="middle">0</text>
+    <text x="25" y="43" text-anchor="end">0</text>
+    <text x="70" y="415" text-anchor="middle">1</text>
+    <text x="25" y="73" text-anchor="end">1</text>
+    <text x="100" y="415" text-anchor="middle">2</text>
+    <text x="25" y="103" text-anchor="end">2</text>
+    <text x="130" y="415" text-anchor="middle">3</text>
+    <text x="25" y="133" text-anchor="end">3</text>
+    <text x="160" y="415" text-anchor="middle">4</text>
+    <text x="25" y="163" text-anchor="end">4</text>
+    <text x="190" y="415" text-anchor="middle">5</text>
+    <text x="25" y="193" text-anchor="end">5</text>
+    <text x="220" y="415" text-anchor="middle">6</text>
+    <text x="25" y="223" text-anchor="end">6</text>
+    <text x="250" y="415" text-anchor="middle">7</text>
+    <text x="25" y="253" text-anchor="end">7</text>
+    <text x="280" y="415" text-anchor="middle">8</text>
+    <text x="25" y="283" text-anchor="end">8</text>
+    <text x="310" y="415" text-anchor="middle">9</text>
+    <text x="25" y="313" text-anchor="end">9</text>
+    <text x="340" y="415" text-anchor="middle">10</text>
+    <text x="25" y="343" text-anchor="end">10</text>
+    <text x="370" y="415" text-anchor="middle">11</text>
+    <text x="25" y="373" text-anchor="end">11</text>
+  </g>
+  <g fill-opacity="0.15" stroke="none">
+    <circle cx="40" cy="40" r="4" fill="#dbdb8d"/>
+    <circle cx="70" cy="40" r="4" fill="#c7c7c7"/>
+    <circle cx="100" cy="40" r="4" fill="#f7b6d2"/>
+    <circle cx="130" cy="40" r="4" fill="#c5b0d5"/>
+    <circle cx="160" cy="40" r="4" fill="#ff9896"/>
+    <circle cx="190" cy="40" r="4" fill="#98df8a"/>
+    <circle cx="220" cy="40" r="4" fill="#98df8a"/>
+    <circle cx="250" cy="40" r="4" fill="#ff9896"/>
+    <circle cx="280" cy="40" r="4" fill="#c5b0d5"/>
+    <circle cx="310" cy="40" r="4" fill="#f7b6d2"/>
+    <circle cx="340" cy="40" r="4" fill="#c7c7c7"/>
+    <circle cx="370" cy="40" r="4" fill="#dbdb8d"/>
+    <circle cx="40" cy="70" r="4" fill="#c7c7c7"/>
+    <circle cx="70" cy="70" r="4" fill="#c49c94"/>
+    <circle cx="100" cy="70" r="4" fill="#ff9896"/>
+    <circle cx="130" cy="70" r="4" fill="#ffbb78"/>
+    <circle cx="160" cy="70" r="4" fill="#17becf"/>
+    <circle cx="190" cy="70" r="4" fill="#bcbd22"/>
+    <circle cx="220" cy="70" r="4" fill="#bcbd22"/>
+    <circle cx="250" cy="70" r="4" fill="#17becf"/>
+    <circle cx="280" cy="70" r="4" fill="#ffbb78"/>
+    <circle cx="310" cy="70" r="4" fill="#ff9896"/>
+    <circle cx="340" cy="70" r="4" fill="#c49c94"/>
+    <circle cx="370" cy="70" r="4" fill="#c7c7c7"/>
+    <circle cx="40" cy="100" r="4" fill="#f7b6d2"/>
+    <circle cx="70" cy="100" r="4" fill="#ff9896"/>
+    <circle cx="100" cy="100" r="4" fill="#aec7e8"/>
+    <circle cx="130" cy="100" r="4" fill="#7f7f7f"/>
+    <circle cx="160" cy="100" r="4" fill="#e377c2"/>
+    <circle cx="190" cy="100" r="4" fill="#8c564b"/>
+    <circle cx="220" cy="100" r="4" fill="#8c564b"/>
+    <circle cx="250" cy="100" r="4" fill="#e377c2"/>
+    <circle cx="280" cy="100" r="4" fill="#7f7f7f"/>
+    <circle cx="310" cy="100" r="4" fill="#aec7e8"/>
+    <circle cx="340" cy="100" r="4" fill="#ff9896"/>
+    <circle cx="370" cy="100" r="4" fill="#f7b6d2"/>
+    <circle cx="40" cy="130" r="4" fill="#c5b0d5"/>
+    <circle cx="70" cy="130" r="4" fill="#ffbb78"/>
+    <circle cx="100" cy="130" r="4" fill="#7f7f7f"/>
+    <circle cx="130" cy="130" r="4" fill="#8c564b"/>
+    <circle cx="160" cy="130" r="4" fill="#9467bd"/>
+    <circle cx="190" cy="130" r="4" fill="#d62728"/>
+    <circle cx="220" cy="130" r="4" fill="#d62728"/>
+    <circle cx="250" cy="130" r="4" fill="#9467bd"/>
+    <circle cx="280" cy="130" r="4" fill="#8c564b"/>
+    <circle cx="310" cy="130" r="4" fill="#7f7f7f"/>
+    <circle cx="340" cy="130" r="4" fill="#ffbb78"/>
+    <circle cx="370" cy="130" r="4" fill="#c5b0d5"/>
+    <circle cx="40" cy="160" r="4" fill="#ff9896"/>
+    <circle cx="70" cy="160" r="4" fill="#17becf"/>
+    <circle cx="100" cy="160" r="4" fill="#e377c2"/>
+    <circle cx="130" cy="160" r="4" fill="#9467bd"/>
+    <circle cx="160" cy="160" r="4" fill="#2ca02c"/>
+    <circle cx="190" cy="160" r="4" fill="#ff7f0e"/>
+    <circle cx="220" cy="160" r="4" fill="#ff7f0e"/>
+    <circle cx="250" cy="160" r="4" fill="#2ca02c"/>
+    <circle cx="280" cy="160" r="4" fill="#9467bd"/>
+    <circle cx="310" cy="160" r="4" fill="#e377c2"/>
+    <circle cx="340" cy="160" r="4" fill="#17becf"/>
+    <circle cx="370" cy="160" r="4" fill="#ff9896"/>
+    <circle cx="40" cy="190" r="4" fill="#98df8a"/>
+    <circle cx="70" cy="190" r="4" fill="#bcbd22"/>
+    <circle cx="100" cy="190" r="4" fill="#8c564b"/>
+    <circle cx="130" cy="190" r="4" fill="#d62728"/>
+    <circle cx="160" cy="190" r="4" fill="#ff7f0e"/>
+    <circle cx="190" cy="190" r="4" fill="#1f77b4"/>
+    <circle cx="220" cy="190" r="4" fill="#1f77b4"/>
+    <circle cx="250" cy="190" r="4" fill="#ff7f0e"/>
+    <circle cx="280" cy="190" r="4" fill="#d62728"/>
+    <circle cx="310" cy="190" r="4" fill="#8c564b"/>
+    <circle cx="340" cy="190" r="4" fill="#bcbd22"/>
+    <circle cx="370" cy="190" r="4" fill="#98df8a"/>
+    <circle cx="40" cy="220" r="4" fill="#98df8a"/>
+    <circle cx="70" cy="220" r="4" fill="#bcbd22"/>
+    <circle cx="100" cy="220" r="4" fill="#8c564b"/>
+    <circle cx="130" cy="220" r="4" fill="#d62728"/>
+    <circle cx="160" cy="220" r="4" fill="#ff7f0e"/>
+    <circle cx="190" cy="220" r="4" fill="#1f77b4"/>
+    <circle cx="220" cy="220" r="4" fill="#1f77b4"/>
+    <circle cx="250" cy="220" r="4" fill="#ff7f0e"/>
+    <circle cx="280" cy="220" r="4" fill="#d62728"/>
+    <circle cx="310" cy="220" r="4" fill="#8c564b"/>
+    <circle cx="340" cy="220" r="4" fill="#bcbd22"/>
+    <circle cx="370" cy="220" r="4" fill="#98df8a"/>
+    <circle cx="40" cy="250" r="4" fill="#ff9896"/>
+    <circle cx="70" cy="250" r="4" fill="#17becf"/>
+    <circle cx="100" cy="250" r="4" fill="#e377c2"/>
+    <circle cx="130" cy="250" r="4" fill="#9467bd"/>
+    <circle cx="160" cy="250" r="4" fill="#2ca02c"/>
+    <circle cx="190" cy="250" r="4" fill="#ff7f0e"/>
+    <circle cx="220" cy="250" r="4" fill="#ff7f0e"/>
+    <circle cx="250" cy="250" r="4" fill="#2ca02c"/>
+    <circle cx="280" cy="250" r="4" fill="#9467bd"/>
+    <circle cx="310" cy="250" r="4" fill="#e377c2"/>
+    <circle cx="340" cy="250" r="4" fill="#17becf"/>
+    <circle cx="370" cy="250" r="4" fill="#ff9896"/>
+    <circle cx="40" cy="280" r="4" fill="#c5b0d5"/>
+    <circle cx="70" cy="280" r="4" fill="#ffbb78"/>
+    <circle cx="100" cy="280" r="4" fill="#7f7f7f"/>
+    <circle cx="130" cy="280" r="4" fill="#8c564b"/>
+    <circle cx="160" cy="280" r="4" fill="#9467bd"/>
+    <circle cx="190" cy="280" r="4" fill="#d62728"/>
+    <circle cx="220" cy="280" r="4" fill="#d62728"/>
+    <circle cx="250" cy="280" r="4" fill="#9467bd"/>
+    <circle cx="280" cy="280" r="4" fill="#8c564b"/>
+    <circle cx="310" cy="280" r="4" fill="#7f7f7f"/>
+    <circle cx="340" cy="280" r="4" fill="#ffbb78"/>
+    <circle cx="370" cy="280" r="4" fill="#c5b0d5"/>
+    <circle cx="40" cy="310" r="4" fill="#f7b6d2"/>
+    <circle cx="70" cy="310" r="4" fill="#ff9896"/>
+    <circle cx="100" cy="310" r="4" fill="#aec7e8"/>
+    <circle cx="130" cy="310" r="4" fill="#7f7f7f"/>
+    <circle cx="160" cy="310" r="4" fill="#e377c2"/>
+    <circle cx="190" cy="310" r="4" fill="#8c564b"/>
+    <circle cx="220" cy="310" r="4" fill="#8c564b"/>
+    <circle cx="250" cy="310" r="4" fill="#e377c2"/>
+    <circle cx="280" cy="310" r="4" fill="#7f7f7f"/>
+    <circle cx="310" cy="310" r="4" fill="#aec7e8"/>
+    <circle cx="340" cy="310" r="4" fill="#ff9896"/>
+    <circle cx="370" cy="310" r="4" fill="#f7b6d2"/>
+    <circle cx="40" cy="340" r="4" fill="#c7c7c7"/>
+    <circle cx="70" cy="340" r="4" fill="#c49c94"/>
+    <circle cx="100" cy="340" r="4" fill="#ff9896"/>
+    <circle cx="130" cy="340" r="4" fill="#ffbb78"/>
+    <circle cx="160" cy="340" r="4" fill="#17becf"/>
+    <circle cx="190" cy="340" r="4" fill="#bcbd22"/>
+    <circle cx="220" cy="340" r="4" fill="#bcbd22"/>
+    <circle cx="250" cy="340" r="4" fill="#17becf"/>
+    <circle cx="280" cy="340" r="4" fill="#ffbb78"/>
+    <circle cx="310" cy="340" r="4" fill="#ff9896"/>
+    <circle cx="340" cy="340" r="4" fill="#c49c94"/>
+    <circle cx="370" cy="340" r="4" fill="#c7c7c7"/>
+    <circle cx="40" cy="370" r="4" fill="#dbdb8d"/>
+    <circle cx="70" cy="370" r="4" fill="#c7c7c7"/>
+    <circle cx="100" cy="370" r="4" fill="#f7b6d2"/>
+    <circle cx="130" cy="370" r="4" fill="#c5b0d5"/>
+    <circle cx="160" cy="370" r="4" fill="#ff9896"/>
+    <circle cx="190" cy="370" r="4" fill="#98df8a"/>
+    <circle cx="220" cy="370" r="4" fill="#98df8a"/>
+    <circle cx="250" cy="370" r="4" fill="#ff9896"/>
+    <circle cx="280" cy="370" r="4" fill="#c5b0d5"/>
+    <circle cx="310" cy="370" r="4" fill="#f7b6d2"/>
+    <circle cx="340" cy="370" r="4" fill="#c7c7c7"/>
+    <circle cx="370" cy="370" r="4" fill="#dbdb8d"/>
+  </g>
+  <g stroke="#333" stroke-width="1.5">
+    <circle cx="40" cy="40" r="6" fill="#dbdb8d" stroke="#333" stroke-width="1.5"/>
+    <circle cx="160" cy="40" r="6" fill="#ff9896" stroke="#333" stroke-width="1.5"/>
+    <circle cx="190" cy="70" r="6" fill="#bcbd22" stroke="#333" stroke-width="1.5"/>
+    <circle cx="250" cy="70" r="6" fill="#17becf" stroke="#333" stroke-width="1.5"/>
+    <circle cx="280" cy="100" r="6" fill="#7f7f7f" stroke="#333" stroke-width="1.5"/>
+    <circle cx="370" cy="100" r="6" fill="#f7b6d2" stroke="#333" stroke-width="1.5"/>
+    <circle cx="100" cy="130" r="6" fill="#7f7f7f" stroke="#333" stroke-width="1.5"/>
+    <circle cx="160" cy="130" r="6" fill="#9467bd" stroke="#333" stroke-width="1.5"/>
+    <circle cx="220" cy="160" r="6" fill="#ff7f0e" stroke="#333" stroke-width="1.5"/>
+    <circle cx="310" cy="160" r="6" fill="#e377c2" stroke="#333" stroke-width="1.5"/>
+    <circle cx="40" cy="190" r="6" fill="#98df8a" stroke="#333" stroke-width="1.5"/>
+    <circle cx="100" cy="190" r="6" fill="#8c564b" stroke="#333" stroke-width="1.5"/>
+    <circle cx="130" cy="220" r="6" fill="#d62728" stroke="#333" stroke-width="1.5"/>
+    <circle cx="370" cy="220" r="6" fill="#98df8a" stroke="#333" stroke-width="1.5"/>
+    <circle cx="280" cy="250" r="6" fill="#9467bd" stroke="#333" stroke-width="1.5"/>
+    <circle cx="340" cy="250" r="6" fill="#17becf" stroke="#333" stroke-width="1.5"/>
+    <circle cx="70" cy="280" r="6" fill="#ffbb78" stroke="#333" stroke-width="1.5"/>
+    <circle cx="340" cy="280" r="6" fill="#ffbb78" stroke="#333" stroke-width="1.5"/>
+    <circle cx="190" cy="310" r="6" fill="#8c564b" stroke="#333" stroke-width="1.5"/>
+    <circle cx="250" cy="310" r="6" fill="#e377c2" stroke="#333" stroke-width="1.5"/>
+    <circle cx="70" cy="340" r="6" fill="#c49c94" stroke="#333" stroke-width="1.5"/>
+    <circle cx="220" cy="340" r="6" fill="#bcbd22" stroke="#333" stroke-width="1.5"/>
+    <circle cx="130" cy="370" r="6" fill="#c5b0d5" stroke="#333" stroke-width="1.5"/>
+    <circle cx="310" cy="370" r="6" fill="#f7b6d2" stroke="#333" stroke-width="1.5"/>
+  </g>
+  <text x="460" y="35" font-family="monospace" font-size="11" fill="#333">Distance Rings</text>
+  <rect x="460" y="50" width="10" height="10" fill="#ff7f0e" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="56" font-family="monospace" font-size="9" fill="#666">d=10</text>
+  <rect x="460" y="66" width="10" height="10" fill="#d62728" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="72" font-family="monospace" font-size="9" fill="#666">d=26</text>
+  <rect x="460" y="82" width="10" height="10" fill="#9467bd" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="88" font-family="monospace" font-size="9" fill="#666">d=34</text>
+  <rect x="460" y="98" width="10" height="10" fill="#8c564b" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="104" font-family="monospace" font-size="9" fill="#666">d=50</text>
+  <rect x="460" y="114" width="10" height="10" fill="#e377c2" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="120" font-family="monospace" font-size="9" fill="#666">d=58</text>
+  <rect x="460" y="130" width="10" height="10" fill="#7f7f7f" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="136" font-family="monospace" font-size="9" fill="#666">d=74</text>
+  <rect x="460" y="146" width="10" height="10" fill="#bcbd22" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="152" font-family="monospace" font-size="9" fill="#666">d=82</text>
+  <rect x="460" y="162" width="10" height="10" fill="#17becf" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="168" font-family="monospace" font-size="9" fill="#666">d=90</text>
+  <rect x="460" y="178" width="10" height="10" fill="#ffbb78" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="184" font-family="monospace" font-size="9" fill="#666">d=106</text>
+  <rect x="460" y="194" width="10" height="10" fill="#98df8a" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="200" font-family="monospace" font-size="9" fill="#666">d=122</text>
+  <rect x="460" y="210" width="10" height="10" fill="#ff9896" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="216" font-family="monospace" font-size="9" fill="#666">d=130</text>
+  <rect x="460" y="226" width="10" height="10" fill="#c5b0d5" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="232" font-family="monospace" font-size="9" fill="#666">d=146</text>
+  <rect x="460" y="242" width="10" height="10" fill="#c49c94" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="248" font-family="monospace" font-size="9" fill="#666">d=162</text>
+  <rect x="460" y="258" width="10" height="10" fill="#f7b6d2" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="264" font-family="monospace" font-size="9" fill="#666">d=170</text>
+  <rect x="460" y="274" width="10" height="10" fill="#dbdb8d" stroke="#999" stroke-width="0.5"/>
+  <text x="478" y="280" font-family="monospace" font-size="9" fill="#666">d=242</text>
+  <g stroke="red" stroke-width="1" stroke-dasharray="3,3">
+    <circle cx="205.0" cy="205.0" r="12" fill="none"/>
+    <line x1="199.0" y1="205.0" x2="211.0" y2="205.0"/>
+    <line x1="205.0" y1="199.0" x2="205.0" y2="211.0"/>
+  </g>
+  <text x="217.0" y="209.0" font-family="monospace" font-size="9" fill="red">center</text>
+</svg>
