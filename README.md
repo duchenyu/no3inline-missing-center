@@ -677,7 +677,7 @@ If you use this work in research, please cite this repository:
 
 ```
 @software{no3line_missing_center,
-  author = {Du, Chenyu},
+  author = {Du, Junrong},
   title = {no3line-missing-center: No-Three-In-Line Missing Center Analysis},
   year = {2026},
   url = {https://github.com/duchenyu/no3inline-missing-center} (version v1.0)
