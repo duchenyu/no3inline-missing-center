@@ -603,6 +603,27 @@ We computed the collision graph for $n=12$ to $n=30$ and correlated each ring's 
 
 **Code**: `analysis/direction_b_ring_collision.py` — ring collision graph builder and correlation analysis.
 
+### Direction C: Odd $n$ Missing-Center Existence Bounds
+
+We analyzed the precise conditions under which odd $n$ grids admit missing-center solutions, using $n=7$ to $n=45$ with $D_4$-inequivalent data.
+
+**Key findings:**
+
+1. **Extinction at $n\ge 33$ is structural, not capacity-driven.** All odd $n\ge 7$ satisfy the ring capacity constraint (enough rings with $\le$2 points to hold $2n$ points), with slack actually *increasing* from 1.36× at $n=7$ to 5.21× at $n=45$. The extinction occurs because:
+
+   - At $n=31$, the **rot2 symmetry class undergoes a SAT unsatisfiability transition** — zero solutions remain
+   - At $n\ge 33$, **only rct4 solutions survive**
+   - rct4 solutions inherently have $\ge 4$ points per distance ring ($D_4$ orbit structure) → center is always a circumcenter
+   - Therefore missing-center solutions are **permanently impossible** for odd $n\ge 33$
+
+2. **The $n=11$ threshold marks >100 ring pairs.** Ring-pair collinearity density crossing $\binom{r}{2} > 100$ provides enough combinatorial flexibility for missing-center solutions to emerge.
+
+3. **The $15\rightarrow 17$ freeze** (354 vs 357 missing-center solutions) occurs because $n=15$ (4k+3 composite) has a larger BB off-center subgrid, while $n=17$ (4k+1 prime) has a larger GG center-focused subgrid — these nearly cancel.
+
+4. **Capacity is never the bottleneck.** The $n=9$ anomaly (only 1 missing-center solution despite 105 ring pairs) shows that collinearity constraints, not capacity, drive the pattern.
+
+**Code**: `analysis/direction_c_odd_existence.py` — ring capacity, diversity, and extinction threshold analysis.
+
 ### Direction 5: The Even n Threshold — Empirically Characterized
 
 **Important caveat**: This threshold is an **empirical finding** based on exhaustive search up to n=13 and D₄-inequivalent analysis up to n=19. It has not been proven mathematically. The matrix analysis explains why the threshold exists (interaction between ring capacity and collinearity), but does not constitute a proof that n=12 is the exact transition point.
