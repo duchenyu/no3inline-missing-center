@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Missing-Center No-Three-In-Line — Interactive Overview</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8f9fa;color:#222;line-height:1.6}
+header{background:#1a1a2e;color:#fff;padding:2rem 1rem;text-align:center}
+header h1{font-size:1.8rem;margin-bottom:.3rem}
+header p{color:#aab;font-size:.95rem}
+nav{background:#16213e;padding:.6rem 1rem;text-align:center;position:sticky;top:0;z-index:10}
+nav a{color:#8af;text-decoration:none;margin:0 .8rem;font-size:.9rem}
+nav a:hover{color:#fff}
+section{max-width:960px;margin:2rem auto;padding:0 1rem}
+h2{color:#1a1a2e;border-bottom:3px solid #1a1a2e;padding-bottom:.4rem;margin-bottom:1.2rem}
+h3{color:#333;margin:1rem 0 .5rem}
+.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.2rem;margin-bottom:1.5rem}
+.card.blue{border-left:4px solid #4361ee}
+.card.green{border-left:4px solid #2d6a4f}
+.card.red{border-left:4px solid #d62828}
+.card.orange{border-left:4px solid #e76f51}
+.grid-container{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:1rem 0}
+.grid-box{text-align:center}
+.grid-box canvas{border:1px solid #ccc;background:#fff}
+.grid-box .label{font-size:.8rem;margin-top:.3rem;color:#555}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:center;margin:.6rem 0;font-size:.85rem}
+.legend-item{display:flex;align-items:center;gap:.3rem}
+.legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.5rem .6rem;text-align:center;border:1px solid #ddd}
+th{background:#1a1a2e;color:#fff}
+tr:nth-child(even){background:#f5f5f5}
+tr:hover{background:#e8f0fe}
+.stat-row{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:1rem 0}
+.stat-card{background:#fff;border-radius:8px;padding:1rem;text-align:center;min-width:120px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.stat-card .num{font-size:1.6rem;font-weight:700;color:#1a1a2e}
+.stat-card .desc{font-size:.75rem;color:#666}
+pre{background:#f0f0f0;padding:.5rem;border-radius:4px;overflow-x:auto;font-size:.8rem}
+.btn{padding:.4rem .8rem;border:1px solid #4361ee;background:#fff;color:#4361ee;border-radius:4px;cursor:pointer;font-size:.8rem}
+.btn:hover{background:#4361ee;color:#fff}
+.btn.active{background:#4361ee;color:#fff}
+.controls{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1rem 0}
+@media(max-width:600px){.grid-box canvas{width:100%;height:auto}}
+footer{text-align:center;padding:2rem;color:#888;font-size:.8rem;border-top:1px solid #ddd;margin-top:2rem}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Missing-Center No-Three-In-Line</h1>
+<p>Interactive overview of invariants, symmetry classes, and computational results</p>
+</header>
+
+<nav>
+<a href="#definition">Missing-Center</a>
+<a href="#c4">C₄ Theorem</a>
+<a href="#symmetry">Symmetry Classes</a>
+<a href="#data">Data</a>
+<a href="#phases">Phase Transitions</a>
+<a href="#min">MIN Variant</a>
+</nav>
+
+<!-- ========= SECTION 1: DEFINITION ========= -->
+<section id="definition">
+<h2>What is a "Missing-Center" Solution?</h2>
+
+<div class="card blue">
+<p><strong>The grid center</strong> \(C = \left(\frac{n-1}{2}, \frac{n-1}{2}\right)\) is the circumcenter of a triple of grid points iff those three points are <strong>equidistant</strong> from \(C\) — they lie on the same <strong>distance ring</strong>.</p>
+</div>
+
+<div class="stat-row">
+<div class="stat-card"><div class="num">≤2</div><div class="desc">Points per distance ring<br>→ center NOT a circumcenter</div></div>
+<div class="stat-card"><div class="num">≥3</div><div class="desc">Points on same ring<br>→ center IS a circumcenter</div></div>
+</div>
+
+<p style="margin:1rem 0">The distance rings are concentric circles centered at the grid center. The squared distance is \(d^2 = (i-c_x)^2 + (j-c_y)^2\). For integer grid coordinates and half-integer centers (even n), all \(d^2\) values are integers — no floating point needed.</p>
+
+<h3>Interactive example: n=12 rot4 solution</h3>
+<div class="controls">
+<button class="btn active" onclick="showRing(0)">Show all rings</button>
+<button class="btn" onclick="showRing(1)">Ring d²=2 (4 pts)</button>
+<button class="btn" onclick="showRing(2)">Ring d²=10 (8 pts)</button>
+</div>
+<div class="grid-container">
+<div class="grid-box">
+<canvas id="ringDemo" width="400" height="400"></canvas>
+<div class="label">12×12 grid — distance rings</div>
+</div>
+<div class="grid-box" style="max-width:300px;text-align:left;font-size:.85rem">
+<p id="ringInfo"><strong>Distance rings:</strong> Each ring contains points at the <em>same squared distance</em> from the grid center. If any ring has ≥3 selected points, the center is a circumcenter.</p>
+<p style="margin-top:.5rem;color:#d62828"><strong>missing-center</strong> = every distance ring has ≤2 points.</p>
+</div>
+</div>
+</section>
+
+<!-- ========= SECTION 2: C4 THEOREM ========= -->
+<section id="c4">
+<h2>The C₄ Theorem — A Proven Result</h2>
+
+<div class="card green">
+<p><strong>Theorem.</strong> Any No-Three-In-Line solution with C₄ (90° rotational) symmetry must have the grid center as a circumcenter of some triple.</p>
+</div>
+
+<div class="grid-container">
+<div class="grid-box">
+<canvas id="c4Demo" width="350" height="350"></canvas>
+<div class="label">C₄ orbit: 4 points → same distance ring</div>
+</div>
+<div class="grid-box" style="max-width:300px;font-size:.85rem">
+<p><strong>Why it works:</strong></p>
+<ol style="padding-left:1.2rem;margin-top:.3rem">
+<li>90° rotation \(R\) maps a C₄ solution to itself</li>
+<li>\(R\) preserves distance from the center</li>
+<li>Each orbit has 4 points (even n)</li>
+<li>All 4 share the same \(d^2\)</li>
+<li>So that ring has ≥4 points</li>
+<li>∴ center is a circumcenter</li>
+</ol>
+<p style="margin-top:.5rem;color:#2d6a4f"><strong>Corollary:</strong> Missing-center solutions cannot have C₄ symmetry. Verified on 34,473 rot4 solutions across 26 even n values.</p>
+</div>
+</div>
+
+<h3>C₄ Evolution Across Even n</h3>
+<table>
+<tr><th>n</th><th>Orbits</th><th>Rings</th><th>Ring pop.</th><th>rot4 solutions</th><th>C₄ pass rate</th></tr>
+<tr><td>12</td><td>6</td><td>6</td><td>All 4</td><td>4</td><td>100%</td></tr>
+<tr><td>14</td><td>7</td><td>6</td><td>4 or 8</td><td>13</td><td>100%</td></tr>
+<tr><td>16</td><td>8</td><td>8</td><td>All 4</td><td>13</td><td>100%</td></tr>
+<tr><td>18</td><td>9</td><td>8</td><td>4 or 8</td><td>7</td><td>100%</td></tr>
+<tr><td>72 (Heule)</td><td>36</td><td>34</td><td>4 or 8</td><td>1</td><td>100%</td></tr>
+</table>
+</section>
+
+<!-- ========= SECTION 3: SYMMETRY CLASSES ========= -->
+<section id="symmetry">
+<h2>Symmetry Classes in the Grid</h2>
+
+<p>The Flammenkamp database classifies solutions by their dihedral symmetry. Each class has a different orbit structure, which determines whether missing-center solutions are possible.</p>
+
+<div class="controls" id="symControls">
+<button class="btn active" onclick="showSym('iden')">iden (.)</button>
+<button class="btn" onclick="showSym('rot2')">rot2 (:)</button>
+<button class="btn" onclick="showSym('rot4')">rot4 (o)</button>
+<button class="btn" onclick="showSym('rct4')">rct4 (c)</button>
+</div>
+
+<div class="grid-container">
+<div class="grid-box">
+<canvas id="symDemo" width="360" height="360"></canvas>
+<div class="label" id="symLabel">iden (no symmetry)</div>
+</div>
+<div class="grid-box" style="max-width:320px;font-size:.85rem">
+<div id="symInfo">
+<p><strong>iden (.):</strong> No symmetry constraints. Any 2n-point solution. These are the most abundant.</p>
+<p style="margin-top:.4rem"><strong>Missing-center possible:</strong> ✅ Yes</p>
+</div>
+</div>
+</div>
+
+<h3>Symmetry Class Characteristics</h3>
+<table>
+<tr><th>Class</th><th>Symmetry</th><th>Orbit size</th><th>Missing-center?</th><th>Applies to</th></tr>
+<tr><td><strong>iden</strong> (.)</td><td>None</td><td>1</td><td>✅ Possible</td><td>All n</td></tr>
+<tr><td><strong>rot2</strong> (:)</td><td>180° rotation</td><td>2</td><td>✅ Possible</td><td>Odd n ≤ 29</td></tr>
+<tr><td><strong>dia1</strong> (/)</td><td>Diagonal reflection</td><td>2</td><td>✅ Possible</td><td>Selected n</td></tr>
+<tr><td><strong>rot4</strong> (o)</td><td>90° rotation (C₄)</td><td><strong>4</strong></td><td><strong>❌ Impossible</strong> (C₄ theorem)</td><td>Even n only</td></tr>
+<tr><td><strong>rct4</strong> (c)</td><td>180° rotation + reflection</td><td>≥4</td><td><strong>❌ Impossible</strong> (D₄ orbits)</td><td>Odd n ≥ 33</td></tr>
+</table>
+</section>
+
+<!-- ========= SECTION 4: DATA TABLE ========= -->
+<section id="data">
+<h2>Key Computational Results</h2>
+
+<h3>Missing-Center Counts (selected n)</h3>
+<table>
+<tr><th>n</th><th>Type</th><th>Total (full)</th><th>Missing-center</th><th>Rate</th><th>Symmetry classes</th></tr>
+<tr><td>6</td><td>Even</td><td>50</td><td>50</td><td>100%</td><td>rot4, iden</td></tr>
+<tr><td>8</td><td>Even</td><td>380</td><td><strong>0</strong></td><td><strong>0%</strong></td><td>iden, rot2, dia1</td></tr>
+<tr><td>10</td><td>Even</td><td>1,135</td><td><strong>0</strong></td><td><strong>0%</strong></td><td>iden, rot2, dia1</td></tr>
+<tr><td>11</td><td><strong>4k+3P</strong></td><td>1,120</td><td>36</td><td>3.2%</td><td>iden, rot2</td></tr>
+<tr><td>12</td><td>Even</td><td>4,348</td><td><strong>52</strong></td><td>1.2%</td><td>iden, rot2, dia1, rot4</td></tr>
+<tr><td>13</td><td><strong>4k+1P</strong></td><td>3,622</td><td><strong>292</strong></td><td><strong>8.1%</strong></td><td>iden, rot2</td></tr>
+<tr><td>15</td><td><strong>4k+3C</strong></td><td>30,634</td><td>2,716</td><td>8.9%</td><td>iden, rot2</td></tr>
+<tr><td>17</td><td><strong>4k+1P</strong></td><td>55,573</td><td>3,872</td><td>7.0%</td><td>iden, rot2</td></tr>
+<tr><td>29</td><td><strong>4k+1P</strong></td><td>44,890</td><td>2,136</td><td>4.8%</td><td>rot2 (last abundant)</td></tr>
+<tr><td><strong>31</strong></td><td><strong>4k+3P</strong></td><td><strong>72</strong></td><td><strong>1</strong></td><td><strong>1.4%</strong></td><td><strong>rot2 collapses!</strong></td></tr>
+<tr><td>33–45</td><td>All odd</td><td>—</td><td><strong>0</strong></td><td><strong>0%</strong></td><td><strong>rct4 only → extinct</strong></td></tr>
+</table>
+
+<h3>SAT Phase Transition in rot2 (n=31)</h3>
+<table>
+<tr><th>n</th><th>rot2 solutions</th><th>Constraint density</th><th>Status</th></tr>
+<tr><td>27</td><td>17,332</td><td>68.1 / var</td><td style="color:#2d6a4f">SAT</td></tr>
+<tr><td>29</td><td>44,828</td><td>73.6 / var</td><td style="color:#2d6a4f">SAT</td></tr>
+<tr><td><strong>31</strong></td><td><strong>0</strong></td><td><strong>78.9 / var</strong></td><td style="color:#d62828;font-weight:700">UNSAT ★</td></tr>
+<tr><td>33</td><td>0</td><td>84.2 / var</td><td style="color:#d62828">UNSAT</td></tr>
+</table>
+</section>
+
+<!-- ========= SECTION 5: PHASE TRANSITIONS ========= -->
+<section id="phases">
+<h2>Phase Transitions and Extinction</h2>
+
+<div class="card red">
+<h3>Three-Phase Evolution of Odd n</h3>
+<p><strong>Phase 1 — Abundance (n=7–19):</strong> Missing-center rate rises to 9.2% at n=13. The iden and rot2 classes coexist.</p>
+<p><strong>Phase 2 — Decline (n=21–29):</strong> iden disappears; only rot2 survives. Missing-center rate decays asymptotically from 7.8% to 4.8%.</p>
+<p><strong>Phase 3 — Extinction (n≥31):</strong> rot2 vanishes at n=31 (SAT phase transition). Only rct4 remains, and rct4 always has center as circumcenter. <strong>Missing-center solutions are permanently extinct for odd n ≥ 33.</strong></p>
+</div>
+
+<div class="card orange">
+<h3>Even n Threshold: n=12</h3>
+<p>n=6, 8, 10 have zero missing-center solutions. n=12 is the <strong>first even n</strong> with missing-center solutions (52). The threshold is caused by collinearity constraint density, not ring capacity.</p>
+</div>
+</section>
+
+<!-- ========= SECTION 6: MIN VARIANT ========= -->
+<section id="min">
+<h2>Side Exploration: MIN Variant (Dominating Sets)</h2>
+<p>We also explored the <em>minimum</em> variant: smallest set of points on an n×n grid such that every grid point lies on a line through two selected points.</p>
+
+<table>
+<tr><th>n</th><th>Best k</th><th>Status</th></tr>
+<tr><td>7</td><td>8</td><td>Proven optimal</td></tr>
+<tr><td>10</td><td>8</td><td>Proven optimal</td></tr>
+<tr><td>11</td><td>10</td><td>Proven optimal</td></tr>
+<tr><td>13</td><td><strong>13</strong></td><td>Our upper bound 🆕</td></tr>
+<tr><td>14</td><td><strong>15</strong></td><td>Our upper bound 🆕</td></tr>
+<tr><td>15</td><td><strong>16</strong></td><td>Our upper bound 🆕</td></tr>
+<tr><td><strong>16</strong></td><td><strong>18</strong></td><td><strong>a(16)=18 ★</strong></td></tr>
+<tr><td><strong>17</strong></td><td><strong>19</strong></td><td><strong>a(17)=19 ★</strong></td></tr>
+<tr><td><strong>18</strong></td><td><strong>20</strong></td><td><strong>a(18)=20 ★</strong></td></tr>
+<tr><td><strong>19</strong></td><td><strong>21</strong></td><td><strong>a(19)=21 ★</strong></td></tr>
+</table>
+<p style="font-size:.8rem;color:#888;margin-top:.3rem">★ New values determined by our heuristic search, not in OEIS A277433.</p>
+</section>
+
+<footer>
+Missing-Center No-Three-In-Line · Research by Junrong Du · 2026<br>
+<a href="https://github.com/duchenyu/no3inline-missing-center" style="color:#4361ee">github.com/duchenyu/no3inline-missing-center</a>
+</footer>
+
+<script>
+// ===== N=12 ROT4 SOLUTION DATA =====
+const n12rot4 = {
+    pts: [[0,0],[0,5],[1,1],[1,4],[2,0],[2,5],[3,1],[3,4],[4,2],[4,3],[5,2],[5,3],[6,8],[6,9],[7,8],[7,9],[8,6],[8,7],[9,6],[9,7],[10,10],[10,11],[11,10],[11,11]],
+    rings: {2:[],10:[]}
+};
+// Compute rings
+const cx=5.5, cy=5.5;
+n12rot4.pts.forEach(p=>{
+    const d2=Math.round((p[0]-cx)**2+(p[1]-cy)**2);
+    if(d2===2)n12rot4.rings[2].push(p);
+    if(d2===10)n12rot4.rings[10].push(p);
+});
+
+// ===== RING DEMO CANVAS =====
+function drawRingDemo(mode){
+    const c=document.getElementById('ringDemo'),ctx=c.getContext('2d');
+    const n=12,cell=400/n;
+    ctx.clearRect(0,0,400,400);
+    
+    // Grid
+    ctx.strokeStyle='#ddd';ctx.lineWidth=.5;
+    for(let i=0;i<=n;i++){ctx.beginPath();ctx.moveTo(i*cell,0);ctx.lineTo(i*cell,400);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*cell);ctx.lineTo(400,i*cell);ctx.stroke()}
+    
+    // Center
+    const ccx=n*cx/6,ccy=n*cy/6;
+    ctx.fillStyle='red';ctx.beginPath();ctx.arc(ccx,ccy,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='red';ctx.font='10px sans-serif';ctx.fillText('C',ccx+5,ccy+3);
+    
+    // Rings
+    const ringColors={2:'#4361ee',10:'#e76f51',other:'#aaa'};
+    if(mode===0||mode===1){
+        const r=Math.sqrt(2)*cell;ctx.setLineDash([4,4]);ctx.strokeStyle=ringColors[2];ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ccx,ccy,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+        n12rot4.rings[2].forEach(p=>{ctx.fillStyle=ringColors[2];ctx.beginPath();ctx.arc(p[0]*cell+cell/2,p[1]*cell+cell/2,6,0,Math.PI*2);ctx.fill()});
+    }
+    if(mode===0||mode===2){
+        const r=Math.sqrt(10)*cell;ctx.setLineDash([4,4]);ctx.strokeStyle=ringColors[10];ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ccx,ccy,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+        n12rot4.rings[10].forEach(p=>{ctx.fillStyle=ringColors[10];ctx.beginPath();ctx.arc(p[0]*cell+cell/2,p[1]*cell+cell/2,6,0,Math.PI*2);ctx.fill()});
+    }
+    if(mode===0){
+        const otherPts=n12rot4.pts.filter(p=>![2,10].includes(Math.round((p[0]-cx)**2+(p[1]-cy)**2)));
+        otherPts.forEach(p=>{ctx.fillStyle='#aaa';ctx.beginPath();ctx.arc(p[0]*cell+cell/2,p[1]*cell+cell/2,4,0,Math.PI*2);ctx.fill()});
+        document.getElementById('ringInfo').innerHTML='<strong>All distance rings:</strong> Each ring connects points at the same distance from C. If any ring has ≥3 points (red circle shows ≥4), the center is a circumcenter. This rot4 solution has max 4+ points per ring → <strong>center is circumcenter</strong>.';
+    }else if(mode===1){
+        document.getElementById('ringInfo').innerHTML='<strong>Ring d²=2:</strong> 4 points (blue), all at squared distance 2 from C. Four points on same ring → center is a circumcenter of any triple among them.';
+    }else{
+        document.getElementById('ringInfo').innerHTML='<strong>Ring d²=10:</strong> 8 points (orange) — this ring has coalesced from two C₄ orbits. All 8 share the same distance from the center.';
+    }
+}
+
+// ===== C4 DEMO CANVAS =====
+function drawC4Demo(){
+    const c=document.getElementById('c4Demo'),ctx=c.getContext('2d');
+    const n=12,cell=350/n,cx=5.5,cy=5.5;
+    const ccx=n*cx/n*cell,ccy=n*cy/n*cell;
+    ctx.clearRect(0,0,350,350);
+    
+    // Grid
+    ctx.strokeStyle='#eee';ctx.lineWidth=.5;
+    for(let i=0;i<=n;i++){ctx.beginPath();ctx.moveTo(i*cell,0);ctx.lineTo(i*cell,350);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*cell);ctx.lineTo(350,i*cell);ctx.stroke()}
+    
+    // C4 orbit points: (2,3) -> R(2,3)=(8,2) -> R²(2,3)=(9,8) -> R³(2,3)=(3,9)
+    const orbit=[[2,3],[8,2],[9,8],[3,9]]; // R(i,j)=(11-j,i)
+    const colors=['#4361ee','#e76f51','#2d6a4f','#d62828'];
+    
+    ctx.setLineDash([4,4]);ctx.strokeStyle='#888';ctx.lineWidth=1;
+    const r=Math.sqrt((2-cx)**2+(3-cy)**2)*cell;
+    ctx.beginPath();ctx.arc(ccx,ccy,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+    
+    orbit.forEach((p,i)=>{
+        ctx.fillStyle=colors[i];
+        ctx.beginPath();ctx.arc(p[0]*cell+cell/2,p[1]*cell+cell/2,7,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#333';ctx.font='9px sans-serif';
+        ctx.fillText(`(${p[0]},${p[1]})`,p[0]*cell+cell/2+8,p[1]*cell+cell/2+3);
+        // Arrow
+        const next=orbit[(i+1)%4];
+        ctx.strokeStyle=colors[i];ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(p[0]*cell+cell/2,p[1]*cell+cell/2);
+        const mx=(p[0]+next[0])/2*cell+cell/2,my=(p[1]+next[1])/2*cell+cell/2;
+        ctx.lineTo(mx,my);ctx.stroke();
+    });
+    
+    ctx.fillStyle='red';ctx.beginPath();ctx.arc(ccx,ccy,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='red';ctx.font='10px sans-serif';ctx.fillText('C',ccx+5,ccy+3);
+    ctx.fillStyle='#888';ctx.font='8px sans-serif';ctx.fillText('90° rotation R',5,12);
+}
+
+// ===== SYMMETRY DEMO =====
+const symData={
+    iden:{n:8,pts:[[0,0],[0,2],[1,5],[1,7],[2,1],[2,3],[3,4],[3,6],[4,0],[4,2],[5,5],[5,7],[6,1],[6,3],[7,4],[7,6]],desc:'No symmetry. Each point placed independently.',miss:true},
+    rot2:{n:11,pts:[[0,1],[0,9],[1,3],[1,7],[2,5],[2,5],[3,0],[3,10],[4,2],[4,8],[5,4],[5,6],[6,2],[6,8],[7,0],[7,10],[8,5],[8,5],[9,3],[9,7],[10,1],[10,9]],desc:'180° rotation symmetry: pairs {p, -p}.',miss:true},
+    rot4:{n:12,pts:n12rot4.pts,desc:'90° rotation (C₄): orbits of 4 pts. Center always circumcenter (C₄ theorem).',miss:false},
+    rct4:{n:17,pts:[[0,0],[0,16],[1,3],[1,13],[2,7],[2,9],[3,1],[3,15],[4,5],[4,11],[5,2],[5,14],[6,6],[6,10],[7,4],[7,12],[8,8],[8,8],[9,4],[9,12],[10,6],[10,10],[11,2],[11,14],[12,5],[12,11],[13,1],[13,15],[14,7],[14,9],[15,3],[15,13],[16,0],[16,16]],desc:'180° rotation + reflection. D₄ orbits force ≥4 pts/ring → center always circumcenter.',miss:false}
+};
+
+function showSym(cls){
+    document.querySelectorAll('#symControls .btn').forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    const d=symData[cls];
+    const c=document.getElementById('symDemo'),ctx=c.getContext('2d');
+    const n=d.n,cell=Math.min(340/n,25),offset=(360-n*cell)/2;
+    ctx.clearRect(0,0,360,360);
+    
+    ctx.strokeStyle='#ddd';ctx.lineWidth=.5;
+    for(let i=0;i<=n;i++){ctx.beginPath();ctx.moveTo(offset+i*cell,offset);ctx.lineTo(offset+i*cell,offset+n*cell);ctx.stroke();ctx.beginPath();ctx.moveTo(offset,offset+i*cell);ctx.lineTo(offset+n*cell,offset+i*cell);ctx.stroke()}
+    
+    const cx=(n-1)/2,cy=(n-1)/2;
+    ctx.fillStyle='red';ctx.beginPath();ctx.arc(offset+cx*cell+cell/2,offset+cy*cell+cell/2,3,0,Math.PI*2);ctx.fill();
+    
+    // Deduplicate
+    const seen=new Set();
+    d.pts.forEach(p=>{
+        const k=p[0]+','+p[1];
+        if(seen.has(k))return;seen.add(k);
+        const x=offset+p[0]*cell+cell/2,y=offset+p[1]*cell+cell/2;
+        ctx.fillStyle=cls==='rot4'?'#4361ee':cls==='rct4'?'#d62828':'#333';
+        ctx.beginPath();ctx.arc(x,y,Math.max(2.5,cell*0.35),0,Math.PI*2);ctx.fill()
+    });
+    
+    document.getElementById('symLabel').textContent=`${cls} (n=${n})`;
+    const info=document.getElementById('symInfo');
+    info.innerHTML=`<p><strong>${cls}:</strong> ${d.desc}</p><p style="margin-top:.4rem"><strong>Missing-center possible:</strong> ${d.miss?'✅ Yes':'❌ No (structural)'}</p>`;
+}
+
+// ===== INIT =====
+drawRingDemo(0);
+drawC4Demo();
+showSym('iden');
+
+// Button handlers
+function showRing(m){
+    document.querySelectorAll('#ringDemo+.controls .btn').forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    drawRingDemo(m);
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,9 @@
 # No-Three-In-Line: Missing Center Analysis
 
+> 🎯 **Interactive visualization available**: [**`visualization/overview.html`**](visualization/overview.html) — an interactive HTML guide to the missing-center concept, C₄ theorem, symmetry classes, phase transitions, and key data. Open in any browser. (Screenshot below.)
+
+![Overview](visualization/preview.png)
+
 An optimized exhaustive search for **missing-center** solutions to the No-Three-In-Line problem, featuring a novel **forbid-accumulator** algorithm (O(k²) → O(1) collinearity check).
 
 ## The Problem
