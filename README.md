@@ -654,7 +654,17 @@ This variant has been studied by Aichholzer, Eppstein, and Hainzl (2023), who pr
 
 ### Our heuristic search
 
-We developed a C++ hill-climbing search with ring-constrained initialization that biases toward "missing-center" solutions (each distance ring ≤2 points). The search is **heuristic, not exhaustive** — results are upper bounds.
+We developed two C++ hill-climbing search programs (source in `analysis/`):
+
+| Program | Method | Bias | Used for |
+|---------|--------|:----:|---------|
+| `min_search_large.cpp` | Random initialization + hill-climb | None (unbiased) | n=7–15 all results |
+| `min_search_fast.cpp` | Ring-constrained initialization + hill-climb | Prefers missing-center | n=13–15 cross-validation |
+| `seed_search.cpp` | Starts from known solutions, removes/adds points | None | n=13 k=13 seed-based |
+
+All searches are **heuristic, not exhaustive** — results are upper bounds.
+The solution counts ("Solutions found") are the number discovered in our trials,
+not the total number that exist (which is likely much larger).
 
 **Comparison with known results (OEIS A277433 / Aichholzer et al. 2023):**
 
@@ -682,14 +692,16 @@ but the individual coordinates are not publicly available, so missing-center rat
 
 **New upper bounds (not in OEIS A277433):**
 
-| n | k | Solutions found | Missing-center | Notes |
-|:-:|:-:|:--------------:|:-------------:|:------|
-| **13** | **13** | 5 | 80–100% | a(13) ≤ 13 (new) |
-| 13 | 14 | 13 | 61.5% | Larger k, more solutions |
-| **14** | **15** | 13 | **100%** | a(14) ≤ 15 (new) |
-| 14 | 16 | 49 | 53.1% | Larger k |
-| **15** | **16** | 3 | **100%** | a(15) ≤ 16 (new) |
-| 15 | 17 | 23 | 60.9% | Larger k |
+*Counts below are solutions found in our heuristic search — the total number of existing solutions is likely much larger.*
+
+| n | k | Found (our search) | Search method | Missing-center | Notes |
+|:-:|:-:|:-----------------:|:-------------:|:-------------:|:------|
+| **13** | **13** | 5 | large + fast + seed | 80–100% | a(13) ≤ 13 (new) |
+| 13 | 14 | 13 | large | 61.5% | Larger k, more solutions |
+| **14** | **15** | 13 | fast (ring-biased) | **100%** | a(14) ≤ 15 (new) |
+| 14 | 16 | 49 | large | 53.1% | Larger k |
+| **15** | **16** | 3 | fast (ring-biased) | **100%** | a(15) ≤ 16 (new) |
+| 15 | 17 | 23 | large | 60.9% | Larger k |
 
 **Observations** (preliminary, based on our heuristic search only — note that for n≤12,
 the literature's exhaustive data is not available to us, so rates are from partial samples):
@@ -698,9 +710,14 @@ the literature's exhaustive data is not available to us, so rates are from parti
 - The same mod-4 ordering (4k+3 > even > 4k+1) observed in the MAX problem appears to hold here as well
 
 **Caveat**: These results are from randomized heuristic search, not exhaustive enumeration.
-Upper bounds are reliable (solutions are verified correct). Missing-center rates are approximate
-(small sample sizes for some n). See `analysis/min_search_fast.cpp` and `analysis/min_search_large.cpp`
-for the search programs, and `analysis/min_version_fast.py` for the initial missing-center analysis.
+Upper bounds are reliable (solutions found are verified correct). **However, the number of
+solutions listed is only what we discovered in finite trials — the actual total number
+of solutions for any given (n,k) is likely much larger.** Missing-center rates are
+approximate (small sample sizes for some n). See:
+- `analysis/min_search_large.cpp` — unbiased random search (results in first table)
+- `analysis/min_search_fast.cpp` — ring-constrained search (missing-center bias)
+- `analysis/seed_search.cpp` — seed-based search from known solutions
+- `analysis/min_version_fast.py` — initial Python missing-center analysis
 
 ## References
 
