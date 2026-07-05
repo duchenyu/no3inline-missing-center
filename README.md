@@ -676,15 +676,21 @@ not the total number that exist (which is likely much larger).
 | 4 | 4 | — | — | — | — |
 | 5 | 6 | — | — | — | — |
 | 6 | 6 | — | — | — | — |
-| 7 | **8** (proven) | — | — | 451 | 72.7% |
-| 8 | **8** (proven) | — | — | 88 | 65.9% |
-| 9 | **8** (proven) | — | — | 8 | 0.0% |
-| 10 | **8** (proven) | — | — | 4 | 0.0% |
+| 7 | **8** (proven) | — | — | 451 | 72.7%\* |
+| 8 | **8** (proven) | — | — | 88 | 65.9%\* |
+| 9 | **8** (proven) | — | — | 8 | 0.0%\* |
+| 10 | **8** (proven) | — | — | 4 | 0.0%\* |
 | 11 | **10** (proven) | **114** | **4** | 1 found | coordinates unavailable |
 | 12 | **10** (proven) | **108** | **4** | 1 found | coordinates unavailable |
-| **13** | **not in OEIS** | — | — | **5** | **80–100%** |
-| **14** | **not in OEIS** | — | — | **13** | **100%** |
-| **15** | **not in OEIS** | — | — | **3** | **100%** |
+| **13** | **not in OEIS** | — | — | **5** | **80–100%\*** |
+| **14** | **not in OEIS** | — | — | **13** | **100%\*** |
+| **15** | **not in OEIS** | — | — | **3** | **100%\*** |
+
+\* **Missing-center rates are unreliable**: computed from our heuristic search samples, not from
+the complete solution set. The ring-constrained search (`min_search_fast.cpp`) deliberately biases
+toward missing-center solutions, inflating the rate. Even the unbiased search (`min_search_large.cpp`)
+only samples a tiny fraction of the search space. These rates should be treated as rough indications
+at best, not as statistically meaningful estimates.
 
 *For n≤10, the literature solution counts were not tabulated in the accessible paper excerpts.
 For n=11,12, Aichholzer et al. found 114 and 108 total solutions respectively (4 D₄-inequivalent each),
@@ -696,12 +702,15 @@ but the individual coordinates are not publicly available, so missing-center rat
 
 | n | k | Found (our search) | Search method | Missing-center | Notes |
 |:-:|:-:|:-----------------:|:-------------:|:-------------:|:------|
-| **13** | **13** | 5 | large + fast + seed | 80–100% | a(13) ≤ 13 (new) |
-| 13 | 14 | 13 | large | 61.5% | Larger k, more solutions |
-| **14** | **15** | 13 | fast (ring-biased) | **100%** | a(14) ≤ 15 (new) |
-| 14 | 16 | 49 | large | 53.1% | Larger k |
-| **15** | **16** | 3 | fast (ring-biased) | **100%** | a(15) ≤ 16 (new) |
-| 15 | 17 | 23 | large | 60.9% | Larger k |
+| **13** | **13** | 5 | large + fast + seed | 80–100%\* | a(13) ≤ 13 (new) |
+| 13 | 14 | 13 | large | 61.5%\* | Larger k, more solutions |
+| **14** | **15** | 13 | fast (ring-biased) | **100%\*** | a(14) ≤ 15 (new) |
+| 14 | 16 | 49 | large | 53.1%\* | Larger k |
+| **15** | **16** | 3 | fast (ring-biased) | **100%\*** | a(15) ≤ 16 (new) |
+| 15 | 17 | 23 | large | 60.9%\* | Larger k |
+
+\* **Missing-center rates are unreliable**: see note above. The ring-biased search
+(`min_search_fast.cpp`) inflates missing-center rates deliberately.
 
 **Observations** (preliminary, based on our heuristic search only — note that for n≤12,
 the literature's exhaustive data is not available to us, so rates are from partial samples):
