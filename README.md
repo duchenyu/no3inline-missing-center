@@ -670,8 +670,8 @@ We developed a C++ hill-climbing search with ring-constrained initialization tha
 | 8 | **8** (proven optimal) | 8 (confirmed) | 88 | 65.9% |
 | 9 | **8** (proven optimal) | 8 (confirmed) | 8 | 0.0% |
 | 10 | **8** (proven optimal) | 8 (confirmed) | 4 | 0.0% |
-| 11 | **10** (proven optimal) | 10 (confirmed) | 1+ | 100% |
-| 12 | **10** (proven optimal) | 10 (confirmed) | 1 | 0% |
+| 11 | **10** (proven optimal) | 10 (confirmed) | 1+ (partial sample) | full data unavailable |
+| 12 | **10** (proven optimal) | 10 (confirmed) | 1 (partial sample) | full data unavailable |
 | **13** | **not listed in OEIS** | **≤13** ✅ | **5** | **80–100%** |
 | **14** | **not listed in OEIS** | **≤15** ✅ | **13** | **100%** |
 | **15** | **not listed in OEIS** | **≤16** ✅ | **3** | **100%** |
@@ -687,9 +687,10 @@ We developed a C++ hill-climbing search with ring-constrained initialization tha
 | **15** | **16** | 3 | **100%** | a(15) ≤ 16 (new) |
 | 15 | 17 | 23 | 60.9% | Larger k |
 
-**Observations** (preliminary, based on heuristic search):
-- The missing-center rate in MIN solutions is consistently 10–40× higher than in MAX solutions
-- For optimal (smallest k) solutions, all found configurations are missing-center
+**Observations** (preliminary, based on our heuristic search only — note that for n≤12,
+the literature's exhaustive data is not available to us, so rates are from partial samples):
+- The missing-center rate in MIN solutions is consistently higher than in MAX solutions
+- n=14 k=15 and n=15 k=16 solutions found are all missing-center (small samples: 13 and 3)
 - The same mod-4 ordering (4k+3 > even > 4k+1) observed in the MAX problem appears to hold here as well
 
 **Caveat**: These results are from randomized heuristic search, not exhaustive enumeration.
