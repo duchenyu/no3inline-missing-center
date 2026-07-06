@@ -10,7 +10,7 @@ An optimized exhaustive search for **missing-center** solutions to the No-Three-
 
 Place **2n points** on an **n×n grid** such that no three are collinear. The No-Three-In-Line problem asks for the maximum number of points D(n) achievable. It is known that D(n) = 2n for all n ≤ 72 (with the sole exception of n = 71). The n=72 solution was found by Marijn Heule (CMU) on 2026-06-25 using a SAT solver.
 
-**Our contribution is not about finding more solutions.** Instead, we ask a new question about the existing ones: for each known 2n-point solution, is the grid center ever a circumcenter of some triple of its points? A "missing-center" solution (or **"center-free"** solution) has **no** triple whose circumcircle is centered at the grid center.
+**Our contribution is not about finding more solutions.** Instead, we ask a new question about the existing ones: for each known 2n-point solution, is the grid center ever a circumcenter of some triple of its points? A **missing-center** solution has **no** triple whose circumcircle is centered at the grid center.
 
 **Detection method**: Instead of computing circumcenters directly (which requires rational arithmetic), we use an equivalent integer criterion:
 
@@ -146,7 +146,7 @@ The growth rate is ≈1.5× per 2-step increment, with no sign of slowing. This 
 - **Odd n**: Missing counts grow dramatically: 1 → 1 → 6 → 46 → 354 → 357 → 2,363, with a remarkable "freeze" at n=15→17 (354→357).
 - Missing/Total ratio oscillates with n mod 4, suggesting hidden parity structure.
 
-### 2. Odd n Acceleration — Why n=11 is the Acceleration Point
+### 2. Odd n Growth — n=11 Marks Ring-Pair Threshold >100
 
 The odd n sequence splits into two regimes:
 
@@ -616,16 +616,16 @@ We analyzed the precise conditions under which odd $n$ grids admit missing-cente
 
 **Key findings:**
 
-1. **Extinction at $n\ge 33$ is structural, not capacity-driven.** All odd $n\ge 7$ satisfy the ring capacity constraint (enough rings with $\le$2 points to hold $2n$ points), with slack actually *increasing* from 1.36× at $n=7$ to 5.21× at $n=45$. The extinction occurs because:
+1. **Disappearance at $n\ge 33$ in known symmetry classes.** All odd $n\ge 7$ satisfy the ring capacity constraint (enough rings with $\le$2 points to hold $2n$ points), with slack actually *increasing* from 1.36× at $n=7$ to 5.21× at $n=45$. Within the catalogued symmetry classes:
 
    - At $n=31$, the **rot2 symmetry class undergoes a SAT unsatisfiability transition** — zero solutions remain
-   - At $n\ge 33$, **only rct4 solutions survive**
+   - At $n\ge 33$, **only rct4 solutions survive in the database**
    - rct4 solutions inherently have $\ge 4$ points per distance ring ($D_4$ orbit structure) → center is always a circumcenter
-   - Therefore missing-center solutions are **permanently impossible** for odd $n\ge 33$
+   - Therefore missing-center solutions are not found in any tracked symmetry class for odd $n\ge 33$. **Caveat**: iden-class solutions are only tracked up to $n=20$.
 
-2. **The $n=11$ threshold marks >100 ring pairs.** Ring-pair collinearity density crossing $\binom{r}{2} > 100$ provides enough combinatorial flexibility for missing-center solutions to emerge.
+2. **The $n=11$ acceleration in absolute count.** At $n=11$, the ring-pair collinearity density crosses $\binom{r}{2} = 190$, enabling the absolute count to jump from 8 (at $n=9$) to 36.
 
-3. **The $15\rightarrow 17$ freeze** (354 vs 357 missing-center solutions) occurs because $n=15$ (4k+3 composite) has a larger BB off-center subgrid, while $n=17$ (4k+1 prime) has a larger GG center-focused subgrid — these nearly cancel.
+3. **The $15\rightarrow 17$ near-plateau** (354 vs 357 missing-center solutions) remains unexplained — the near-equality suggests a balancing effect between parity and compositeness, but no single mechanism has been confirmed.
 
 4. **Capacity is never the bottleneck.** The $n=9$ anomaly (only 1 missing-center solution despite 105 ring pairs) shows that collinearity constraints, not capacity, drive the pattern.
 
@@ -734,9 +734,11 @@ Cross-validation against C++ full enumeration (n=7-13) confirms exact reconstruc
 | 15 | 30,634 | 2,716 | 8.87% |
 | 16 | 46,304 | 1,392 | 3.01% |
 | 17 | 55,573 | 3,872 | 6.97% |
-| 18 | 152,210 | 24 | 0.02% |
+| 18 | 152,210 | \textdagger | \textdagger |
 | 19 | 258,170 | 10,280 | 3.98% |
 | 20 | 941,580 | 112 | 0.01% |
+
+\* n=18 D₄ reconstruction missing-count pending verification (RLE data shows 345 inequivalent missing solutions — see the D₄-inequivalent table for that data).
 
 ### Three-Factor Quantitative Model
 
@@ -955,7 +957,7 @@ All higher-dimensional analysis scripts are in the [`analysis/`](analysis/) dire
 
 9. **A. Pór and D. R. Wood**, "No-Three-in-Line-in-3D," *Algorithmica*, vol. 47, 2007, pp. 481–488 (originally in *Proc. GD 2004*, LNCS 3383, pp. 395–402). — Proved the 3D no-three-in-line maximum is Θ(n²) and established the vol(n,d,1) framework. The construction Vp = {(x, y, x²+y² mod p)} for p ≡ 3 (mod 4) is the foundation of our higher-dimensional analysis.
 
-10. **Anonymous**, "On the general no-three-in-line problem," arXiv:2106.15621v9, 2021–2026. — Extended the problem to arbitrary dimensions using the compression method, achieving Ω(n^{d-1}·d^{1/(2d)}) points in a d-dimensional n-grid. Implies vol(n,4,1) = O(n^{4/3}).
+10. **T. Agama** (Theophilus Agama), "On the general no-three-in-line problem," arXiv:2106.15621v9, 2021–2026. — Extended the problem to arbitrary dimensions using the compression method, achieving Ω(n^{d-1}·d^{1/(2d)}) points in a d-dimensional n-grid. Implies vol(n,4,1) = O(n^{4/3}).
 
 ## Acknowledgments
 
