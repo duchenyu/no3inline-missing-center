@@ -871,9 +871,7 @@ approximate (small sample sizes for some n). See:
 - `analysis/seed_search.cpp` — seed-based search from known solutions
 - `analysis/min_version_fast.py` — initial Python missing-center analysis
 
-## References
-
-### Higher-Dimensional Generalizations
+## Side Exploration 2: Higher-Dimensional Generalizations
 
 We extended the No-Three-In-Line problem to higher dimensions (3D and beyond), building on the foundational work of Pór and Wood (2004).
 
