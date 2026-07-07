@@ -66,7 +66,7 @@ $^\\dagger$ Mode 0 counts only 2‑per‑row solutions. The D₄‑inequival
 | **18** | **Even** | **19,204** | **18,859** | **345** | **1.8%** ✅ |
 | 19 | Odd P | 32,577 | 30,214 | **2,363** | 7.3% |
 
-**Extended analysis via Flammenkamp configuration database** ([download](https://wwwhomes.uni-bielefeld.de/achim/no3in/download/)) — D₄-inequivalent solutions for n=7–30, classified by symmetry:
+**Extended analysis via Flammenkamp configuration database** ([download](https://wwwhomes.uni-bielefeld.de/achim/no3in/download/)) — D₄-inequivalent solutions for n=7–53 (n=7–45 from Flammenkamp; n=47–53 from mvr/no-three-in-line c4near files, which contain rct4 solutions):
 
 | n | Total | Missing | Rate% | Available symmetry classes |
 |---|-------|---------|-------|---------------------------|
@@ -86,18 +86,35 @@ $^\\dagger$ Mode 0 counts only 2‑per‑row solutions. The D₄‑inequival
 | 20 | 118,057 | 2,297 | 1.9% | iden, rot2, dia1, dia2, rot4 |
 | 21 | 2,426 | 190 | **7.8%** | rot2, dia1, rct4 |
 | 22 | 1,275 | 21 | 1.6% | rot2, dia1, dia2, rot4 |
+| 23 | 4,003 | 234 | 5.8% | rot2, dia1, dia2, rct4 |
 | 24 | 2,920 | 54 | 1.8% | rot2, dia1, dia2, rot4 |
+| 25 | 9,040 | 561 | 6.2% | rot2, dia1, dia2, rct4 |
+| 26 | 4,949 | 106 | 2.1% | rot2, dia1, ort1, rot4 |
 | 27 | 17,385 | 777 | **4.5%** | rot2, dia1, rct4 |
+| 28 | 12,203 | 306 | 2.5% | rot2, dia1, ort1, rot4 |
 | 29 | 44,890 | 2,136 | 4.8% | rot2, dia1, dia2 |
 | 30 | 24,925 | 534 | 2.1% | rot2, dia1, dia2, rot4 |
 | **31** | **72** | **1** | **1.4%** | dia1, dia2, rct4 |
+| 32 | 175 | 0 | 0.0% | dia1, dia2, rot4 |
 | 33 | 14 | 0 | 0.0% | rct4 |
+| 34 | 172 | 0 | 0.0% | rot4 |
 | 35 | 24 | 0 | 0.0% | rct4, dia2 |
+| 36 | 282 | 0 | 0.0% | dia2, rot4 |
 | 37 | 21 | 0 | 0.0% | rct4 |
+| 38 | 338 | 0 | 0.0% | dia2, rot4 |
 | 39 | 33 | 0 | 0.0% | rct4 |
+| 40 | 541 | 0 | 0.0% | rot4 |
 | 41 | 35 | 0 | 0.0% | rct4 |
+| 42 | 747 | 0 | 0.0% | dia2, rot4 |
 | 43 | 63 | 0 | 0.0% | rct4 |
+| 44 | 1,017 | 0 | 0.0% | dia2, rot4 |
 | 45 | 106 | 0 | 0.0% | rct4 |
+| 47 | 105 | 0 | 0.0% | rct4† |
+| 49 | 196 | 0 | 0.0% | rct4† |
+| 51 | 264 | 0 | 0.0% | rct4† |
+| 53 | 377 | 0 | 0.0% | rct4† |
+
+† n=47–53 rct4 solutions sourced from [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) c4near files (cross-validated against Flammenkamp rct4 counts at n=41–45).
 
 ### Missing-Center Absence in Catalogued Symmetry Classes at n≥33
 
@@ -105,7 +122,7 @@ The complete odd-$n$ spectrum (n=7→45) reveals three distinct evolutionary pha
 
 **Phase 1 — Abundance (n=7–19)**: Missing-center rate rises to 9.2% at n=13, driven by the iden symmetry class. The ratio oscillates with parity (4k+1 vs 4k+3) and compositeness.
 
-**Phase 2 — Decline (n=21–29)**: rot2 becomes the dominant class. Missing-center rate oscillates at lower levels than Phase 1: 7.8% (n=21) → 4.5% (n=27) → 4.8% (n=29), with even-n entries dipping to ~1.6–1.9%. The catalogued total climbs again (2,426 at n=21 → 44,890 at n=29) due to rot2's exponential growth — note this is a *lower base* than n=19 (32,577): the iden class that dominates small-n totals is only tracked up to n=20 in Flammenkamp's database, so the apparent "explosion" starts after a sharp drop at the n=19→21 boundary.
+**Phase 2 — Decline (n=21–29)**: rot2 becomes the dominant class. Missing-center rate oscillates at lower levels than Phase 1: 7.8% (n=21) → 5.8% (n=23) → 6.2% (n=25) → 4.5% (n=27) → 4.8% (n=29), with even-n entries dipping to ~1.6–2.5%. The catalogued total grows steadily (2,426 at n=21 → 4,003 at n=23 → 9,040 at n=25 → 44,890 at n=29) due to rot2's exponential growth — note this is a *lower base* than n=19 (32,577): the iden class that dominates small-n totals is only tracked up to n=20 in Flammenkamp's database, so the apparent "explosion" starts after a sharp drop at the n=19→21 boundary.
 
 **Phase 3 — Absence in Catalogued Classes (n≥31)**: **rot2 solutions vanish at n=31** — a sharp SAT unsatisfiability transition observed empirically. The transition correlates with collinearity constraint density:
 
@@ -123,6 +140,8 @@ The empirical threshold lies at ≈74 triples per available pair — the constra
 | Missing | 1 | **0** | **0** | **0** | **0** | **0** | **0** | **0** |
 | Symmetry | dia1 | rct4 | rct4 | rct4 | rct4 | rct4 | rct4 | rct4 |
 | rct4 count | 5 | 14 | 23 | 21 | 33 | 35 | 63 | 106 |
+
+Extended via [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) c4near data: n=47: 105 rct4, n=49: 196, n=51: 264, n=53: 377 — all with zero missing-center solutions. The sub-exponential growth continues (∼1.4× per 2-step increment).
 
 The rct4 solution count grows slowly (∼O(n) rather than exponential), and ring populations are always 4 or 8 — a parallel **D₄ group-theoretic argument** (distinct from, but analogous to, the C₄ theorem): D₄ orbits force ≥4 points per distance ring, so the center is always a circumcenter.
 
@@ -616,7 +635,7 @@ We computed the collision graph for $n=12$ to $n=30$ and correlated each ring's 
 
 ### Direction 5: Odd $n$ Missing-Center Existence Bounds
 
-We analyzed the precise conditions under which odd $n$ grids admit missing-center solutions, using $n=7$ to $n=45$ with $D_4$-inequivalent data.
+We analyzed the precise conditions under which odd $n$ grids admit missing-center solutions, using $n=7$ to $n=53$ with $D_4$-inequivalent data (n=7–45 from Flammenkamp, n=47–53 from mvr/no-three-in-line rct4 data).
 
 **Key findings:**
 
