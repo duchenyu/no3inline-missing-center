@@ -321,70 +321,6 @@ Our primary algorithm imposes "exactly 2 points per row" as a search heuristic. 
 
 **Key finding**: The even‑n threshold (n=12) is **not** an artifact of the row constraint. Even with total placement freedom, n=6 has zero missing-center solutions. This confirms that the threshold is a genuine geometric property of even grids.
 
-## Implementation: Backtracking Search (v2)
-
-The search uses a precomputed bitmask (`forbid_accum`) that turns the collinearity *check* into **O(1)** per placement. (The *update* step after each placement remains O(k) as it iterates over already-placed points to compute new blocking lines.) This is a standard backtracking optimization used to compute the small-n exact counts (n ≤ 13) locally; all larger-n data comes from the Flammenkamp and mvr databases.
-
-```
-For each future row k, maintain:
-    forbid_accum[k] := bitmask of columns blocked by ALL existing cross-row pairs.
-
-When placing a new point at (r, c):
-    if forbid_accum[r] has bit c set → reject (would create collinear triple)
-    Otherwise → place, then update forbid_accum for rows > r.
-```
-
-This is a **precomputed line‑blocking table** — for every pair of existing grid points, we use the exact integer line equation to compute all future grid cells that lie on the same line:
-
-```
-Given points A = (r1, c1) and B = (r2, c2), dr = r2-r1, dc = c2-c1:
-  For each future row tr > r2:
-    if dc * (tr - r1) % dr == 0:                    ← divisible → integer column
-      col = c1 + dc * (tr - r1) / dr                 ← exact collinear point
-      forbid[tr] |= (1ULL << col)
-```
-
-This works for **all slopes** (1/2, 2/3, 5/7, and every rational slope), not just axis-aligned or 45° diagonals. The integer-arithmetic formulation is exact — there are no floating-point approximations.
-
-**Why no O(k²) loop is needed**: Every collinear triple (rₐ,cₐ)-(rᵦ,cᵦ)-(rᵧ,cᵧ) has a unique pair with the two *largest* row indices. When those two points are both placed, their line equation is added to `forbid` for all future rows. By the time the third point is considered, its column is already blocked. The induction is complete — no collinear triple can escape.
-
-**Formal correctness**: The algorithm's correctness relies on the inductive invariant: after placing points in rows \(0, \ldots, r\), the forbid mask `forbid[s]` for any \(s > r\) contains the blocking columns for ALL collinear pairs \((p_i, p_j)\) with \(i < j \le r\). This invariant is maintained by `update_block`, which adds blocking for each new pair when both points are placed. Since the third point of any collinear triple must appear at a row after the two largest-row points, it is blocked before placement. The invariant holds for all rows by induction on \(r\). Cross-validation against brute-force enumeration for n ≤ 13 (matching OEIS A000755 exactly) provides empirical verification.
-
-**Bit width**: `uint64_t` suffices for n ≤ 64 (since each column needs one bit). In practice, exhaustive search is only computationally feasible for n ≤ ~20 (mode 0) or n ≤ ~14 (mode 1). The largest unresolved case of the No-Three-In-Line problem is n = 71, where D(71) is unknown — this requires SAT solver approaches rather than exhaustive enumeration.
-
-**Speedup**: n=11 mode 0 went from 9.2 minutes → 8.5 seconds (**65×**).
-
-Additional optimizations:
-- ✅ Precomputed collinearity accumulation (forbid_accum)
-- ✅ Diagonal pre-check (x+y and x−y+N−1 occupancy counters)
-- ✅ **Distance ring pruning** (mode 1: only count solutions with no 3 points sharing the same center‑distance — much faster for the missing‑center problem)
-- ✅ **Mirror symmetry pruning** (first‑row constraint c₁+c₂ ≤ N−1 halves the search space)
-- ✅ **Multi-threaded** (32 task‑parallel workers via first‑row column pairs)
-- ✅ **Statically linked binary** (zero DLL dependencies on Windows)
-
-### Ring-Guided Solver (analysis/ring_solver/)
-
-A complementary approach: instead of row-by-row search, first specify a **distance-ring assignment** (which rings get 0, 1, or 2 points), then use forbid_accum to find a valid placement respecting that assignment.
-
-**Key result**: Given a valid ring assignment (e.g., from known RLE data), the solver finds a placement in <0.1s (n=12) or ~1s (n=14). However, **finding a valid ring assignment is the hard part** — even small changes to a working assignment make it infeasible.
-
-This solver is primarily an **analytical tool** for studying which ring assignments admit solutions. 
-
-**Key negative result**: Both single and double ring-replacement tests fail (0/180 for n=14). The ring assignment is extremely fragile — every ring is simultaneously essential for the placement to satisfy collinearity and distance constraints. This rules out "construct from a subset of rings" strategies.
-
-Usage:
-```
-g++ -O3 -march=native -std=c++17 ring_guided_solver.cpp -o ring_guided_solver
-ring_guided_solver <n> 1 <ring_file>
-```
-
-Files:
-- `ring_guided_solver.cpp` — C++ solver (requires ring assignment as input)
-- `ring_solver.py` — Python prototype (ring-by-ring search, no pre-assignment)
-- `prep_ring_assignment.py` — Extract ring assignments from RLE data
-- `analyze_all_assignments.py` — Compare ring assignment patterns across solutions
-- `ring_assignment_n12_from_rle.txt` — Example: n=12 working assignment
-
 ## Usage
 
 ### Build
@@ -424,7 +360,7 @@ The batch file auto-detects MSVC if MinGW is not found.
 ## Repository Structure
 
 ```
-├── no3line.cpp                  # C++ source: forbid-accumulator search (v2)
+├── no3line.cpp                  # C++ source: backtracking search for missing-center solutions
 │                                #   mode 0 = full enumeration
 │                                #   mode 1 = missing-center only (distance pruning)
 ├── d4_relaxed.cpp               # C++ source: unconstrained search (Direction 4)
@@ -771,7 +707,7 @@ The Z3 solver independently confirms our n=12 and n=14 missing-center results us
 Removing the "2 points per row" constraint massively increases the solution space (n=7: 132→1.3M solutions, 4→11,922 missing-center). However, the even-n threshold at n=12 remains intact — confirming it is a genuine geometric property, not a search heuristic artifact.
 
 **Code**: `d4_relaxed.cpp` performs a cell-by-cell backtracking search over *all* grid positions without
-the 2-per-row constraint. It uses the same forbid_accumulator approach but allows 0–N points per row.
+the 2-per-row constraint. It uses the same backtracking approach but allows 0–N points per row.
 This is a distinct algorithm from `no3line.cpp` and lives in its own file for clarity.
 
 ## D₄ Full Reconstruction and Quantitative Model
