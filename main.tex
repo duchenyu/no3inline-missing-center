@@ -81,7 +81,7 @@ The evidence strongly supports $D(n)=2n$ for all even $n\le 72$. The sole remain
 
 The No-Three-In-Line problem is a classical problem in combinatorial geometry. It asks: what is the maximum number $D(n)$ of points that can be placed on an $n\times n$ grid such that no three points are collinear? The problem has been studied since at least the early 20th century~\cite{erdos1935}, with significant computational progress in recent decades~\cite{guy1994,flammenkamp}.
 
-It is known that $D(n) \le 2n$ (by the pigeonhole principle on rows) and it is conjectured that $D(n) = 2n$ for all $n$ except possibly a finite set. For many years, the precise values of $D(n)$ were known only up to $n=46$. In 2026, Heule~\cite{heule2026} dramatically advanced the state of the art using SAT solvers, establishing $D(n)=2n$ for all $n\le 72$ with the sole exception of $n=71$.
+It is known that $D(n) \le 2n$ (by the pigeonhole principle on rows) and it is conjectured that $D(n) = 2n$ for all $n$ except possibly a finite set. For many years, the precise values of $D(n)$ were known only up to $n=52$ (the classical bound from exhaustive search before the 2026 SAT-solver advances of Heule). In 2026, Heule~\cite{heule2026} dramatically advanced the state of the art using SAT solvers, establishing $D(n)=2n$ for all $n\le 72$ with the sole exception of $n=71$.
 
 This paper approaches the problem from a new perspective. Rather than asking whether $2n$ points can be placed, we investigate a geometric invariant of maximal solutions: the role of the grid center as a circumcenter of triples within the configuration.
 
@@ -181,7 +181,7 @@ We extended the analysis using the Flammenkamp database~\cite{flammenkamp} of $D
 
 \begin{table}[H]
 \centering
-\caption{$D_4$-inequivalent missing-center counts from the Flammenkamp database.}
+\caption{$D_4$-inequivalent missing-center counts from the Flammenkamp database (full symmetry classes through $n=45$; rct4-only entries for $n=47,49,51,53$ from mvr/no-three-in-line). Even $n=46,48,50,52$ are omitted because only rot4 counts are catalogued at those sizes (see Table~\ref{tab:c4counts}).}
 \label{tab:d4}
 \footnotesize
 \begin{tabular}{crrrc}
@@ -212,6 +212,25 @@ $n$ & Type & Total & Missing & Rate \\
 28 & Even & 12203 & 306 & 2.5\%\\
 29 & Odd & 44890 & 2136 & 4.8\%\\
 30 & Even & 24925 & 534 & 2.1\%\\
+31 & Odd & 72 & 1 & 1.4\%\\
+32 & Even & 175 & 0 & 0.0\%\\
+33 & Odd & 14 & 0 & 0.0\%\\
+34 & Even & 172 & 0 & 0.0\%\\
+35 & Odd & 24 & 0 & 0.0\%\\
+36 & Even & 282 & 0 & 0.0\%\\
+37 & Odd & 21 & 0 & 0.0\%\\
+38 & Even & 338 & 0 & 0.0\%\\
+39 & Odd & 33 & 0 & 0.0\%\\
+40 & Even & 541 & 0 & 0.0\%\\
+41 & Odd & 35 & 0 & 0.0\%\\
+42 & Even & 747 & 0 & 0.0\%\\
+43 & Odd & 63 & 0 & 0.0\%\\
+44 & Even & 1017 & 0 & 0.0\%\\
+45 & Odd & 106 & 0 & 0.0\%\\
+47 & Odd & 105 & 0 & 0.0\%\\
+49 & Odd & 196 & 0 & 0.0\%\\
+51 & Odd & 264 & 0 & 0.0\%\\
+53 & Odd & 377 & 0 & 0.0\%\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -243,7 +262,7 @@ $n$ & rot4 Solutions & $n$ & rot4 Solutions \\
 26 & 36 & 48 & 2,124\\
 28 & 58 & 50 & 3,381\\
 30 & 92 & 52 & 5,062\\
-32 & 101 & 54---56 & (see text)\\
+32 & 101 & 54--56 & (see text)\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -283,7 +302,7 @@ At $n=12$, the 19 rings provide $171$ ring-pair interactions --- sufficient geom
 Within the catalogued $D_4$-inequivalent symmetry classes, missing-center solutions exist for all even $n$ with $12\le n\le 30$.
 \end{conjecture}
 
-\noindent\textbf{Limited window (even $n$).} The missing-center phenomenon for even grids is confined to a finite window: it first appears at $n=12$ and persists through $n=30$, but in the Flammenkamp database it vanishes again for every even $n\ge 32$ (the only symmetry classes recorded at those sizes, rot4 and dia, necessarily contain the center by group theory). This mirrors the disappearance of odd-$n$ missing-center solutions at $n\ge 33$ (Section~\ref{sec:extinction}), and shows that missing-center solutions are a transient regime rather than a permanent feature of even grids.
+\noindent\textbf{Limited window (even $n$).} The missing-center phenomenon for even grids is confined to a finite window: it first appears at $n=12$ and persists through $n=30$, but in the Flammenkamp database it vanishes again for every even $n\ge 32$ (the only symmetry classes recorded at those sizes are rot4 and dia2; rot4 solutions necessarily contain the center by the C$_4$ theorem, while dia2 solutions in the database also universally contain the center, though a formal proof for dia2 is not yet established). This mirrors the disappearance of odd-$n$ missing-center solutions at $n\ge 33$ (Section~\ref{sec:extinction}), and shows that missing-center solutions are a transient regime rather than a permanent feature of even grids.
 
 \subsection{Diagonal Reflection and Ring-Sharing}
 
@@ -348,7 +367,7 @@ $n$ & Orbits & Rings & Orbits=$n/2$? & Ring Population \\
 12 & 6 & 6 & Yes & All 4 \\
 14 & 7 & 6--7 & Yes & 4 or 8 \\
 16 & 8 & 7--8 & Yes & All 4 \\
-18 & 9 & 8 & Yes & 4 or 8 \\
+18 & 9 & 8--9 & Yes & 4 or 8 \\
 72 & 36 & 34 & Yes & 4 or 8 \\
 \bottomrule
 \end{tabular}
@@ -362,7 +381,7 @@ Three structural patterns emerge (expected consequences of C$_4$ geometry):
 \item \textbf{Ring population is always 4 or 8}: Single orbits give 4-point rings; paired orbits (related by diagonal reflection) give 8-point rings.
 \end{enumerate}
 
-These patterns are observed in all five available data points ($n=12,14,16,18,72$) and persist at $n=72$, a scale $6\times$ larger than the next-largest analyzed ($n=18$). The orbit-to-ring mapping pattern is a consequence of C$_4$ orbit geometry rather than an independent empirical discovery. The limited sample size (only five $n$ with available detailed orbital data) precludes claims of universality, but the consistency across a $6\times$ scale range is suggestive.
+These patterns are observed in all five available data points ($n=12,14,16,18,72$) and persist at $n=72$, a scale $4\times$ larger than the next-largest analyzed ($n=18$). The orbit-to-ring mapping pattern is a consequence of C$_4$ orbit geometry rather than an independent empirical discovery. The limited sample size (only five $n$ with available detailed orbital data) precludes claims of universality, but the consistency across a $4\times$ scale range is suggestive.
 
 % ============================================================
 \section{Z3 SMT Cross-Validation}
@@ -401,7 +420,7 @@ The Z3 solver independently confirms our $n=12$ and $n=14$ missing-center result
 
 \subsection{Even $n$}
 
-C$_4$-symmetric solutions exist for every even $n\le 72$ (Flammenkamp database), with the count growing exponentially ($\sim1.5\times$ per 2-step). The structural argument via C$_4$ orbit theory strongly suggests such solutions exist at any even $n$, implying $D(n)=2n$ for all even $n$ is effectively established.
+C$_4$-symmetric solutions exist for every even $n\le 72$ (Flammenkamp database), with the count growing exponentially ($\sim1.5\times$ per 2-step). The structural argument via C$_4$ orbit theory strongly suggests such solutions exist at any even $n$, implying $D(n)=2n$ for all even $n$ is strongly supported by structural and computational evidence.
 
 \subsection{Missing-Center Disappearance in Database Symmetry Classes for Odd $n\ge 33$}
 
@@ -451,7 +470,7 @@ $n$ & Solutions & $\binom{2n}{3}$ & $\binom{2n}{3} / ((n^2-1)/2)$ \\
 \end{tabular}
 \end{table}
 
-The threshold lies at a constraint density of approximately 74 triples per available pair. This is a classic SAT phase transition analogous to the well-known random $k$-SAT threshold. 
+The threshold lies at a constraint density of approximately 74 triples per available pair. This is a structured combinatorial threshold; the constraint graph is highly structured rather than random, so the analogy to the random $k$-SAT transition is only qualitative.
 
 We have proven that the collinearity constraint for rot2 on odd $n$ admits a clean algebraic characterization: two antipodal pairs $\{(i_1,j_1),(n-1-i_1,n-1-j_1)\}$ and $\{(i_2,j_2),(n-1-i_2,n-1-j_2)\}$ create a collinear triple \emph{iff}
 \[
@@ -459,7 +478,7 @@ We have proven that the collinearity constraint for rot2 on odd $n$ admits a cle
 \]
 where $m=(n-1)/2$ and the grid coordinates are $0,\dots,n-1$. Geometrically, this means the two pairs share the same reduced direction from the grid center. The rot2 UNSAT at $n=31$ thus reduces to a direction-uniqueness conflict: at this threshold, the degree constraints (exactly 2 points per row/column) force a set of $n$ pairs whose directions cannot all be distinct. Proving unsatisfiability at $n=31$ from this algebraic characterization is an open combinatorial problem.
 
-For $n\ge 33$, only rct4 solutions remain in the database, and \textbf{rct4 solutions invariably have the grid center as a circumcenter}. This is a group-theoretic necessity: D$_4$ orbits on odd-$n$ grids force $\ge 4$ points per distance ring.
+For $n\ge 33$, only rct4 solutions remain in the database, and \textbf{rct4 solutions invariably have the grid center as a circumcenter}. This is a group-theoretic necessity for the rct4 class: rct4 (and C$_4$) orbits on odd-$n$ grids have orbit size 4, forcing $\ge 4$ points per distance ring.
 
 Thus, within the catalogued symmetry classes, missing-center solutions are absent for all odd $n\ge 33$. The center is always a circumcenter in every solution recorded in the Flammenkamp database above this threshold. \textbf{Caveat}: iden-class (non-symmetric) solutions are only tracked up to $n=20$ in the database, so the existence of iden-class missing-center solutions at larger odd $n$ remains an open question.
 
@@ -468,7 +487,7 @@ Thus, within the catalogued symmetry classes, missing-center solutions are absen
 \subsubsection{D$_4$-Inequivalent Analysis and Quantitative Model}
 \label{sec:regression}
 
-The Flammenkamp database stores $D_4$-inequivalent solutions, each representing an orbit under the full dihedral group of the square. We verified the $D_4$ orbit multipliers empirically (by applying all 8 group transformations to sampled solutions) and reconstructed full solution counts. The multipliers are: $8\times$ for identity class, $4\times$ for rot2 and dia1, $2\times$ for rot4, and $1\times$ for rct4. Cross-validation against our exhaustive C++ enumeration ($n\le13$) confirms the reconstruction is exact (all match within sampling error $<0.1\%$).
+The Flammenkamp database stores $D_4$-inequivalent solutions, each representing an orbit under the full dihedral group of the square. We verified the $D_4$ orbit multipliers empirically (by applying all 8 group transformations to sampled solutions) and reconstructed full solution counts. The multipliers are: $8\times$ for identity class, $4\times$ for rot2 and dia1, $2\times$ for rot4, and $1\times$ for rct4. Cross-validation against our exhaustive C++ enumeration ($n\le13$) shows the reconstruction agrees well with direct counts; the only $n\le13$ point also recoverable by full enumeration, $n=9$, differs by 3 solutions (368 C++ vs 365 reconstruction, i.e.\ $0.8\%$), consistent with class-distribution sampling variation rather than a systematic error.
 
 For the regression analysis we use the $D_4$-inequivalent counts directly (Table~\ref{tab:d4}), not the reconstructed full counts, to avoid compounding estimation errors. The three-factor weighted least squares model (using correct ring-pair counts $C(R,2)$ where $R$ is the number of distinct distance rings):
 \[
@@ -478,7 +497,7 @@ with $R^2 = 0.834$ (adjusted $R^2 \approx 0.78$, leave-one-out cross-validation 
 
 \begin{table}[H]
 \centering
-\caption{Reconstructed full missing-center counts (values for $n\ge 14$ are reconstructed from $D_4$-inequivalent counts via the orbit multipliers, verified exact within 0.1\% sampling error).}
+\caption{Reconstructed full missing-center counts (values for $n\ge 14$ are estimates reconstructed from $D_4$-inequivalent counts via the orbit multipliers; the only $n\le13$ point also reconstructed, $n=9$, differs from C++ enumeration by 3 solutions, $0.8\%$).}
 \label{tab:fullrecon}
 \footnotesize
 \begin{tabular}{crrcc}
@@ -488,19 +507,17 @@ $n$ & Full Total & Full Missing & Rate & Type \\
 7 & 132 & 4 & 3.03\% & Odd \\
 8 & 380 & 0 & 0.00\% & Even \\
 9 & 368 & 8 & 2.17\% & Odd \\
-10 & 1135 & 0 & 0.00\% & Even \\
-11 & 1120 & 36 & 3.21\% & Odd \\
-12 & 4348 & 52 & 1.20\% & Even \\
-13 & 3622 & 292 & 8.06\% & Odd \\
-14 & 10568 & 84 & 0.79\% & Even \\
-15 & 30634 & 2716 & 8.87\% & Odd \\
-16 & 46304 & 1392 & 3.01\% & Even \\
-17 & 55573 & 3872 & 6.97\% & Odd \\
-18 & 152210 & 2735 & 1.80\% & Even \\
-19 & 258170 & 18729 & 7.25\% & Odd \\
-20 & 941580 & 18326 & 1.95\% & Even \\
-21 & 9701 & 768 & 7.92\% & Odd \\
-22 & 5082 & 52 & 1.02\% & Even \\
+10 & 1,135 & 0 & 0.00\% & Even \\
+11 & 1,120 & 36 & 3.21\% & Odd \\
+12 & 4,348 & 52 & 1.20\% & Even \\
+13 & 3,622 & 292 & 8.06\% & Odd \\
+14 & $\sim$10,568 & $\sim$85 & 0.80\% & Even \\
+15 & $\sim$30,634 & $\sim$2,726 & 8.90\% & Odd \\
+16 & $\sim$46,304 & $\sim$808 & 1.74\% & Even \\
+17 & $\sim$55,573 & $\sim$2,797 & 5.03\% & Odd \\
+18 & $\sim$152,210 & $\sim$2,735 & 1.80\% & Even \\
+19 & $\sim$258,170 & $\sim$18,729 & 7.26\% & Odd \\
+20 & $\sim$941,580 & $\sim$18,326 & 1.95\% & Even \\
 \bottomrule
 \end{tabular}
 \end{table}

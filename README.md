@@ -133,7 +133,7 @@ The complete odd-$n$ spectrum (n=7→45) reveals three distinct evolutionary pha
 | **31** | **0** | 480 | 31 | **78.8** |
 | 33 | 0 | 544 | 33 | 84.1 |
 
-The empirical threshold lies at ≈74 triples per available pair — the constraint density crosses a critical value where no rot2 assignment satisfies all collinearity constraints simultaneously. The exact mechanism remains an open combinatorial problem. Only rct4 solutions survive at n≥31 in the database, and all known rct4 solutions have the center as circumcenter (by group-theoretic necessity: D₄ orbits force ≥4 points per distance ring). **Missing-center solutions are not found in any known symmetry class for odd n ≥ 33. However, iden-class (non-symmetric) solutions are only tracked up to n=20 in the database, so the possibility of iden-class missing-center solutions at larger n remains open.**
+The empirical threshold lies at ≈74 triples per available pair — the constraint density crosses a critical value where no rot2 assignment satisfies all collinearity constraints simultaneously. The exact mechanism remains an open combinatorial problem. Only rct4 solutions survive at n≥31 in the database, and all known rct4 solutions have the center as circumcenter (by a symmetry argument: rct4 orbits have size 4, forcing ≥4 points per distance ring). **Missing-center solutions are not found in any known symmetry class for odd n ≥ 33. However, iden-class (non-symmetric) solutions are only tracked up to n=20 in the database, so the possibility of iden-class missing-center solutions at larger n remains open.**
 
 | n | 31 | 33 | 35 | 37 | 39 | 41 | 43 | 45 |
 |---|----|----|----|----|----|----|----|-----|
@@ -143,7 +143,7 @@ The empirical threshold lies at ≈74 triples per available pair — the constra
 
 Extended via [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) c4near data: n=47: 105 rct4, n=49: 196, n=51: 264, n=53: 377 — all with zero missing-center solutions. The sub-exponential growth continues (∼1.4× per 2-step increment).
 
-The rct4 solution count grows slowly (∼O(n) rather than exponential), and ring populations are always 4 or 8 — a parallel **D₄ group-theoretic argument** (distinct from, but analogous to, the C₄ theorem): D₄ orbits force ≥4 points per distance ring, so the center is always a circumcenter.
+The rct4 solution count grows slowly (∼O(n) rather than exponential), and ring populations are always 4 or 8 — a parallel **symmetry argument** (distinct from, but analogous to, the C₄ theorem): rct4 orbits have size 4, forcing ≥4 points per distance ring, so the center is always a circumcenter.
 
 **Observation for n=71**: All known solutions for odd n≥33 (and Heule's n=65, 67, 69) in the database are **rct4** — full D₄ symmetry, *not* C₄. (Recall the C₄ theorem applies only to even n; odd n cannot have C₄-symmetric 2n solutions.) If D(71)=2n, the solution would likely be rct4 as well. By the same D₄ group-theoretic argument that governs rct4 (not the C₄ theorem), such a solution would necessarily have the center as a circumcenter. This is consistent with the pattern: no missing-center solutions have been found in any known symmetry class beyond n=31. The caveat applies: iden-class solutions beyond n=20 are not tracked in the database.
 
@@ -496,7 +496,7 @@ The theorem is verified across all 34 even n values from n=6 to n=72 in the Flam
 
 ^ Most common value; the actual solutions include both pop=4 and pop=8 configurations.
 
-Every single rot4 solution across all entries — n=6 (3 solutions) through n=72 (1 solution, Heule 2026) — has the center as a circumcenter. **Zero exceptions in 33,634 tested solutions** (sum of all rot4 counts in the table).
+Every single rot4 solution across all entries — n=6 (3 solutions) through n=72 (1 solution, Heule 2026) — has the center as a circumcenter. **Zero exceptions in 33,534 tested solutions** (sum of all rot4 counts in the table).
 
 ### C₄ Evolution Across Even n — From Theory to n=72
 

@@ -11,3 +11,9 @@ analysis/mvr_cache/
 analysis/local_data_index.txt
 # Temporary helper scripts with local paths
 analysis/retry_and_index.py
+# LaTeX build intermediates
+main.aux
+main.bbl
+main.blg
+main.log
+main.out
