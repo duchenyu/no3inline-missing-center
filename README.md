@@ -507,7 +507,7 @@ d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2 = (2R(x)_x-(n-1))^2 + (2R(x)_y-(n-1))^2
 
 **Corollary**: Missing-center solutions cannot have C₄ symmetry.
 
-The theorem is verified across all 26 even n values from n=6 to n=56 in the [Flammenkamp database](https://wwwhomes.uni-bielefeld.de/achim/no3in/), plus n=72 (Heule, 2026) — 27 even n values total:
+The theorem is verified across all 34 even n values from n=6 to n=72 in the Flammenkamp database (n=6–56 from the standard database, n=58–72 from newer rot4.few files; including Heule's n=70 and n=72 solutions):
 
 | n | rot4 solutions | C₄ pass rate | Orbits | Orbit size | Max ring pop | Center circumcenter? |
 |---|:-------------:|:------------:|:------:|:----------:|:------------:|:--------------------:|
@@ -562,7 +562,7 @@ Analysis of all known rot4 solutions (n=12, 14, 16, 18, 58–72) from the [Flamm
 | 18 | 9 | 8 | 1.12 | ✓ | 100% | 4 or 8 |
 | **72** | **36** | **34** | **1.06** | ✓ | **100%** | **4 or 8** |
 
-**Consistently observed patterns (from 5 data points):**
+**Consistently observed patterns (from available rot4 data):**
 
 1. **Orbits ≡ n/2** (theorem-grade): Every rot4 solution uses exactly n/2 C₄ orbits, each of size 4. This is the structural maximum: 2n points ÷ 4 points/orbit = n/2 orbits. No degenerate orbits (size 1 or 2) occur for even n.
 
