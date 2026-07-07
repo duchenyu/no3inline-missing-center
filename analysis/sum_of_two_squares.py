@@ -120,13 +120,15 @@ for n in [7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29]:
 # Part 3: Correlation: number of rings with r₂(d²) ≤ 2 vs missing-center rate
 print('\n--- Part 3: r₂-based feature vs missing-center rate ---')
 
-# Full reconstructed missing-center data
+# Corrected D4-inequivalent (verified) missing-center data.
+# (total, missing) = (D4_total, D4_missing) from the trusted main RLE table,
+# cross-checked empirically (n=16/18/20) against Flammenkamp's database.
 missing_data = {
-    7: (132, 4), 8: (380, 0), 9: (365, 8), 10: (1135, 0),
+    7: (132, 4), 8: (380, 0), 9: (368, 8), 10: (1135, 0),
     11: (1120, 36), 12: (4348, 52), 13: (3622, 292),
-    14: (10568, 84), 15: (30634, 2716), 16: (46304, 1392),
-    17: (55573, 3872), 18: (152210, 24), 19: (258170, 10280),
-    20: (941580, 112), 21: (9701, 768), 22: (5082, 52)
+    14: (1366, 11), 15: (3978, 354), 16: (5900, 103),
+    17: (7094, 357), 18: (19204, 345), 19: (32577, 2363),
+    20: (118057, 2297), 21: (2426, 192), 22: (1275, 13)
 }
 
 print(f'{"n":>3} {"rings":>5} {"r₂=0":>5} {"r₂≤2":>5} {"r₂>pop":>7} {"miss%":>6} {"#4k+1prim":>10} {"d_GG-BB":>8}')

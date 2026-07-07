@@ -8,7 +8,7 @@ An optimized exhaustive search for **missing-center** solutions to the No-Three-
 
 ## The Problem
 
-Place **2n points** on an **n×n grid** such that no three are collinear. The No-Three-In-Line problem asks for the maximum number of points D(n) achievable. It is known that D(n) = 2n for all n ≤ 72 (with the sole exception of n = 71). The n=72 solution was found by Marijn Heule (CMU) on 2026-06-25 using a SAT solver with C₄ (90° rotational) symmetry — by our C₄ theorem (proved below), this solution necessarily has the grid center as a circumcenter, so it is **not** a missing-center solution.
+Place **2n points** on an **n×n grid** such that no three are collinear. The No-Three-In-Line problem asks for the maximum number of points D(n) achievable. 2n-point solutions have been found for all n ≤ 52 (classical result), and for n = 65, 67, 69, 70, 72 via SAT solvers (Heule, 2026). n = 71 is the only n ≤ 72 with no known 2n-point solution — D(71) remains unresolved. The n=72 solution was found by Marijn Heule (CMU) on 2026-06-25 using a SAT solver with C₄ (90° rotational) symmetry — by our C₄ theorem (proved below), this solution necessarily has the grid center as a circumcenter, so it is **not** a missing-center solution.
 
 **Our contribution is not about finding more solutions.** Instead, we ask a new question about the existing ones: for each known 2n-point solution, is the grid center ever a circumcenter of some triple of its points? A **missing-center** solution has **no** triple whose circumcircle is centered at the grid center.
 
@@ -105,7 +105,7 @@ The complete odd-$n$ spectrum (n=7→45) reveals three distinct evolutionary pha
 
 **Phase 1 — Abundance (n=7–19)**: Missing-center rate rises to 9.2% at n=13, driven by the iden symmetry class. The ratio oscillates with parity (4k+1 vs 4k+3) and compositeness.
 
-**Phase 2 — Decline (n=21–29)**: rot2 becomes the dominant class. Missing-center rate asymptotically decays: 7.8%→4.5%→4.8%. Total solution count explodes (2,426 at n=21 → 44,890 at n=29) due to rot2's exponential growth.
+**Phase 2 — Decline (n=21–29)**: rot2 becomes the dominant class. Missing-center rate oscillates at lower levels than Phase 1: 7.8% (n=21) → 4.5% (n=27) → 4.8% (n=29), with even-n entries dipping to ~1.6–1.9%. The catalogued total climbs again (2,426 at n=21 → 44,890 at n=29) due to rot2's exponential growth — note this is a *lower base* than n=19 (32,577): the iden class that dominates small-n totals is only tracked up to n=20 in Flammenkamp's database, so the apparent "explosion" starts after a sharp drop at the n=19→21 boundary.
 
 **Phase 3 — Extinction (n≥31)**: **rot2 vanishes at n=31** — a sharp SAT unsatisfiability threshold. The transition is driven by collinearity constraint density:
 
@@ -124,9 +124,9 @@ The critical threshold lies at ≈74 triples per available pair — a classic SA
 | Symmetry | dia1 | rct4 | rct4 | rct4 | rct4 | rct4 | rct4 | rct4 |
 | rct4 count | 5 | 14 | 23 | 21 | 33 | 35 | 63 | 106 |
 
-The rct4 solution count grows slowly (∼O(n) rather than exponential), and ring populations are always 4 or 8 — exactly like the C₄ theorem but for the D₄ group on odd-$n$ grids.
+The rct4 solution count grows slowly (∼O(n) rather than exponential), and ring populations are always 4 or 8 — a parallel **D₄ group-theoretic argument** (distinct from, but analogous to, the C₄ theorem): D₄ orbits force ≥4 points per distance ring, so the center is always a circumcenter.
 
-**Observation for n=71**: All known solutions for odd n≥33 (and Heule's n=65,67,69) in the database are rct4. If D(71)=2n, the solution would likely be rct4 as well — which our C₄ theorem implies would necessarily have the center as a circumcenter. This is consistent with the pattern: no missing-center solutions have been found in any known symmetry class beyond n=31. The caveat applies: iden-class solutions beyond n=20 are not tracked in the database.
+**Observation for n=71**: All known solutions for odd n≥33 (and Heule's n=65, 67, 69) in the database are **rct4** — full D₄ symmetry, *not* C₄. (Recall the C₄ theorem applies only to even n; odd n cannot have C₄-symmetric 2n solutions.) If D(71)=2n, the solution would likely be rct4 as well. By the same D₄ group-theoretic argument that governs rct4 (not the C₄ theorem), such a solution would necessarily have the center as a circumcenter. This is consistent with the pattern: no missing-center solutions have been found in any known symmetry class beyond n=31. The caveat applies: iden-class solutions beyond n=20 are not tracked in the database.
 
 **Curious gap: n=11, 13, 15 have no known rct4 solutions.**  
 Despite having abundant rot2 solutions (n=11: 30 rot2, n=13: 82, n=15: 283) and iden-class solutions (n=11: 128, n=13: 417, n=15: 3693), the Flammenkamp database records **zero** rct4 solutions for these three n values, while n=9 has 1, n=17 has 1, and n=19 has 2.
@@ -141,16 +141,16 @@ This is a **conjecture** — no theoretical proof exists. The gap could potentia
 
 **C₄ rot4 solutions scale exponentially with n**:  
 n=44: 1,016 → n=46: 1,366 → n=48: 2,124 → n=50: 3,381 → n=52: 5,062 → n=54: 7,696 → n=56: 10,441  
-The growth rate is ≈1.5× per 2-step increment, with no sign of slowing. This strongly supports **D(n)=2n for all even n**. The only remaining gap ≤ 72 is n=71 (odd). No rot4 solution is known for n=74 as of 2026-06-25.
+The growth rate is ≈1.5× per 2-step increment, with no sign of slowing. This provides strong evidence for **D(n)=2n for all even n**, though a formal proof remains open. n=71 is the only n ≤ 72 with no known 2n-point solution. No rot4 solution is known for n=74 as of 2026-06-25.
 
 **Key observations**:
 - **Even n**: n=8 and n=10 have **zero** missing-center solutions. n≥12 all have missing-center solutions: 52 (n=12), 11 (n=14), 103 (n=16), 345 (n=18) — confirming a genuine geometric threshold.
 - **Odd n**: Missing counts grow dramatically: 1 → 1 → 6 → 46 → 354 → 357 → 2,363, with a remarkable "freeze" at n=15→17 (354→357).
-- Missing/Total ratio oscillates with n mod 4, suggesting hidden parity structure.
+- Missing/Total ratio varies with n mod 4 and primality, but no simple parity classification fully explains the pattern (regression analysis shows mod4 has a modest effect, coefficient ≈ 0.77, while primality dominates at ≈ 2.95).
 
 ### 2. Odd n Growth — n=11 Marks Ring-Pair Threshold >100
 
-The odd n sequence splits into two regimes:
+The odd n sequence splits into two regimes (Missing counts: Full for n≤13, D₄-inequivalent for n≥15; rates are comparable since orbit multipliers cancel):
 
 | n | Type | Rings | Ring Pairs | Missing | Missing/Total |
 |---|------|-------|-----------|---------|--------------|
@@ -175,7 +175,7 @@ n=19: 1275 ring pairs → extremely dense
 
 The **n=15→17 freeze** (354→357, a 1.0× change) is particularly striking evidence that the missing-center count is not a simple function of n. It reveals an interplay between:
 
-1. **n mod 4 residue**: 4k+3 grids tend to have higher missing/Total ratios (except when composite)
+1. **n mod 4 residue**: Has a modest effect (regression coefficient ≈ 0.77), but the pattern is not a clean 4k+3 vs 4k+1 split — primality (coefficient ≈ 2.95) is the stronger predictor
 2. **Prime vs composite**: Composite n (e.g., 15) can have anomalously high missing counts
 3. **Sum-of-two-squares structure**: Rings with populations divisible by 8 (off-axis orbits) change the combinatorial landscape
 
@@ -193,7 +193,7 @@ d(c, r) = (2c − X)² + (2r − Y)²,   where X = Y = n−1 for even n, or X = 
 
 A **distance ring** is the set of grid points sharing the same d value — these are points on the same *circle* centered at the grid center. This is *not* L₁ (Manhattan) distance; it is the actual Euclidean radius squared. In particular, three or more points in the same distance ring means the grid center is their circumcenter. The missing-center problem asks whether we can avoid having any ring with ≥3 points.
 
-The number of distance rings grows with n: for an n×n grid, there are roughly O(n²/2) distinct x² values from the set {1², 3², 5², …, (n−1)²} for even n. The specific evolution is:
+The number of distance rings grows with n: for an n×n grid, the squared distance d(x,y)=(2x−(n−1))²+(2y−(n−1))² takes roughly n²/8 distinct values (each a sum of two squares of integers with the same parity as n−1), i.e. **O(n²)** — not O(n²/2). The specific evolution is:
 
 | n | Distinct Rings (R) | 2·R (max pts without center) | 2n (pts needed) | Ratio 2n/(2R) | Relative slack | Missing |
 |---|-------------------|------------------------------|-----------------|---------------|----------------|---------|
@@ -201,7 +201,7 @@ The number of distance rings grows with n: for an n×n grid, there are roughly O
 | 8 | 9 | 18 | 16 | 0.889 | 11% | 0 |
 | 10 | 14 | 28 | 20 | 0.714 | 29% | 0 |
 | 12 | 19 | 38 | 24 | 0.632 | 37% | **52** |
-| 14 | 25* | 50* | 28 | 0.569* | 44%* | ? |
+| 14 | 25* | 50* | 28 | 0.560* | 44%* | ? |
 
 #### Conjecture: The "Inner Ring Avoidance" Mechanism
 
@@ -317,7 +317,7 @@ This works for **all slopes** (1/2, 2/3, 5/7, and every rational slope), not jus
 
 **Formal correctness**: The algorithm's correctness relies on the inductive invariant: after placing points in rows \(0, \ldots, r\), the forbid mask `forbid[s]` for any \(s > r\) contains the blocking columns for ALL collinear pairs \((p_i, p_j)\) with \(i < j \le r\). This invariant is maintained by `update_block`, which adds blocking for each new pair when both points are placed. Since the third point of any collinear triple must appear at a row after the two largest-row points, it is blocked before placement. The invariant holds for all rows by induction on \(r\). Cross-validation against brute-force enumeration for n ≤ 13 (matching OEIS A000755 exactly) provides empirical verification.
 
-**Bit width**: `uint64_t` suffices for n ≤ 46 (since 46 < 64 bits), which covers all known open cases of the No-Three-In-Line problem (the largest gap is at n = 71, where D(71) is unknown).
+**Bit width**: `uint64_t` suffices for n ≤ 64 (since each column needs one bit). In practice, exhaustive search is only computationally feasible for n ≤ ~20 (mode 0) or n ≤ ~14 (mode 1). The largest unresolved case of the No-Three-In-Line problem is n = 71, where D(71) is unknown — this requires SAT solver approaches rather than exhaustive enumeration.
 
 **Speedup**: n=11 mode 0 went from 9.2 minutes → 8.5 seconds (**65×**).
 
@@ -486,7 +486,7 @@ d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2 = (2R(x)_x-(n-1))^2 + (2R(x)_y-(n-1))^2
 
 **Corollary**: Missing-center solutions cannot have C₄ symmetry.
 
-The theorem is verified across all 24 even n values (n=6 to n=56) from the [Flammenkamp database](https://wwwhomes.uni-bielefeld.de/achim/no3in/), and confirmed at n=72 (Heule, 2026):
+The theorem is verified across all 26 even n values from n=6 to n=56 in the [Flammenkamp database](https://wwwhomes.uni-bielefeld.de/achim/no3in/), plus n=72 (Heule, 2026) — 27 even n values total:
 
 | n | rot4 solutions | C₄ pass rate | Orbits | Orbit size | Max ring pop | Center circumcenter? |
 |---|:-------------:|:------------:|:------:|:----------:|:------------:|:--------------------:|
@@ -518,7 +518,7 @@ The theorem is verified across all 24 even n values (n=6 to n=56) from the [Flam
 | 56 | 10,441 | 100% | 28 | 4 | 4 | ✅ |
 | **72** | **1** | **100%** | **36** | **4** | **8** | **✅** |
 
-Every single rot4 solution across 26 even n values — from n=6 (3 solutions) to n=56 (10,441 solutions) to n=72 (Heule's record) — has the center as a circumcenter. **Zero exceptions in 34,473 tested solutions.**
+Every single rot4 solution across all 27 entries — n=6 (3 solutions) through n=56 (10,441 solutions), plus the n=72 Heule record — has the center as a circumcenter. **Zero exceptions in 33,548 tested solutions** (sum of the rot4 counts in the table: n=6..56 plus n=72).
 
 ### C₄ Evolution Across Even n — From Theory to n=72
 
@@ -542,9 +542,7 @@ Analysis of all known rot4 solutions (n=12, 14, 16, 18, 72) from the [Flammenkam
 
 4. **n=72 confirms all patterns**: At a scale 4× larger than any previously analyzed, n=72 exhibits the same 100% purity, 4-or-8 ring populations, and n/2 orbit count. The patterns are scale-invariant.
 
-**Context for n=71**: The n=72 solution achieved 2n points through C₄ symmetry, which reduces the SAT search from selecting individual points to selecting fundamental orbits. n=71, being odd, cannot exploit C₄ symmetry — the rotation center is a lattice point, breaking the clean orbit structure. This structural difference likely explains why SAT solvers succeed at even n (65, 67, 69, 70, 72) but fail at n=71.
-
-The n=72 solution achieved 2n points through C₄ symmetry, which reduces the SAT search from selecting individual points to selecting fundamental orbits. n=71, being odd, cannot exploit C₄ symmetry — the rotation center is a lattice point, breaking the clean orbit structure. This structural difference likely explains why SAT solvers succeed at even n (65, 67, 69, 70, 72) but fail at n=71.
+**Context for n=71**: The n=72 solution achieved 2n points through C₄ symmetry, which reduces the SAT search from selecting individual points to selecting fundamental orbits. n=71, being odd, cannot exploit C₄ symmetry — its rotation center is a lattice point, breaking the clean orbit structure. This structural difference helps explain the uneven SAT record: Heule solved D(n)=2n for n=70 and n=72 (even, via C₄) and for n=65, 67, 69 (odd, via rct4/D₄ symmetry — *not* C₄), but n=71 remains unsolved.
 
 The full n=72 coordinate list is available in `analysis/n72_rot4_coords.txt`, and the encoding from the Flammenkamp database is preserved in `analysis/n72_raw.html`.
 
@@ -583,7 +581,7 @@ $^\\dagger$ m=6 has no full 6-cycle, but admits $[5,1]$ and $[3,3]$ decomposit
 
 **Pattern**: The full $m$-cycle and $(1,m-1)$-cycle types are valid for **all $m\ge 10$**. The only exceptions are $m=4$ and $m=9$ for $(1,m-1)$, and $m=6$ for the full $m$-cycle. These exceptions correlate with $m$ divisible by 3 ($6=2\times3$, $9=3^2$) — suggesting a number-theoretic obstruction related to the 3-adic valuation of $m$.
 
-**Open question**: Does every $m\ge 3$ admit at least one valid cycle decomposition? Empirical evidence strongly suggests yes for all $m\ne 6$, and $m=6$ admits $(1,5)$ and $(3,3)$. This is equivalent to the conjecture that $D(2m)=2m$ for all even $n$.
+**Open question**: Does every $m\ge 3$ admit at least one valid cycle decomposition? Empirical evidence strongly suggests **yes for every $m\ge 3$** — $m=6$ is merely the single value lacking a full $m$-cycle, but it still admits $(1,5)$ and $(3,3)$. (Note: a valid cycle decomposition is a *necessary* condition for a C₄ solution, so this supports, but does not by itself prove, the long-standing conjecture $D(2m)=2m$ for all $m$. For even $n\le 72$ this is already established; the only open case $\le 72$ is the odd $n=71$.)
 
 **Code**: `analysis/c4_cycles.cpp`, `analysis/c4_cycles_ext.cpp` — C++ cycle decomposition explorer; `analysis/c4_actual_orbits.py` — Flammenkamp orbit extraction.
 
@@ -721,45 +719,45 @@ The Flammenkamp database stores **D₄-inequivalent solutions** (one representat
 | rct4 (c) | ×1 | n=9,15+ |
 | full (*) | ×1 | n=10 |
 
-Cross-validation against C++ full enumeration (n=7-13) confirms exact reconstruction (all match within <0.1% sampling error).
+Cross-validation against C++ full enumeration matches D₄-inequivalent counts for n=7-13 (n=9: 368 C++ vs 365 reconstruction, within 0.8%).
 
-**Reconstructed full missing-center table** (see `analysis/d4_reconstruction_results.txt` for complete n=7-45):
+**D₄-inequivalent solution counts** (primary, verified from Flammenkamp/RLE database) with Full (all-symmetries) totals — see `analysis/d4_reconstruction_results.txt` for complete n=7-45:
 
-| n | Full Total | Full Missing | Rate |
-|---|:----------:|:------------:|:----:|
-| 7 | 132 | 4 | 3.03% |
-| 8 | 380 | 0 | 0.00% |
-| 9 | 365 | 8 | 2.19% |
-| 10 | 1,135 | 0 | 0.00% |
-| 11 | 1,120 | 36 | 3.21% |
-| 12 | 4,348 | 52 | 1.20% |
-| 13 | 3,622 | 292 | 8.06% |
-| 14 | 10,568 | 84 | 0.79% |
-| 15 | 30,634 | 2,716 | 8.87% |
-| 16 | 46,304 | 1,392 | 3.01% |
-| 17 | 55,573 | 3,872 | 6.97% |
-| 18 | 152,210 | \textdagger | \textdagger |
-| 19 | 258,170 | 10,280 | 3.98% |
-| 20 | 941,580 | 112 | 0.01% |
+| n | D₄ Total | D₄ Missing | D₄ Rate | Full Total | Full Missing† |
+|---|:--------:|:----------:|:-------:|:----------:|:------------:|
+| 7 | 22 | 1 | 4.5% | 132 | 4 |
+| 8 | 57 | 0 | 0.0% | 380 | 0 |
+| 9 | 51 | 1 | 2.0% | 368 | 8 |
+| 10 | 156 | 0 | 0.0% | 1,135 | 0 |
+| 11 | 158 | 6 | 3.8% | 1,120 | 36 |
+| 12 | 566 | 8 | 1.4% | 4,348 | 52 |
+| 13 | 499 | 46 | 9.2% | 3,622 | 292 |
+| 14 | 1,366 | 11 | 0.8% | ~10,568 | ~85 |
+| 15 | 3,978 | 354 | 8.9% | ~30,634 | ~2,726 |
+| 16 | 5,900 | 103 | 1.7% | ~46,304 | ~808 |
+| 17 | 7,094 | 357 | 5.0% | ~55,573 | ~2,797 |
+| 18 | 19,204 | 345 | 1.8% | ~152,210 | ~2,735 |
+| 19 | 32,577 | 2,363 | 7.3% | ~258,170 | ~18,729 |
+| 20 | 118,057 | 2,297 | 1.9% | ~941,580 | ~18,326 |
 
-\* n=18 D₄ reconstruction missing-count pending verification (RLE data shows 345 inequivalent missing solutions — see the D₄-inequivalent table for that data).
+† For n≤13, Full counts are cross-validated against C++ full enumeration (2-per-row constraint). For n≥14, Full Missing is estimated as D₄_miss × (Full_total / D₄_total), assuming the D₄ symmetry class distribution of missing-center solutions mirrors the overall distribution. Exact per-class verification pending. D₄ totals and D₄ missing are authoritative (verified against Flammenkamp RLE database).
 
 ### Three-Factor Quantitative Model
 
-Using the reconstructed full counts, we built a weighted least squares regression model:
+Using corrected D₄-inequivalent counts (verified against Flammenkamp RLE database) and exact ring counts $R$ (ring pairs $= \binom{R}{2}$), we built a weighted least squares regression model (n=7—20, 14 data points):
 
 \[
-\text{missing rate} = 16.09 + 0.19\cdot(\text{mod4}) + 4.08\cdot(\text{prime}) - 2.29\cdot\log(\text{ring pairs})
+\text{missing %} = -1.22 + 0.77\cdot(\text{mod4}) + 2.95\cdot(\text{is\_prime}) + 0.44\cdot\log(\text{ring pairs})
 \]
 
 | Factor | Coefficient | Interpretation |
 |--------|:-----------:|:--------------|
-| mod4 | **+0.19** | Negligible direct effect — observed parity differences are indirect |
-| is_prime | **+4.08** | Prime n have systematically ~4% higher missing-center rates |
-| log(ring pairs) | **−2.29** | Denser constraint graphs suppress missing-center solutions |
-| **R²** | **0.620** | Three factors explain 62% of variance |
+| mod4 | **+0.77** | Modest direct effect — parity alone insufficient to explain variance |
+| is_prime | **+2.95** | Prime n have systematically ~3% higher missing-center rates |
+| log(ring pairs) | **+0.44** | Small positive — counterintuitive (more constraints → slightly *more* missing), likely proxies for n |
+| **R²** | **0.834** | Three factors explain 83% of variance (vs 62% with buggy data) |
 
-**Key finding**: mod4 residue (4k+1 vs 4k+3) has almost no direct effect once ring-pair density and primality are controlled. The observed "4k+3 abundance" is mediated through differences in subgrid parity structure (GG vs BB ring distributions).
+**Key finding**: With corrected data, the dominant predictor is primality (prime n ≈ 3% higher missing rates). The previously reported strong negative log(ring-pairs) effect (−2.29) was an artifact of incorrect missing-center detection in the reconstruction file. The log(ring-pairs) coefficient is now small and positive — ring-pair density has minimal direct explanatory power, and its sign is likely an artifact of collinearity with n (larger grids have both more ring pairs and more missing solutions in absolute terms). The moderate R² (0.834, 14 data points with 4 parameters → adj. R² ≈ 0.78) suggests additional structural factors not captured by these three features alone.
 
 ### Refined Model: Sum-of-Two-Squares Theory
 
@@ -775,18 +773,19 @@ r_2(d) =
 
 The ring population on the grid equals $r_2(d)$, truncated by grid boundaries for large $d$. This predicts which rings can be used in missing-center solutions (need $\le 2$ points per ring).
 
-A refined weighted least squares model incorporating $r_2$-based features achieves **$R^2 = 0.880$** — dramatically better than the raw model:
+A refined weighted least squares model incorporating $r_2$-based features achieves **$R^2 = 0.897$** (both Model 1 with 3 features and Model 2 with 4 features converge to the same R²). This is a modest improvement over the three-factor model ($\Delta R^2 = +0.063$, adjusted gain $\approx +0.07$):
 
 | Feature | Coefficient | Interpretation |
 |---------|:-----------:|:--------------|
-| rings (total) | **−0.14** | More rings → fewer missing solutions (dilution effect) |
-| max 4k+1 prime factors | **+5.01** | **Dominant factor** — more representable distances drive missing-center abundance |
-| r₂=0 count | −0.01 | Negligible (impossible rings don't affect usable geometry) |
-| **$R^2$** | **0.880** | Raw R² (Adjusted $R^2 \approx 0.835$) — number theory appears to explain most variance |
+| intercept | **+2.57** | Baseline missing rate for n=7 (unrealistic — model extrapolation) |
+| rings (total) | **+0.12** | More rings → slightly higher missing rate (counterintuitive, may proxy for n) |
+| r₂=0 count | **−0.23** | More impossible rings (r₂(d²)=0) reduce missing-center rate |
+| max 4k+1 factors | **−0.64** | More representable distances → *lower* missing rate (flips sign vs old model) |
+| **$R^2$** | **0.897** | Raw R² (Adjusted $R^2 \approx 0.87$) — number-theoretic features explain most variance |
 
-**⚠️ Caveat**: This model is fitted on 13 data points (n=7—19) with 3 features, carrying a risk of overfitting. The "max 4k+1 prime factors" feature correlates with n itself, so it may partly proxy for grid size rather than being an independent causal factor. This is an **exploratory model** based on small-n data; its predictive power for larger n is untested. Cross-validation on rot2 data for n=21—29 would be valuable future work.
+**⚠️ Caveat**: This model is fitted on 14 data points (n=7—20) with 4 features, carrying a significant risk of overfitting despite the adjusted R². The "max 4k+1 factors" coefficient flipped sign (from +5.01 to −0.64) with corrected data — the earlier claim that "more representable distances drive missing-center abundance" does not survive data correction. With all features having small magnitudes (≤0.64), no single number-theoretic factor dominates. This is an **exploratory model** based on small-n data; its predictive power for larger n is untested. Cross-validation on rot2 data for n=21—29 would be valuable future work.
 
-**Why this works**: The $4k+1$ prime factor count controls how many different distance values are *representable* as sums of two squares. More representable distances → more distance rings → more freedom to avoid ≥3 points per ring while maintaining 2n total points.
+**Revised assessment**: With corrected data, the ring count (a proxy for grid size n) and primality remain the most reliable predictors. The $r_2$-based number-theoretic features add modest explanatory power but lack the dominant role previously claimed. The relationship between $4k+1$ prime factor structure and missing-center rates is more nuanced than simple abundance — larger n have both more missing solutions (absolute count) and more 4k+1 factors, creating spurious correlations that small-sample regressions cannot reliably disentangle.
 
 **Code**: `analysis/d4_reconstruct.py` (reconstruction), `analysis/sum_of_two_squares.py` (number theory),
 `analysis/three_factor_model.txt` (results)
@@ -803,7 +802,7 @@ Then the row constraint (each row 0..n-1 has exactly 2 points) is equivalent to 
 
 **Proof**: Each orbit (i,j) contributes 4 points to rows {i, j, n-1-i, n-1-j} — one per row via each of the four C₄ rotations. For any row r ∈ [0, n-1], the two C₄ copies that land in row r are those with first coordinate = r (from orbit (r, *) or its rotation) or second coordinate = r (from orbit (*, r) or its rotation). Row r therefore contains exactly deg(r) points when r < m, and exactly deg(n-1-r) points when r ≥ m. Hence every row has 2 points ⇔ deg(k) = 2 for all k.
 
-**Computational verification**: All 32,578 unique C₄ solutions in Flammenkamp's database (n=12..56) satisfy this theorem at 100%.
+**Computational verification**: All 33,534 unique C₄ solutions in Flammenkamp's database (n=12..56) satisfy this theorem at 100% — matching exactly the rot4 counts per n in the table above (sum = 33,534 for n=12..56).
 
 **Consequence**: A C₄ solution is exactly a 2-regular graph on m vertices. Each edge (i,j) in the graph corresponds to one C₄ orbit, and the 4 rotated copies of each orbit automatically guarantee correct row coverage. This reduces the C₄ solution search from geometry to pure graph theory.
 
@@ -817,13 +816,13 @@ Then the row constraint (each row 0..n-1 has exactly 2 points) is equivalent to 
 | Small partitions (7+7+7+7+9, 6+6+6+6+6+7, etc.) | Combine many small DB patterns | 62,000+ combos, ALL collinear | ~1min |
 | CaDiCaL SAT | 703 vars, 1.17M clauses, direct encoding | Running 15min+, no result | ~15min |
 
-The difficulty: among 57.6M possible orbit triples, ~1.18M (2.04%) are collinear. Any 2-regular graph selects 7770 triples, with ~159 expected collinear. Finding a collinearity-free graph is exponentially rare—likely requiring a dedicated Heule-style SAT solver.
+The difficulty: among $C(703, 3) \approx 57.7$M possible orbit triples (counting each unordered $\{i,j\}$ orbit once with $i \le j$; the full $37^2 = 1369$ orbit space yields $C(1369, 3) \approx 427$M triples), an estimated ~2.04% (~1.18M) are collinear — a number derived from earlier C++ orbit enumeration and pending re-verification. Any 2-regular graph on 37 vertices selects $C(37,3) = 7{,}770$ triples of orbits, with ~159 expected collinear under uniform sampling. Finding a collinearity-free 2-regular graph is exponentially rare — likely requiring a dedicated Heule-style SAT solver.
 
 **Code**: `analysis/n74_sat_solver.py`, `analysis/n74_permutation_v2.py`, `analysis/n74_2matching_solver.py`
 
 ### Empirical Observations on C₄ Solution Structure
 
-*(These observations are based on computational analysis of all 32,578 unique C₄ solutions in the Flammenkamp database (n=12..56). They are **empirical regularities**, not proven theorems.)*
+*(These observations are based on computational analysis of all 33,534 unique C₄ solutions in the Flammenkamp database (n=12..56). They are **empirical regularities**, not proven theorems.)*
 
 **1. Cycle Structure Law** — Almost all C₄ solutions have cycle structure `[m]` (single m-cycle) or `[m-1, 1]` (single (m-1)-cycle + self-loop). Across all m=6..28, these two structures combined account for 35–67% of all solutions. The third most common structure is typically `[m-3, 3, 1]` or `[m-4, 4]`, appearing in less than 5% of cases.
 

@@ -5,3 +5,9 @@
 __pycache__/
 .DS_Store
 viz_output/
+# Local data caches — too large for repo, regenerate from Flammenkamp if needed
+analysis/flammenkamp_cache/
+analysis/mvr_cache/
+analysis/local_data_index.txt
+# Temporary helper scripts with local paths
+analysis/retry_and_index.py

@@ -26,10 +26,13 @@ def decode_solution(line):
     return symm, n, points
 
 def has_center(n, points):
-    ctr = (n-1)/2.0
+    # Exact integer squared distance from the grid center, matching the
+    # README definition  d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2 .
+    # Using integer arithmetic (no rounding) avoids ring-misassignment bugs.
+    X = n - 1
     rings = Counter()
-    for i, j in points:
-        d2 = int(round((i-ctr)**2 + (j-ctr)**2))
+    for x, y in points:
+        d2 = (2*x - X)**2 + (2*y - X)**2
         rings[d2] += 1
     return any(v >= 3 for v in rings.values())
 

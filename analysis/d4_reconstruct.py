@@ -64,17 +64,21 @@ def d4_orbit_size(n, pts):
     return len(transforms)
 
 def is_missing(n, pts):
-    ctr = (n-1)/2.0
+    # Exact integer squared distance from grid center: d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2.
+    # Integer arithmetic (no rounding) prevents ring-misassignment. A solution is
+    # "missing-center" iff NO distance ring contains >= 3 points.
+    X = n - 1
     rings = Counter()
-    for i,j in pts:
-        d2 = int(round((i-ctr)**2 + (j-ctr)**2))
+    for x, y in pts:
+        d2 = (2*x - X)**2 + (2*y - X)**2
         rings[d2] += 1
     return all(v < 3 for v in rings.values())
 
 def load_solutions(n, symm):
     url = f'https://wwwhomes.uni-bielefeld.de/achim/no3in/download/configurations/n{n}_{symm}'
     try:
-        with urllib.request.urlopen(url, timeout=20) as f:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=20) as f:
             raw = f.read().decode().strip()
             lines = [l for l in raw.split('\n') if l.strip()]
             if not lines or '<html' in lines[0].lower():
@@ -169,7 +173,7 @@ for n in list(range(7, 31)) + [31, 33, 35, 37, 39, 41, 43, 45]:
         lines = load_solutions(n, s)
         if lines is None:
             continue
-        t, m, ft, fm, v, _ = process_class(lines[:50], s, n)  # limit to 50 for speed
+        t, m, ft, fm, v, _ = process_class(lines, s, n)  # process ALL lines (no sampling)
         total_d4 += t
         missing_d4 += m
         full_total += ft
