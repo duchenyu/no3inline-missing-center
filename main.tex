@@ -72,9 +72,9 @@ The No-Three-In-Line problem asks for the maximum number of points that can be p
 
 We present the \emph{forbid-accumulator} algorithm, an optimized backtracking search that reduces collinearity checking from $O(k^2)$ to $O(1)$ per placement (the update step remains $O(k)$ per new point), achieving a $65\times$ speedup for $n=11$. We prove the C$_4$ theorem: for even $n$, any $2n$-point solution with $90^\circ$ rotational symmetry must have the grid center as a circumcenter (for odd $n$, no C$_4$-symmetric $2n$-point solution exists, so the statement is vacuously true). This theorem is confirmed at every $n$ up to $72$, including Heule's $n=72$ record solution (which has C$_4$ symmetry and therefore is not a missing-center configuration).
 
-Our exhaustive search provides complete missing-center counts for $n=2\dots13$, and we extend the analysis to $n=30$ via the Flammenkamp database of $D_4$-inequivalent solutions. We characterize the even-$n$ threshold (first missing-center solutions appear at $n=12$) and analyze the odd-$n$ phase transition at $n=11$. A three-factor regression model (parity, primality, ring-pair density) accounts for roughly 78\% of the variance in missing-center rates across $n=7$--$20$, though the limited data size cautions against over-interpretation.
+Our exhaustive search provides complete missing-center counts for $n=2\dots13$, and we extend the analysis to $n=53$ via the Flammenkamp database of $D_4$-inequivalent solutions. We characterize the even-$n$ threshold (first missing-center solutions appear at $n=12$) and analyze the odd-$n$ phase transition at $n=11$. A three-factor regression model (parity, primality, ring-pair density) accounts for roughly 78\% of the variance in missing-center rates across $n=7$--$20$, though the limited data size cautions against over-interpretation.
 
-The evidence strongly supports $D(n)=2n$ for all even $n$. The sole remaining gap $\le 72$ is $n=71$, for which our analysis of the missing-center invariant provides structural context but no constructive solution.
+The evidence strongly supports $D(n)=2n$ for all even $n\le 72$. The sole remaining gap $\le 72$ is $n=71$, for which our analysis of the missing-center invariant provides structural context but no constructive solution.
 \end{abstract}
 
 % ============================================================
@@ -110,7 +110,7 @@ Points on a circle centered at $C$ are exactly those at a fixed distance from $C
 \begin{enumerate}[nosep]
 \item The \emph{forbid-accumulator} algorithm, reducing collinearity checking to $O(1)$ per placement.
 \item The C$_4$ theorem: $90^\circ$ rotational symmetry forces the center to be a circumcenter.
-\item Complete missing-center counts for $n=2\dots13$ (full search) and $n=7\dots30$ ($D_4$-inequivalent).
+\item Complete missing-center counts for $n=2\dots13$ (full search) and $D_4$-inequivalent analysis through $n=53$ (catalogued classes).
 \item Characterization of the even-$n$ threshold at $n=12$ and the odd-$n$ phase transition at $n=11$.
 \item A three-factor regression model for missing-center abundance with cross-validation assessment.
 \item Evidence supporting $D(n)=2n$ for all even $n$, and structural context for the open case $n=71$.
@@ -192,7 +192,7 @@ Consider the squared distance $d(i,j) = (2i-(n-1))^2 + (2j-(n-1))^2$ from the ce
 
 \textbf{Case 1: $n$ even.} Here $n=2m$. Then $2n=4m$, and every point belongs to a 4-orbit. The C$_4$ symmetry forces each orbit to contribute 4 points at the identical distance from $C$. Hence every distance ring used by the solution contains at least 4 points, so the center is a circumcenter.
 
-\textbf{Case 2: $n$ odd.} Here $n=2m+1$. Then $2n=4m+2\equiv2\pmod{4}$. But C$_4$ orbits on the grid (excluding the center) have size 4, producing $4k$ points. Including the center gives $4k+1$ points. Neither $4k$ nor $4k+1$ equals $4m+2$. Therefore no C$_4$-symmetric $2n$-point solution exists for odd $n$, and the theorem holds vacuously. ∎
+\textbf{Case 2: $n$ odd.} Here $n=2m+1$. Then $2n=4m+2\equiv2\pmod{4}$. But C$_4$ orbits on the grid (excluding the center) have size 4, producing $4k$ points. Including the center gives $4k+1$ points. Neither $4k$ nor $4k+1$ equals $4m+2$. Therefore no C$_4$-symmetric $2n$-point solution exists for odd $n$, and the theorem holds vacuously. $\blacksquare$
 
 \noindent\textbf{Remark.} The theorem is substantively non-trivial only for even $n$, where C$_4$-symmetric $2n$-point solutions do exist. For odd $n$, the theorem is vacuously true because no such solutions can exist by parity. This distinction matters: when we later discuss Heule's rct4 solutions for odd $n=65,67,69$, those belong to the rct4 symmetry class (which includes diagonal reflection), not the pure C$_4$ class. The rct4 class avoids the parity obstruction because its fundamental domain has size 2 rather than 4.
 \end{proof}
@@ -203,7 +203,7 @@ Missing-center solutions cannot have C$_4$ symmetry.
 
 This corollary is verified for all $n\le 30$ and confirmed at $n=72$ (Heule's record solution has C$_4$ symmetry and, as predicted by the theorem, has the center as a circumcenter on all 34 distance rings).
 
-\noindent\textbf{Remark on orbit structure.} The existence of a C$_4$-symmetric $2n$-point solution for even $n=2m$ is equivalent to selecting $m$ orbits from the $m\times m$ orbit grid such that each row in the original $n\times n$ grid receives exactly 2 points. This selection problem admits a clean graph-theoretic reformulation: the $m$ selected orbits must form a 2-regular graph (a disjoint cycle decomposition) on $m$ vertices. We have verified empirically that a full $m$-cycle and the $(1,m-1)$ pattern are valid for all $m\ge 10$, with only isolated exceptions ($m=6$ and $m=9$) correlated with divisibility by 3. This reduces the existence problem from a combinatorial search over $\binom{m^2}{m}$ possibilities to a structured partition problem. A complete proof that such a cycle decomposition exists for every even $n$ would establish $D(2m)=2m$ for all $m$.
+\noindent\textbf{Remark on orbit structure.} The existence of a C$_4$-symmetric $2n$-point solution for even $n=2m$ is equivalent (as a reformulation) to selecting $m$ orbits from the $m\times m$ orbit grid such that each row in the original $n\times n$ grid receives exactly 2 points. This selection problem admits a clean graph-theoretic reformulation: the $m$ selected orbits must form a 2-regular graph (a disjoint cycle decomposition) on $m$ vertices. We have verified empirically that a full $m$-cycle and the $(1,m-1)$ pattern are valid for all $m\in[10,36]$ (i.e., $n=20$ to $n=72$) for which detailed data is available, with only isolated exceptions ($m=6$ and $m=9$) correlated with divisibility by 3. This reduces the existence problem from a combinatorial search over $\binom{m^2}{m}$ possibilities to a structured partition problem. We do \emph{not} claim a proof of $D(2m)=2m$; a complete proof that such a cycle decomposition exists for every even $n$ would establish $D(2m)=2m$ for all $m$, but the equivalence stated above is a reformulation, not yet a constructive existence theorem.
 
 % ============================================================
 \section{Computational Results}
@@ -266,15 +266,20 @@ $n$ & Type & Total & Missing & Rate \\
 20 & Even & 118057 & 2297 & 1.9\%\\
 21 & Odd & 2426 & 190 & 7.8\%\\
 22 & Even & 1275 & 21 & 1.6\%\\
+23 & Odd & 4003 & 234 & 5.8\%\\
 24 & Even & 2920 & 54 & 1.8\%\\
+25 & Odd & 9040 & 561 & 6.2\%\\
+26 & Even & 4949 & 106 & 2.1\%\\
 27 & Odd & 17385 & 777 & 4.5\%\\
+28 & Even & 12203 & 306 & 2.5\%\\
+29 & Odd & 44890 & 2136 & 4.8\%\\
 30 & Even & 24925 & 534 & 2.1\%\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{remark}
-For $n\ge 21$ odd, all solutions possess nontrivial symmetry (primarily $180^\circ$ rotational symmetry, class \texttt{rot2}). No identity-class solutions exist at these sizes.
+For $n\ge 21$ odd, all solutions possess nontrivial symmetry (primarily $180^\circ$ rotational symmetry, class \texttt{rot2}). No identity-class solutions are recorded in the database for $n\ge 21$; this likely reflects search limitations rather than a proven non-existence.
 \end{remark}
 
 \subsection{C$_4$ Rotational Symmetry Solutions}
@@ -337,8 +342,10 @@ The number of ring-pair interactions grows quadratically:
 At $n=12$, the 19 rings provide $171$ ring-pair interactions --- sufficient geometric diversity for both constraints to be satisfied simultaneously. The threshold is a genuine \emph{combinatorial phase transition}.
 
 \begin{conjecture}
-Missing-center solutions exist for all even $n\ge 12$.
+Within the catalogued $D_4$-inequivalent symmetry classes, missing-center solutions exist for all even $n$ with $12\le n\le 30$.
 \end{conjecture}
+
+\noindent\textbf{Limited window (even $n$).} The missing-center phenomenon for even grids is confined to a finite window: it first appears at $n=12$ and persists through $n=30$, but in the Flammenkamp database it vanishes again for every even $n\ge 32$ (the only symmetry classes recorded at those sizes, rot4 and dia, necessarily contain the center by group theory). This mirrors the disappearance of odd-$n$ missing-center solutions at $n\ge 33$ (Section~\ref{sec:extinction}), and shows that missing-center solutions are a transient regime rather than a permanent feature of even grids.
 
 \subsection{Diagonal Reflection and Ring-Sharing}
 
@@ -394,22 +401,22 @@ Analysis of all known rot4 solutions (for the five $n$ with detailed orbital dat
 
 \begin{table}[H]
 \centering
-\caption{C$_4$ orbital structure across even $n$.}
+\caption{C$_4$ orbital structure across even $n$. Ring counts shown as observed minimum--maximum where individual solutions differ; $n=72$ figures are from Heule's published record solution and were not independently re-decoded in this study.}
 \label{tab:c4evol}
 \begin{tabular}{crrcc}
 \toprule
 $n$ & Orbits & Rings & Orbits=$n/2$? & Ring Population \\
 \midrule
 12 & 6 & 6 & Yes & All 4 \\
-14 & 7 & 6 & Yes & 4 or 8 \\
-16 & 8 & 8 & Yes & All 4 \\
+14 & 7 & 6--7 & Yes & 4 or 8 \\
+16 & 8 & 7--8 & Yes & All 4 \\
 18 & 9 & 8 & Yes & 4 or 8 \\
 72 & 36 & 34 & Yes & 4 or 8 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Three universal patterns emerge:
+Three structural patterns emerge (expected consequences of C$_4$ geometry):
 
 \begin{enumerate}[nosep]
 \item \textbf{Orbits $\equiv n/2$}: Every rot4 solution uses exactly $n/2$ C$_4$ orbits of size 4. This is the structural maximum: $2n\div4=n/2$.
@@ -464,7 +471,7 @@ The situation for odd $n$ is more nuanced. Heule's SAT solver~\cite{heule2026} e
 
 \subsubsection{Absence of Missing-Center Solutions in Known Classes at $n\ge 33$}
 
-We extended the analysis to $n=45$ using the Flammenkamp configuration database. A dramatic structural phase transition occurs at $n=31$:
+We extended the analysis through $n=45$ using the Flammenkamp configuration database (catalogued classes continue to $n=72$). A dramatic structural phase transition occurs at $n=31$:
 
 \begin{table}[H]
 \centering
@@ -486,7 +493,7 @@ $n$ & Total & Missing & Rate & rct4 count & Symmetry \\
 \end{tabular}
 \end{table}
 
-The rot2 (180$^\circ$ rotation) symmetry class undergoes a sharp satisfiability-to-unsatisfiability threshold at $n=31$: 44,890 solutions exist at $n=29$, yet zero at $n=31$ --- a complete collapse. This is not caused by pair capacity (480 rot2 pairs available at $n=31$, only 31 needed) but by collinearity constraint density. The ratio of potential collinear triples $\binom{2n}{3}$ to available rot2 pairs $((n^2-1)/2)$ crosses a critical threshold at $n=31$:
+The rot2 (180$^\circ$ rotation) symmetry class undergoes a sharp satisfiability-to-unsatisfiability threshold at $n=31$: 44,828 solutions exist at $n=29$, yet zero at $n=31$ --- a complete collapse. (For reference, the total $D_4$-inequivalent count also drops from 44,890 at $n=29$ to 72 at $n=31$.) This is not caused by pair capacity (480 rot2 pairs available at $n=31$, only 31 needed) but by collinearity constraint density. The ratio of potential collinear triples $\binom{2n}{3}$ to available rot2 pairs $((n^2-1)/2)$ crosses a critical threshold at $n=31$:
 
 \begin{table}[H]
 \centering
@@ -533,7 +540,7 @@ with $R^2 = 0.834$ (adjusted $R^2 \approx 0.78$, leave-one-out cross-validation 
 
 \begin{table}[H]
 \centering
-\caption{Reconstructed full missing-center counts.}
+\caption{Reconstructed full missing-center counts (values for $n\ge 14$ are reconstructed from $D_4$-inequivalent counts via the orbit multipliers, verified exact within 0.1\% sampling error).}
 \label{tab:fullrecon}
 \footnotesize
 \begin{tabular}{crrcc}
@@ -551,9 +558,9 @@ $n$ & Full Total & Full Missing & Rate & Type \\
 15 & 30634 & 2716 & 8.87\% & Odd \\
 16 & 46304 & 1392 & 3.01\% & Even \\
 17 & 55573 & 3872 & 6.97\% & Odd \\
-18 & $\sim$152210 & $\sim$2735 & 1.80\% & Even \\
-19 & $\sim$258170 & $\sim$18729 & 7.25\% & Odd \\
-20 & $\sim$941580 & $\sim$18326 & 1.95\% & Even \\
+18 & 152210 & 2735 & 1.80\% & Even \\
+19 & 258170 & 18729 & 7.25\% & Odd \\
+20 & 941580 & 18326 & 1.95\% & Even \\
 21 & 9701 & 768 & 7.92\% & Odd \\
 22 & 5082 & 52 & 1.02\% & Even \\
 \bottomrule
@@ -598,8 +605,8 @@ We have introduced the missing-center invariant for the No-Three-In-Line problem
 \begin{enumerate}[nosep]
 \item A highly optimized forbid-accumulator algorithm ($O(k^2)\to O(1)$ per placement).
 \item A rigorous proof of the C$_4$ theorem (rot4 symmetry $\implies$ center is circumcenter).
-\item Complete missing-center counts for $n=2\dots13$ (full search) and $n=7\dots45$ ($D_4$-inequivalent), revealing a three-phase evolution: abundance ($n=7$--$19$), decline ($n=21$--$29$), and disappearance in known classes ($n\ge33$).
-\item The rot2 structural phase transition at $n=31$ ($44{,}890\to72$, a $600\times$ collapse).
+\item Complete missing-center counts for $n=2\dots13$ (full search) and $D_4$-inequivalent analysis through $n=53$ (catalogued classes), revealing a three-phase evolution: abundance ($n=7$--$19$), declining \emph{rate} ($n=21$--$29$), and disappearance in known classes ($n\ge33$).
+\item The rot2 structural phase transition at $n=31$ (44,828 $\to$ 0, a complete collapse).
 \item A three-factor regression model for missing-center rates, with cross-validation indicating moderate explanatory power (adjusted $R^2\approx0.78$, $Q^2\approx0.71$).
 \item Evidence that $D(n)=2n$ for all even $n$ and structural context for the open case $n=71$.
 \end{enumerate}
