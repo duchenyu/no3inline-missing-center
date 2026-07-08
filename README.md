@@ -31,7 +31,7 @@ This section collects every result that is **proven** (theorem or lemma with pro
 ### 2.1 The C₄ Theorem — A Proven Result ✔
 A solution has **C₄ symmetry** if it is invariant under 90° rotation about the grid center. We prove:
 
-> **Theorem**. Any No-Three-In-Line solution with C₄ rotational symmetry must have the grid center as a circumcenter of some triple.
+> **Theorem 2.1 (C₄ Obstruction).** Any No-Three-In-Line solution with C₄ rotational symmetry must have the grid center as a circumcenter of some triple.
 
 **Proof**. Let the grid have coordinates \(0,\ldots,n-1\). The center is \(C = (\frac{n-1}{2}, \frac{n-1}{2})\). The 90° rotation is \(R(x,y) = (n-1-y, x)\).
 
@@ -99,7 +99,7 @@ Every single rot4 solution across all entries — n=6 (3 solutions) through n=72
 
 A broader symmetry invariant, proved in `analysis/lemmas_c2_ring.md` and verified on 3,732 sampled solutions:
 
-> **Theorem.** Let *S* be a 2n-point no-three-in-line solution on an even n×n grid that is invariant under the half-turn R₁₈₀ about the grid centre C. Then *S* decomposes into n R₁₈₀-orbits {p, R₁₈₀(p)}; each orbit defines a line through C; and these n central lines are pairwise distinct (two orbits on one central line would put 4 points on that line, violating no-three-in-line).
+> **Theorem 2.3 (C₂ Direction Theorem).** Let *S* be a 2n-point no-three-in-line solution on an even n×n grid that is invariant under the half-turn R₁₈₀ about the grid centre C. Then *S* decomposes into n R₁₈₀-orbits {p, R₁₈₀(p)}; each orbit defines a line through C; and these n central lines are pairwise distinct (two orbits on one central line would put 4 points on that line, violating no-three-in-line).
 
 The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes whose group contains the half-turn: **rot2** (C₂), **rot4** (C₄, since R₁₈₀ = R₉₀²), and **dia2** (V₄ = {id, R₁₈₀, d₁, d₂}, with R₁₈₀ = d₁∘d₂), and **rct4** (V₄ = {id, R₁₈₀, two perpendicular axis reflections}; verified R₁₈₀-invariant on all 326 catalogued rct4 solutions, though not R₉₀-invariant). Classes iden, dia1 (single diagonal reflection only), and ort1/ort2 do **not** contain R₁₈₀ and lie outside the theorem's scope.
 
@@ -109,15 +109,21 @@ Consequence for the D(n)=2n problem: any R₁₈₀-invariant construction autom
 
 Colour the `n × n` grid by parity class `(r mod 2, c mod 2)` into 4 classes. For any line of reduced direction `(a, b)` (with `gcd(a, b) = 1`), the colour `(r mod 2, c mod 2)` advances by `(a mod 2, b mod 2) ∈ {(1,1), (1,0), (0,1)}` at each step, so **the line meets at most 2 of the 4 classes**. Consequently every no-three-in-line set is a 2-colour set on each line — a necessary structural property. (This is distinct from, and does not replace, the trivial row-based upper bound `D(n) ≤ 2n`.) For the R₁₈₀-invariant classes above (rot2, rot4, dia2, rct4), the 4 parity classes are themselves permuted by the symmetry, giving an additional exact balance constraint on any 2n solution in those classes.
 
-### 2.4 Ring-Population Lemma (rot4)
+### 2.4 Orbit-Ring Invariance (proved for C₄)
 
-Every C₄-orbit of the grid is a square of 4 vertices, all equidistant from the centre. Hence every distance ring used by a rot4 solution is a union of complete orbits, and its population is a multiple of 4. Empirically the observed populations are 4, 8, 12, or 16 (across all 21,601 rot4 solutions for n = 12–72). This is a direct corollary of the C₄ orbit structure in §2.1 — a structural property, not an independent missing-centre criterion. (The “multiple of 4” law is specific to even-n rot4; rct4 orbits can have size 2, so it does not extend to rct4.)
+Every C₄-orbit of the grid is a square of 4 vertices, all equidistant from the centre. Hence every distance ring used by a C₄ solution is a union of complete orbits, and its population is a multiple of 4. This is a **direct geometric consequence** of the C₄ orbit structure:
+
+> **Theorem (Orbit-Ring Invariance).** For any C₄-symmetric solution on an even $n\times n$ grid, each C₄ orbit of 4 points maps entirely to a single distance ring. No orbit splits across multiple rings.
+
+> **Corollary (Ring Population Bound).** Every distance ring in a C₄ solution has population $\equiv 0 \pmod{4}$.
+
+Empirically the observed populations are 4, 8, 12, or 16 (across all 21,601 rot4 solutions for n=12–72). Whether populations >16 (i.e. more than 4 coalesced orbits per ring) are possible for larger $n$ remains an open question. (The "multiple of 4" law is specific to even-n rot4; rct4 orbits can have size 2, so it does not extend to rct4.)
 
 ### 2.5 Structure of C₄ Solutions and the Row-Degree Theorem
 
 We discovered a fundamental structural property of C₄ (90° rotational symmetric) solutions:
 
-**Theorem (Row-Degree Equivalence for C₄)**. For any C₄-symmetric 2n-point solution on an even n×n grid, let m = n/2 and represent the solution by its m C₄ orbits (i₁,j₁), …, (iₘ,jₘ) with iₖ, jₖ ∈ [0,m-1]. Define the degree of vertex k as
+> **Theorem 2.2 (Row-Degree Equivalence for C₄).** For any C₄-symmetric 2n-point solution on an even n×n grid, let m = n/2 and represent the solution by its m C₄ orbits (i₁,j₁), …, (iₘ,jₘ) with iₖ, jₖ ∈ [0,m-1]. Define the degree of vertex k as
 
     deg(k) = |{orbits where i=k}| + |{orbits where j=k}|.
 
@@ -643,9 +649,9 @@ The rot2 UNSAT is an **interaction-driven combinatorial threshold** — none of 
 | 27 | 364 | 68.3 | ✅ (17,332 solutions) |
 | 29 | 420 | 73.6 | ✅ (44,828 solutions) |
 | **31** | **480** | **78.9** | **❌ (0 solutions)** |
-| 33 | 544 | 84.2 | ? (1 known partial solution; exhaustive search not performed) |
+| 33 | 544 | 84.2 | ? (1 known partial rot2 solution) |
 
-The transition occurs at **≈78.9 constraints per variable** — a density value beyond which solvability breaks down. While the empirical threshold is sharp (n=31 is confirmed UNSAT by exhaustive enumeration), the status of n=33 is less clear: a single rot2 solution exists in the Flammenkamp partial catalogue (`n33_rot2.few`), though no exhaustive search has been performed. This suggests that the UNSAT at n=31 may be a specific number-theoretic obstruction rather than a universal threshold beyond which rot2 is always impossible. Proving the n=31 UNSAT analytically remains an open challenge.
+The transition occurs at **≈78.9 constraints per variable** — a density value beyond which solvability breaks down. While the empirical threshold is sharp for n=31 (confirmed UNSAT by exhaustive enumeration), n=33 is not comparably UNSAT: a single rot2 solution exists in the Flammenkamp catalogue (`n33_rot2.few`, verified valid: 2-per-row, 180° symmetric, zero collinear triples). This suggests the obstruction is specific to $n=31$ rather than a universal threshold beyond which rot2 is always impossible. Proving the $n=31$ UNSAT analytically remains an open challenge.
 
 **Conclusion**: The rot2 UNSAT at $n=31$ is a verified empirical fact — a sharp unsatisfiability transition in a structured combinatorial problem, analogous in character to phase transitions observed in random constraint satisfaction problems. Notably, $n=33$ is not comparably UNSAT (1 partial solution exists), indicating the obstruction is specific to $n=31$ rather than a general threshold. A compact mathematical proof for the $n=31$ UNSAT remains an open challenge. To prove it would require either (a) UNSAT core extraction from a SAT solver, (b) a novel combinatorial invariant, or (c) a dedicated structural argument specific to the rot2 symmetry class.
 
@@ -770,7 +776,19 @@ These failures are *algorithmic limitations, not a proof of non-existence* (2n s
 
 2. **[mvr/no‑three‑in‑line CUDA C₄ solver](https://github.com/mvr/no‑three‑in‑line) (retargeted, current).** This warp‑bitboard engine performs DFS over the C₄ fundamental domain, pre‑computing all direction‑line masks for O(1) collinearity checks. It was adapted for the present project by adding **direction‑based cell pre‑filtering** (danger‑hypergraph exclusion of cells on top‑ranked collinear directions) and a **2M‑entry device stack** to accommodate large‑grid frontier search. Small‑n validation: re‑runs of n=12 through n=64 reproduce all known rot4 solution counts.
 
-**Pre‑filtering experiments (EMPIRICAL, ongoing).** Direction‑based cell exclusion was tested at multiple strength levels on n=12 through n=52. For n≤36 all levels (up to top‑20 cells excluded) still find solutions; at n=48 the most aggressive level slowed the search ~16‑fold over baseline, and at n=52 the more aggressive settings all time out. The tentative pattern is that pre‑filtering becomes counter‑productive at larger n — a plausible explanation is that excluding cells pushes the single solution deeper into the search tree, increasing the time to reach it. A **three‑way parallel search** (baseline / moderate‑prefilter / aggressive‑prefilter) is currently running on n=76 with a 24‑hour timeout per variant. As of this writing no solution has been found for n=76, consistent with the problem's exponential difficulty.
+**Pre‑filtering experiments (EMPIRICAL).** Direction‑based cell exclusion was tested at multiple strength levels on n=12 through n=52. For n≤36 all levels (up to top‑20 cells excluded) still find solutions; at n=48 the most aggressive level slowed the search ~16‑fold over baseline, and at n=52 the more aggressive settings all time out. The tentative pattern is that pre‑filtering becomes counter‑productive at larger n — a plausible explanation is that excluding cells pushes the single solution deeper into the search tree, increasing the time to reach it. A three‑way parallel search on n=76 was run for ~2 hours without finding a solution, consistent with the problem's exponential difficulty.
+
+---
+
+### 3.16 Open Problems
+
+The following open problems arise directly from our analysis:
+
+**1. Cycle Universality Conjecture.** For the C₄ orbit selection problem (§3.6), the full $m$-cycle and the $(1,m-1)$ cycle pattern are valid for all $m \ge 10$ (verified $m=10..28$), with isolated exceptions at $m=6$ and $m=9$. Do these two patterns in fact generate valid C₄ solutions for **every** $m \ge 10$? A constructive proof would establish $D(2m)=2m$ for all sufficiently large even $n$ — the long-standing open direction of the No-Three-In-Line problem.
+
+**2. The rot2 UNSAT at $n=31$.** The sharp SAT→UNSAT transition (44,828 solutions at $n=29$, zero at $n=31$) lacks a mathematical proof. Our analysis eliminated the natural candidate explanations (direction pool size, pairwise conflicts, center-row constraints), and identified the C₂ direction-uniqueness condition as the operative constraint, but the precise obstruction at $n=31$ remains open. Notably, $n=33$ has one known rot2 solution, confirming the obstruction is specific to $n=31$ rather than a general threshold.
+
+**3. Infinite existence of missing-center solutions.** Do missing-center solutions exist for arbitrarily large $n$? rot2 data shows they persist at least through $n=29$ (773 MC out of 17,332 rot2 solutions at $n=27$). The iden class is known to have MC at $n=21$ (17 out of 142 partial iden solutions). A definitive answer would require either an explicit infinite construction or an exhaustive iden-class search for $n\ge 21$.
 
 ---
 
