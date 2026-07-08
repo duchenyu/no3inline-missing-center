@@ -7,7 +7,6 @@
 An exhaustive search and analysis of **missing-center** solutions to the No-Three-In-Line problem — configurations where the grid center is not the circumcenter of any triple.
 
 ## The Problem
-
 Place **2n points** on an **n×n grid** such that no three are collinear. The No-Three-In-Line problem asks for the maximum number of points D(n) achievable. 2n-point solutions have been found for all n ≤ 52 (classical result), and for n = 65, 67, 69, 70, 72 via SAT solvers (Heule, 2026). n = 71 is the only n ≤ 72 with no known 2n-point solution — D(71) remains unresolved.
 
 **Our contribution is not about finding more solutions.** Instead, we ask a new question about the existing ones: for each known 2n-point solution, is the grid center ever a circumcenter of some triple of its points? A **missing-center** solution has **no** triple whose circumcircle is centered at the grid center.
@@ -25,9 +24,130 @@ If three points have the same \(d\) value, they lie on a circle centered at \(C\
 
 This is a novel invariant not previously studied in the literature. As an example application: the n=72 solution found by Marijn Heule (CMU, 2026-06-25) has C₄ (90° rotational) symmetry. By our C₄ theorem (proved below), any C₄-symmetric 2n-point solution on an odd-n grid necessarily places the grid center as a circumcenter — so that particular solution is *not* a missing-center solution. But for even-n grids, no such automatic guarantee exists, and missing-center solutions do appear (see data below).
 
-## Key Findings
+## 2. Proven Results
 
-### 1. Prior heuristics are falsified by real computation
+This section collects every result that is **proven** (theorem or lemma with proof), as opposed to the computational observations gathered in §3.
+
+### 2.1 The C₄ Theorem — A Proven Result ✔
+A solution has **C₄ symmetry** if it is invariant under 90° rotation about the grid center. We prove:
+
+> **Theorem**. Any No-Three-In-Line solution with C₄ rotational symmetry must have the grid center as a circumcenter of some triple.
+
+**Proof**. Let the grid have coordinates \(0,\ldots,n-1\). The center is \(C = (\frac{n-1}{2}, \frac{n-1}{2})\). The 90° rotation is \(R(x,y) = (n-1-y, x)\).
+
+*Lemma 1*: The squared Euclidean distance from \(C\) is invariant under \(R\):
+\[
+d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2 = (2R(x)_x-(n-1))^2 + (2R(x)_y-(n-1))^2
+\]
+
+*Lemma 2*: The orbits of \(C_4\) on the grid partition into sets of size 4 for even \(n\), and one fixed point (the center) plus 4-orbits for odd \(n\).
+
+*Case 1: \(n\) even* (\(n=2m\)). Then \(2n = 4m\). Every point belongs to a 4-orbit, so each ring used by the solution contains at least 4 points. Since \(4 \ge 3\), the center is a circumcenter.
+
+*Case 2: \(n\) odd* (\(n=2m+1\)). Then \(2n = 4m+2 \equiv 2 \pmod{4}\). But C₄ orbits can only produce \(4k\) or \(4k+1\) points. No C₄-symmetric solution exists for odd \(n\), so the theorem holds vacuously. ∎
+
+**Corollary**: Missing-center solutions cannot have C₄ symmetry.
+
+*Geometric illustration.* The theorem says the center is always a circumcenter, but where are the 4 points that certify it? They are simply the **innermost distance ring** — the 4 points of the solution closest to \(C\), which by construction sit at the same distance from \(C\) and thus lie on a circle centered at \(C\). In 9 of the first 15 even \(n\) (\(n=12\ldots40\)), these 4 points are literally the \(2\times2\) block straddling \(n/2\), i.e. \(\{\lfloor n/2\rfloor,\lceil n/2\rceil\}^2\) (e.g. for \(n=40\): \((19,19),(19,20),(20,19),(20,20)\)) — placed exactly "by \(n/2\)". The remaining 6 solutions (\(n=12,16,18,20,24,26\)) instead use a slightly larger inner diamond, but the role is identical. Either way, this tiny central cluster is the concrete geometric footprint of the theorem: it is the ring that makes \(C\) a circumcenter.
+
+*A structural refinement.* Decomposing a rot4 solution into its \(n/2\) C₄-orbits, each orbit is a square of 4 points centred at \(C\) (one point in each quadrant). Every such square contributes exactly two **diagonal directions through \(C\)** — the two directions joining opposite corners. We verified across all 15 even \(n\) from 12 to 40 that the \(n/2\) orbits yield **exactly \(n\) distinct diagonal directions, with no two orbits sharing one**. This is a *necessary and sufficient* condition for the solution to be free of collinear triples *along any line through \(C\)*: a line through \(C\) can contain at most the two opposite corners of a single orbit; if two orbits shared a diagonal direction, that line would hold 4 points and violate the no-three-in-line rule. Thus "all diagonal directions are distinct" is a hallmark of every rot4 solution and the direct generalization of the C₄ theorem — the theorem guarantees that \(C\) *is* a circumcenter, while the distinct-direction law explains *why* the orbit structure automatically avoids a 4-point line through it.
+
+The theorem is verified across all 34 even n values from n=6 to n=72 in the Flammenkamp database (n=6–56 from the standard database, n=58–72 from newer rot4.few files; including Heule's n=70 and n=72 solutions):
+
+| n | rot4 solutions | C₄ pass rate | Orbits | Orbit size | Max ring pop | Center circumcenter? |
+|---|:-------------:|:------------:|:------:|:----------:|:------------:|:--------------------:|
+| 6 | 3 | 100% | 3 | 4 | 4 | ✅ |
+| 8 | 4 | 100% | 4 | 4 | 4 | ✅ |
+| 10 | 6 | 100% | 5 | 4 | 4 | ✅ |
+| 12 | 4 | 100% | 6 | 4 | 4 | ✅ |
+| 14 | 13 | 100% | 7 | 4 | 8 | ✅ |
+| 16 | 13 | 100% | 8 | 4 | 4 | ✅ |
+| 18 | 7 | 100% | 9 | 4 | 8 | ✅ |
+| 20 | 16 | 100% | 10 | 4 | 8 | ✅ |
+| 22 | 8 | 100% | 11 | 4 | 8 | ✅ |
+| 24 | 23 | 100% | 12 | 4 | 8 | ✅ |
+| 26 | 36 | 100% | 13 | 4 | 8 | ✅ |
+| 28 | 58 | 100% | 14 | 4 | 8 | ✅ |
+| 30 | 92 | 100% | 15 | 4 | 4 | ✅ |
+| 32 | 101 | 100% | 16 | 4 | 8 | ✅ |
+| 34 | 172 | 100% | 17 | 4 | 8 | ✅ |
+| 36 | 281 | 100% | 18 | 4 | 4 | ✅ |
+| 38 | 337 | 100% | 19 | 4 | 8 | ✅ |
+| 40 | 541 | 100% | 20 | 4 | 4 | ✅ |
+| 42 | 746 | 100% | 21 | 4 | 8 | ✅ |
+| 44 | 1,016 | 100% | 22 | 4 | 4 | ✅ |
+| 46 | 1,366 | 100% | 23 | 4 | 4 | ✅ |
+| 48 | 2,124 | 100% | 24 | 4 | 8 | ✅ |
+| 50 | 3,381 | 100% | 25 | 4 | 8 | ✅ |
+| 52 | 5,062 | 100% | 26 | 4 | 4 | ✅ |
+| 54 | 7,696 | 100% | 27 | 4 | 8 | ✅ |
+| 56 | 10,441 | 100% | 28 | 4 | 4 | ✅ |
+| 58 | 19 | 100% | 29 | 4 | 4^ | ✅ |
+| 60 | 32 | 100% | 30 | 4 | 8^ | ✅ |
+| 62 | 5 | 100% | 31 | 4 | 8^ | ✅ |
+| 64 | 25 | 100% | 32 | 4 | 8^ | ✅ |
+| 66 | 2 | 100% | 33 | 4 | 4 | ✅ |
+| 68 | 2 | 100% | 34 | 4 | 4 | ✅ |
+| 70 | 1 | 100% | 35 | 4 | 4 | ✅ |
+| **72** | **1** | **100%** | **36** | **4** | **8** | **✅** |
+
+^ Most common value; the actual solutions include both pop=4 and pop=8 configurations.
+
+Every single rot4 solution across all entries — n=6 (3 solutions) through n=72 (1 solution, Heule 2026) — has the center as a circumcenter. **Zero exceptions in 33,534 tested solutions** (sum of all rot4 counts in the table).
+
+### 2.2 C₂ Theorem (180° rotational symmetry)
+
+A broader symmetry invariant, proved in `analysis/lemmas_c2_ring.md` and verified on 3,732 sampled solutions:
+
+> **Theorem.** Let *S* be a 2n-point no-three-in-line solution on an even n×n grid that is invariant under the half-turn R₁₈₀ about the grid centre C. Then *S* decomposes into n R₁₈₀-orbits {p, R₁₈₀(p)}; each orbit defines a line through C; and these n central lines are pairwise distinct (two orbits on one central line would put 4 points on that line, violating no-three-in-line).
+
+The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes whose group contains the half-turn: **rot2** (C₂), **rot4** (C₄, since R₁₈₀ = R₉₀²), and **dia2** (V₄ = {id, R₁₈₀, d₁, d₂}, with R₁₈₀ = d₁∘d₂), and **rct4** (V₄ = {id, R₁₈₀, two perpendicular axis reflections}; verified R₁₈₀-invariant on all 326 catalogued rct4 solutions, though not R₉₀-invariant). Classes iden, dia1 (single diagonal reflection only), and ort1/ort2 do **not** contain R₁₈₀ and lie outside the theorem's scope.
+
+Consequence for the D(n)=2n problem: any R₁₈₀-invariant construction automatically eliminates all collinearity *through the centre*; the remaining obstacle is collinearity on lines not through C. This reframes the existence question (the genuinely open lower bound D(n) ≥ 2n) as a constrained-combinatorics problem rather than a pigeonhole upper bound.
+
+### 2.3 Four-colouring Invariant (verified)
+
+Colour the `n × n` grid by parity class `(r mod 2, c mod 2)` into 4 classes. For any line of reduced direction `(a, b)` (with `gcd(a, b) = 1`), the colour `(r mod 2, c mod 2)` advances by `(a mod 2, b mod 2) ∈ {(1,1), (1,0), (0,1)}` at each step, so **the line meets at most 2 of the 4 classes**. Consequently every no-three-in-line set is a 2-colour set on each line — a necessary structural property. (This is distinct from, and does not replace, the trivial row-based upper bound `D(n) ≤ 2n`.) For the R₁₈₀-invariant classes above (rot2, rot4, dia2, rct4), the 4 parity classes are themselves permuted by the symmetry, giving an additional exact balance constraint on any 2n solution in those classes.
+
+### 2.4 Ring-Population Lemma (rot4)
+
+Every C₄-orbit of the grid is a square of 4 vertices, all equidistant from the centre. Hence every distance ring used by a rot4 solution is a union of complete orbits, and its population is a multiple of 4. Empirically the observed populations are 4, 8, 12, or 16 (across all 21,601 rot4 solutions for n = 12–72). This is a direct corollary of the C₄ orbit structure in §2.1 — a structural property, not an independent missing-centre criterion. (The “multiple of 4” law is specific to even-n rot4; rct4 orbits can have size 2, so it does not extend to rct4.)
+
+### 2.5 Structure of C₄ Solutions and the Row-Degree Theorem
+
+We discovered a fundamental structural property of C₄ (90° rotational symmetric) solutions:
+
+**Theorem (Row-Degree Equivalence for C₄)**. For any C₄-symmetric 2n-point solution on an even n×n grid, let m = n/2 and represent the solution by its m C₄ orbits (i₁,j₁), …, (iₘ,jₘ) with iₖ, jₖ ∈ [0,m-1]. Define the degree of vertex k as
+
+    deg(k) = |{orbits where i=k}| + |{orbits where j=k}|.
+
+Then the row constraint (each row 0..n-1 has exactly 2 points) is equivalent to deg(k) = 2 for all k ∈ [0,m-1].
+
+**Proof**: Each orbit (i,j) contributes 4 points to rows {i, j, n-1-i, n-1-j} — one per row via each of the four C₄ rotations. For any row r ∈ [0, n-1], the two C₄ copies that land in row r are those with first coordinate = r (from orbit (r, *) or its rotation) or second coordinate = r (from orbit (*, r) or its rotation). Row r therefore contains exactly deg(r) points when r < m, and exactly deg(n-1-r) points when r ≥ m. Hence every row has 2 points ⇔ deg(k) = 2 for all k.
+
+**Computational verification**: All 33,534 unique C₄ solutions in Flammenkamp's database (n=12..56) satisfy this theorem at 100% — matching exactly the rot4 counts per n in the table above (sum = 33,534 for n=12..56).
+
+**Consequence**: A C₄ solution is exactly a 2-regular graph on m vertices. Each edge (i,j) in the graph corresponds to one C₄ orbit, and the 4 rotated copies of each orbit automatically guarantee correct row coverage. This reduces the C₄ solution search from geometry to pure graph theory.
+
+**Attempted n=74 C₄ solution**: Applying this to n=74 (m=37), the problem reduces to finding a 2-regular graph on 37 vertices where no 3 of the resulting 148 points are collinear. Multiple approaches were tested:
+
+| Approach | Method | Result | Time |
+|:---------|:-------|:-------|:----:|
+| Partition (28+9, 27+10, 18+12+7, etc.) | Fix DB solutions, search remainder | UNSAT (cross-block collinear) | ~1-2min |
+| Permutation Z3 | Search sigma ∈ S₃₇ with 2-cycle blocking | All 10,000 attempts collinear | ~1min |
+| 2-matching Z3 | Boolean orbit variables, incremental | 850 iterations, not converging | ~5min |
+| Small partitions (7+7+7+7+9, 6+6+6+6+6+7, etc.) | Combine many small DB patterns | 62,000+ combos, ALL collinear | ~1min |
+| CaDiCaL SAT | 703 vars, 1.17M clauses, direct encoding | Running 15min+, no result | ~15min |
+
+The difficulty: among $C(703, 3) \approx 57.7$M possible orbit triples (counting each unordered $\{i,j\}$ orbit once with $i \le j$; the full $37^2 = 1369$ orbit space yields $C(1369, 3) \approx 427$M triples), an estimated ~2.04% (~1.18M) are collinear — a number derived from earlier C++ orbit enumeration and pending re-verification. Any 2-regular graph on 37 vertices selects $C(37,3) = 7{,}770$ triples of orbits, with ~159 expected collinear under uniform sampling. Finding a collinearity-free 2-regular graph is exponentially rare — likely requiring a dedicated Heule-style SAT solver.
+
+**Code**: `analysis/n74_sat_solver.py`, `analysis/n74_permutation_v2.py`, `analysis/n74_2matching_solver.py`
+
+## 3. Empirical Findings
+
+All material in this section is **computational observation**, not proof. Headings and tables report what exhaustive search and the Flammenkamp / mvr databases actually contain.
+
+### 3.1 Prior heuristics are falsified by real computation
 
 Earlier conjectures based on small-n patterns — prime residue classification (4k+1 vs 4k+3) and the claim that "even n always has the center as a circumcenter" — are **falsified** by exhaustive computation at n ≥ 12:
 
@@ -116,7 +236,7 @@ $^\\dagger$ Mode 0 counts only 2‑per‑row solutions. The D₄‑inequival
 
 † n=47–53 rct4 solutions sourced from [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) c4near files (cross-validated against Flammenkamp rct4 counts at n=41–45).
 
-### Missing-Center Absence in Catalogued Symmetry Classes at n≥33
+#### Missing-Center Absence in Catalogued Symmetry Classes at n≥33
 
 The complete odd-$n$ spectrum (n=7→45) reveals three distinct evolutionary phases **within the set of D₄-inequivalent solutions catalogued in the Flammenkamp database**:
 
@@ -163,11 +283,11 @@ n=44: 1,016 → n=46: 1,366 → n=48: 2,124 → n=50: 3,381 → n=52: 5,062 → 
 The growth rate is ≈1.5× per 2-step increment, with no sign of slowing. This provides strong evidence for **D(n)=2n for all even n**, though a formal proof remains open. n=71 is the only n ≤ 72 with no known 2n-point solution. No rot4 solution is known for n=74 as of 2026-06-25.
 
 **Key observations**:
-- **Even n**: n=8 and n=10 have **zero** missing-center solutions. Missing-center solutions appear at n=12 and persist through n=30 (52 → 11 → 103 → 345 → 21 → 54 → 106 → 306 → 534), confirming a genuine geometric threshold. At n≥32, catalogued solutions revert to zero missing-center, as only rot4 and dia2 symmetry classes survive (rot2 vanishes at n=31). See Direction 7 for analysis.
+- **Even n**: n=8 and n=10 have **zero** missing-center solutions. Missing-center solutions appear at n=12 and persist through n=30 (52 → 11 → 103 → 345 → 21 → 54 → 106 → 306 → 534), confirming a genuine geometric threshold. At n≥32, catalogued solutions revert to zero missing-center, as only rot4 and dia2 symmetry classes survive (rot2 vanishes at n=31). See §3.11 for analysis.
 - **Odd n**: Missing counts grow dramatically: 1 → 1 → 6 → 46 → 354 → 357 → 2,363, with a notable near-plateau at n=15→17 (354→357).
 - Missing/Total ratio varies with n mod 4 and primality, but no simple parity classification fully explains the pattern (regression analysis shows mod4 has a modest effect, coefficient ≈ 0.77, while primality dominates at ≈ 2.95).
 
-### 2. Odd n Growth — n=11 Marks Ring-Pair Threshold >100
+### 3.2 Odd n Growth — n=11 Marks Ring-Pair Threshold >100
 
 The odd n sequence splits into two regimes (Missing counts: Full for n≤13, D₄-inequivalent for n≥15; rates are comparable since orbit multipliers cancel):
 
@@ -200,7 +320,7 @@ The **n=15→17 near-plateau** (354→357, a 1.0× change) is a striking example
 
 This analysis suggests missing-center abundance is controlled by a **multi-dimensional phase space** — grid parity, primality, and collinearity constraint density interact in complex but non-random ways.
 
-### 3. The Even n Threshold is Real — and Caused by Collinearity
+### 3.3 The Even n Threshold is Real — and Caused by Collinearity
 
 A fundamental question is: **why n=12?** Why do n=6, 8, 10 all have zero missing-center solutions while n=12 has 52?
 
@@ -261,7 +381,7 @@ The exhaustive search finding zero missing-center solutions for n=8 and n=10 imp
 
 **Conclusion**: The threshold at n=12 is a genuine **combinatorial threshold** driven by the interaction between distance-ring capacity and the no-three-in-line constraint — not a pigeonhole effect, and not an artifact of the search heuristic.
 
-### 4. Symmetry and Cycle Structure of Missing-Center Solutions
+### 3.4 Symmetry and Cycle Structure of Missing-Center Solutions
 
 Analysis of all D₄‑inequivalent solutions (n = 7–19) reveals strong structural patterns in missing-center solutions.
 
@@ -300,223 +420,7 @@ This holds for all D₄-inequivalent data from n=12 to n=30 where missing-center
 
 This suggests a constructive approach: missing-center solutions can be built by starting with a single long column-pairing cycle and then assigning rows to satisfy the distance-ring constraint.
 
-#### D₄ Symmetry Analysis
-
-For small n (12, 13), missing-center solutions are disproportionately likely to have **C₂ (180° rotational) symmetry** — 38% at n=12 vs 6% of all solutions. For larger n, this effect vanishes and missing-center solutions have the same symmetry distribution as ordinary solutions.
-
-**C₄ symmetry is never missing-center**: Every solution with 90° rotational symmetry (across all n) has the grid center as a circumcenter. This is a theorem: C₄ symmetry forces points into rotationally symmetric quadruples, making it impossible to keep all distance rings below 3 points.
-
-#### C₂ theorem (180° rotational symmetry)
-
-A broader symmetry invariant, proved in `analysis/lemmas_c2_ring.md` and verified on 3,732 sampled solutions:
-
-> **Theorem.** Let *S* be a 2n-point no-three-in-line solution on an even n×n grid that is invariant under the half-turn R₁₈₀ about the grid centre C. Then *S* decomposes into n R₁₈₀-orbits {p, R₁₈₀(p)}; each orbit defines a line through C; and these n central lines are pairwise distinct (two orbits on one central line would put 4 points on that line, violating no-three-in-line).
-
-The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes whose group contains the half-turn: **rot2** (C₂), **rot4** (C₄, since R₁₈₀ = R₉₀²), and **dia2** (V₄ = {id, R₁₈₀, d₁, d₂}, with R₁₈₀ = d₁∘d₂), and **rct4** (V₄ = {id, R₁₈₀, two perpendicular axis reflections}; verified R₁₈₀-invariant on all 326 catalogued rct4 solutions, though not R₉₀-invariant). Classes iden, dia1 (single diagonal reflection only), and ort1/ort2 do **not** contain R₁₈₀ and lie outside the theorem's scope.
-
-Consequence for the D(n)=2n problem: any R₁₈₀-invariant construction automatically eliminates all collinearity *through the centre*; the remaining obstacle is collinearity on lines not through C. This reframes the existence question (the genuinely open lower bound D(n) ≥ 2n) as a constrained-combinatorics problem rather than a pigeonhole upper bound.
-
-#### Four-colouring invariant (verified)
-
-Colour the `n × n` grid by parity class `(r mod 2, c mod 2)` into 4 classes. For any line of reduced direction `(a, b)` (with `gcd(a, b) = 1`), the colour `(r mod 2, c mod 2)` advances by `(a mod 2, b mod 2) ∈ {(1,1), (1,0), (0,1)}` at each step, so **the line meets at most 2 of the 4 classes**. Consequently every no-three-in-line set is a 2-colour set on each line — a necessary structural property. (This is distinct from, and does not replace, the trivial row-based upper bound `D(n) ≤ 2n`.) For the R₁₈₀-invariant classes above (rot2, rot4, dia2, rct4), the 4 parity classes are themselves permuted by the symmetry, giving an additional exact balance constraint on any 2n solution in those classes.
-
-### 5. Relaxing the Row Constraint
-
-Our primary algorithm imposes "exactly 2 points per row" as a search heuristic. To verify that this does not distort the qualitative behavior, we implemented a **cell-by-cell backtracking** that imposes no row constraint (directory `d4/`).
-
-| n | Row Constraint | Total Solutions | Missing Center | Ratio |
-|---|---------------|----------------|---------------|-------|
-| 5 | 2-per-row | 32 | 4 | 12.5% |
-| 5 | Unconstrained | 3,209 | 28 | 0.87% |
-| 6 | 2-per-row | 50 | 0 | 0% |
-| 6 | Unconstrained | 91,358 | 0 | **0%** |
-| 7 | 2-per-row | 132 | 4 | 3.0% |
-| 7 | Unconstrained | 1,310,234 | 11,922 | **0.91%** |
-
-**Key finding**: The even‑n threshold (n=12) is **not** an artifact of the row constraint. Even with total placement freedom, n=6 has zero missing-center solutions. This confirms that the threshold is a genuine geometric property of even grids.
-
-## Usage
-
-### Build
-
-**Linux**:
-```bash
-make
-```
-
-**Windows (MinGW)**:
-```batch
-compile.bat
-```
-
-**Windows (MSVC)**:
-The batch file auto-detects MSVC if MinGW is not found.
-
-### Run
-
-```bash
-# Mode 0: Full search (count all solutions + missing-center)
-./no3line <n> 0 <threads>
-
-# Mode 1: Missing-center only (distance pruning, recommended for n≥12)
-./no3line <n> 1 <threads>
-
-# Examples
-./no3line 12 1 16    # n=12 missing-center only, 16 threads
-./no3line 15 1 16    # n=15 (needs cloud-grade hardware)
-```
-
-### Batch run
-
-**Linux**: `./run_cloud.sh [mode] [threads] ["n1 n2 n3 ..."]`
-**Windows**: Edit `run.bat` or run `run.bat`
-
-## Repository Structure
-
-```
-├── no3line.cpp                  # C++ source: backtracking search for missing-center solutions
-│                                #   mode 0 = full enumeration
-│                                #   mode 1 = missing-center only (distance pruning)
-├── d4_relaxed.cpp               # C++ source: unconstrained search (Direction 4)
-│                                #   cell-by-cell backtracking w/o "2-per-row" rule
-├── verify_solution.py           # Python: independent solution verifier
-│                                #   checks: (a) no 3 collinear, (b) center presence
-├── visualize.py                 # Python: distance-ring colored grid visualization
-│                                #   supports: SVG (standalone) + matplotlib (rich)
-├── Makefile                     # Linux build (g++ -static -O3 -march=native)
-├── compile.bat                  # Windows MinGW build
-├── run.bat                      # Windows batch runner
-├── run_cloud.sh                 # Linux batch runner (threads and n-range presets)
-├── README.md                    # This file
-├── solutions/
-│   └── sols_n12.csv             # All 28 (base) missing-center solutions for n=12
-├── results/
-│   ├── result_n5_mode0.csv .. result_n13_mode1.csv   (2-per-row search)
-│   └── result_d4_n5.csv .. result_d4_n7.csv           (unconstrained search)
-├── analysis/
-│   ├── analyze.py               # Distance ring statistics for 2-per-row solutions
-│   ├── analyze_d3.py            # Even-n threshold: matrix M[i][j] analysis
-│   ├── analyze_rle.py           # RLE parser: analyze mvr/no-three-in-line GPU data
-│   ├── analyze_cycles.py        # Column-pairing cycle decomposition analysis
-│   ├── symmetry_analysis.py     # D₄ symmetry classification of solutions
-│   ├── find_hidden_symmetries.py# GL(2,p) affine transformation search
-│   ├── analyze_d2_spectrum.py   # Circumcircle spectrum (Direction 2)
-│   ├── analyze_d2_deep.py       # Deep D2: cross-solution spectrum comparison
-│   ├── construct_n14.py         # Construction tests: ring replacement analysis
-│   ├── analyze_assignments.py   # Ring assignment pattern analysis
-│   ├── prove_c4_theorem.py      # C₄ theorem: empirical verification script
-│   ├── c4_evolution.py          # C₄ evolution analysis: n=12,14,16,18,72 comparison
-│   ├── n72_rot4_coords.txt      # Full coordinate list of n=72 rot4 solution (144 pts)
-│   ├── n72_raw.html             # Raw CGI data from Flammenkamp database (n=72)
-│   ├── odd_n_deep.py            # Deep structural analysis of odd n (n=3-19)
-│   ├── odd_n_deeper.py          # Sum-of-two-squares ring structure & parity
-│   ├── odd_n_conjecture.py      # Unified theory conjecture for odd n
-│   ├── flammenkamp_analyzer.py  # Download & analyze Flammenkamp DB (n=7-30, all symmetries)
-│   ├── n12_rot4.html            # Raw CGI data: n=12 rot4 solution
-│   ├── n14_rot4.html            # Raw CGI data: n=14 rot4 solution
-│   ├── n16_rot4.html            # Raw CGI data: n=16 rot4 solution
-│   ├── n18_rot4.html            # Raw CGI data: n=18 rot4 solution
-│   └── ring_solver/             # Ring-guided construction solver
-│       ├── ring_guided_solver.cpp  # C++ solver: given ring assignment → placement
-│       ├── ring_solver.py          # Python ring-by-ring search prototype
-│       ├── prep_ring_assignment.py # Extract ring assignments from RLE solutions
-│       ├── analyze_all_assignments.py  # Compare ring patterns across solutions
-│       └── ring_assignment_n12_from_rle.txt  # Example working assignment
-└── viz_output/
-    └── solution_12_0.svg        # Sample visualization (auto-generated by visualize.py)
-```
-
-## Results Data
-
-Each CSV row: `n,total_solutions,with_center,missing_center,time_seconds,mode`
-
-- Mode 0: total includes all solutions, with_center = total − missing
-- Mode 1: only missing_center is counted (with distance pruning)
-- D4 CSVs: unconstrained search results
-
-**Verification**: All solution dumps can be independently verified with `verify_solution.py`:
-
-```bash
-python verify_solution.py solutions/sols_n12.csv
-# Output: All 28 solutions valid — no collinear triples found.
-```
-
-This produces a report with three independent checks:
-1. **No-three-in-line**: O(k³) exhaustive point-triple area check
-2. **Center presence**: Distance ring distribution analysis (max ring count ≥ 3?)
-3. **Column usage**: Verification that each column appears exactly twice
-
-The repository also includes **RLE-format solution analysis** (`results/result_rle_n7-19.csv`), computed by parsing GPU-generated solution files from [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) using `analysis/analyze_rle.py`. This extends the missing-center analysis to n = 7–19 without requiring local exhaustive search for n ≥ 14.
-
-## The C₄ Theorem — A Proven Result ✔
-
-A solution has **C₄ symmetry** if it is invariant under 90° rotation about the grid center. We prove:
-
-> **Theorem**. Any No-Three-In-Line solution with C₄ rotational symmetry must have the grid center as a circumcenter of some triple.
-
-**Proof**. Let the grid have coordinates \(0,\ldots,n-1\). The center is \(C = (\frac{n-1}{2}, \frac{n-1}{2})\). The 90° rotation is \(R(x,y) = (n-1-y, x)\).
-
-*Lemma 1*: The squared Euclidean distance from \(C\) is invariant under \(R\):
-\[
-d(x,y) = (2x-(n-1))^2 + (2y-(n-1))^2 = (2R(x)_x-(n-1))^2 + (2R(x)_y-(n-1))^2
-\]
-
-*Lemma 2*: The orbits of \(C_4\) on the grid partition into sets of size 4 for even \(n\), and one fixed point (the center) plus 4-orbits for odd \(n\).
-
-*Case 1: \(n\) even* (\(n=2m\)). Then \(2n = 4m\). Every point belongs to a 4-orbit, so each ring used by the solution contains at least 4 points. Since \(4 \ge 3\), the center is a circumcenter.
-
-*Case 2: \(n\) odd* (\(n=2m+1\)). Then \(2n = 4m+2 \equiv 2 \pmod{4}\). But C₄ orbits can only produce \(4k\) or \(4k+1\) points. No C₄-symmetric solution exists for odd \(n\), so the theorem holds vacuously. ∎
-
-**Corollary**: Missing-center solutions cannot have C₄ symmetry.
-
-*Geometric illustration.* The theorem says the center is always a circumcenter, but where are the 4 points that certify it? They are simply the **innermost distance ring** — the 4 points of the solution closest to \(C\), which by construction sit at the same distance from \(C\) and thus lie on a circle centered at \(C\). In 9 of the first 15 even \(n\) (\(n=12\ldots40\)), these 4 points are literally the \(2\times2\) block straddling \(n/2\), i.e. \(\{\lfloor n/2\rfloor,\lceil n/2\rceil\}^2\) (e.g. for \(n=40\): \((19,19),(19,20),(20,19),(20,20)\)) — placed exactly "by \(n/2\)". The remaining 6 solutions (\(n=12,16,18,20,24,26\)) instead use a slightly larger inner diamond, but the role is identical. Either way, this tiny central cluster is the concrete geometric footprint of the theorem: it is the ring that makes \(C\) a circumcenter.
-
-*A structural refinement.* Decomposing a rot4 solution into its \(n/2\) C₄-orbits, each orbit is a square of 4 points centred at \(C\) (one point in each quadrant). Every such square contributes exactly two **diagonal directions through \(C\)** — the two directions joining opposite corners. We verified across all 15 even \(n\) from 12 to 40 that the \(n/2\) orbits yield **exactly \(n\) distinct diagonal directions, with no two orbits sharing one**. This is a *necessary and sufficient* condition for the solution to be free of collinear triples *along any line through \(C\)*: a line through \(C\) can contain at most the two opposite corners of a single orbit; if two orbits shared a diagonal direction, that line would hold 4 points and violate the no-three-in-line rule. Thus "all diagonal directions are distinct" is a hallmark of every rot4 solution and the direct generalization of the C₄ theorem — the theorem guarantees that \(C\) *is* a circumcenter, while the distinct-direction law explains *why* the orbit structure automatically avoids a 4-point line through it.
-
-The theorem is verified across all 34 even n values from n=6 to n=72 in the Flammenkamp database (n=6–56 from the standard database, n=58–72 from newer rot4.few files; including Heule's n=70 and n=72 solutions):
-
-| n | rot4 solutions | C₄ pass rate | Orbits | Orbit size | Max ring pop | Center circumcenter? |
-|---|:-------------:|:------------:|:------:|:----------:|:------------:|:--------------------:|
-| 6 | 3 | 100% | 3 | 4 | 4 | ✅ |
-| 8 | 4 | 100% | 4 | 4 | 4 | ✅ |
-| 10 | 6 | 100% | 5 | 4 | 4 | ✅ |
-| 12 | 4 | 100% | 6 | 4 | 4 | ✅ |
-| 14 | 13 | 100% | 7 | 4 | 8 | ✅ |
-| 16 | 13 | 100% | 8 | 4 | 4 | ✅ |
-| 18 | 7 | 100% | 9 | 4 | 8 | ✅ |
-| 20 | 16 | 100% | 10 | 4 | 8 | ✅ |
-| 22 | 8 | 100% | 11 | 4 | 8 | ✅ |
-| 24 | 23 | 100% | 12 | 4 | 8 | ✅ |
-| 26 | 36 | 100% | 13 | 4 | 8 | ✅ |
-| 28 | 58 | 100% | 14 | 4 | 8 | ✅ |
-| 30 | 92 | 100% | 15 | 4 | 4 | ✅ |
-| 32 | 101 | 100% | 16 | 4 | 8 | ✅ |
-| 34 | 172 | 100% | 17 | 4 | 8 | ✅ |
-| 36 | 281 | 100% | 18 | 4 | 4 | ✅ |
-| 38 | 337 | 100% | 19 | 4 | 8 | ✅ |
-| 40 | 541 | 100% | 20 | 4 | 4 | ✅ |
-| 42 | 746 | 100% | 21 | 4 | 8 | ✅ |
-| 44 | 1,016 | 100% | 22 | 4 | 4 | ✅ |
-| 46 | 1,366 | 100% | 23 | 4 | 4 | ✅ |
-| 48 | 2,124 | 100% | 24 | 4 | 8 | ✅ |
-| 50 | 3,381 | 100% | 25 | 4 | 8 | ✅ |
-| 52 | 5,062 | 100% | 26 | 4 | 4 | ✅ |
-| 54 | 7,696 | 100% | 27 | 4 | 8 | ✅ |
-| 56 | 10,441 | 100% | 28 | 4 | 4 | ✅ |
-| 58 | 19 | 100% | 29 | 4 | 4^ | ✅ |
-| 60 | 32 | 100% | 30 | 4 | 8^ | ✅ |
-| 62 | 5 | 100% | 31 | 4 | 8^ | ✅ |
-| 64 | 25 | 100% | 32 | 4 | 8^ | ✅ |
-| 66 | 2 | 100% | 33 | 4 | 4 | ✅ |
-| 68 | 2 | 100% | 34 | 4 | 4 | ✅ |
-| 70 | 1 | 100% | 35 | 4 | 4 | ✅ |
-| **72** | **1** | **100%** | **36** | **4** | **8** | **✅** |
-
-^ Most common value; the actual solutions include both pop=4 and pop=8 configurations.
-
-Every single rot4 solution across all entries — n=6 (3 solutions) through n=72 (1 solution, Heule 2026) — has the center as a circumcenter. **Zero exceptions in 33,534 tested solutions** (sum of all rot4 counts in the table).
-
-### C₄ Evolution Across Even n — From Theory to n=72
+### 3.5 C₄ Evolution Across Even n — From Theory to n=72
 
 Analysis of all known rot4 solutions (n=12, 14, 16, 18, 58–72) from the [Flammenkamp database](https://wwwhomes.uni-bielefeld.de/achim/no3in/) reveals a consistent orbit-ring structure (with the caveat that only a few data points are available, so these patterns are observations rather than proven universals):
 
@@ -542,7 +446,7 @@ Analysis of all known rot4 solutions (n=12, 14, 16, 18, 58–72) from the [Flamm
 
 The full n=72 coordinate list is available in `analysis/n72_rot4_coords.txt`, and the encoding from the Flammenkamp database is preserved in `analysis/n72_raw.html`.
 
-### C₄ Orbit Selection: Cycle Decomposition Insight
+### 3.6 C₄ Orbit Selection: Cycle Decomposition Insight
 
 The **C₄ orbit selection problem** asks: for which even $n=2m$ does a rot4 solution exist?  This reduces to choosing $m$ orbits from the $m\times m$ orbit grid $\\{0,\dots,m-1\\}^2$ such that the original $n\times n$ grid has exactly 2 points per row/column and no three are collinear.
 
@@ -581,156 +485,8 @@ $^\\dagger$ m=6 has no full 6-cycle, but admits $[5,1]$ and $[3,3]$ decomposit
 
 **Code**: `analysis/c4_cycles.cpp`, `analysis/c4_cycles_ext.cpp` — C++ cycle decomposition explorer; `analysis/c4_actual_orbits.py` — Flammenkamp orbit extraction.
 
-### Direction 4: Ring Collision Graph — Sum-of-Two-Squares Structure
-
-The **ring collision graph** connects two distance rings if they contain points that form a collinear triple. Understanding this graph is key to explaining why the collinearity constraint eliminates certain orbit selections.
-
-We computed the collision graph for $n=12$ to $n=30$ and correlated each ring's collision degree (percentage of other rings it conflicts with) with its population size, $r_2(d)$ (number of representations as sum of two squares), and 4k+1 prime factor count.
-
-**Key findings**:
-
-1. **Collision degree is primarily driven by population size**, not by $r_2(d)$ or 4k+1 primes directly:
-
-| Ring population | Avg collision degree (n=12→30) |
-|:--------------:|:------------------------------:|
-| pop=4 | 35–62% |
-| pop=8 | 44–75% |
-| pop=12 | 74–97% |
-| pop=16 | 80–100% |
-
-2. **The $d^2=32$ ring (pop=16) is 100% collision across all n** — it conflicts with every other ring. This is because $32=2^5$ has many integer lattice points at radius $\sqrt{32}$, and these points participate in collinear triples with points from every other ring.
-
-3. **Collision degree monotonically decreases as n grows** — because more rings mean more pairwise diversity, reducing the proportional collision frequency.
-
-4. **$r_2(d)$ matters indirectly**: more representations → larger population → more collisions. The $r_2(d)=2$ rings consistently have slightly higher collision degree than $r_2(d)=0$ or $r_2(d)=4$ rings, but the population size accounts for ~80% of the variance.
-
-**Conclusion**: The original hypothesis is partially correct — the sum-of-two-squares structure predicts collision degree **through** population size, but there is no independent 4k+1 prime factor effect. The practical implication for the missing-center problem: **rings with pop≥12 are "dangerous"** because they collide with nearly all other rings, making it difficult to find co-usable pairs.
-
-**Code**: `analysis/direction_b_ring_collision.py` — ring collision graph builder and correlation analysis.
-
-### Direction 5: Odd $n$ Missing-Center Existence Bounds
-
-We analyzed the precise conditions under which odd $n$ grids admit missing-center solutions, using $n=7$ to $n=53$ with $D_4$-inequivalent data (n=7–45 from Flammenkamp, n=47–53 from mvr/no-three-in-line rct4 data).
-
-**Key findings:**
-
-1. **Absence in catalogued symmetry classes at $n\ge 33$.** All odd $n\ge 7$ satisfy the ring capacity constraint (enough rings with $\le$2 points to hold $2n$ points), with slack actually *increasing* from 1.36× at $n=7$ to 5.21× at $n=45$. Within the catalogued symmetry classes:
-
-   - At $n=31$, **rot2 solutions become empirically unsatisfiable** — zero solutions remain
-   - At $n\ge 33$, **only rct4 solutions survive in the database**
-   - rct4 solutions inherently have $\ge 4$ points per distance ring ($D_4$ orbit structure) → center is always a circumcenter
-   - Therefore missing-center solutions are not found in any tracked symmetry class for odd $n\ge 33$. **Caveat**: iden-class solutions are only tracked up to $n=20$.
-
-2. **The $n=11$ acceleration in absolute count.** At $n=11$, the ring-pair collinearity density crosses $\binom{r}{2} = 190$, enabling the absolute count to jump from 8 (at $n=9$) to 36.
-
-3. **The $15\rightarrow 17$ near-plateau** (354 vs 357 missing-center solutions) remains unexplained — the near-equality suggests a balancing effect between parity and compositeness, but no single mechanism has been confirmed.
-
-4. **Capacity is never the bottleneck.** The $n=9$ anomaly (only 1 missing-center solution despite 105 ring pairs) shows that collinearity constraints, not capacity, drive the pattern.
-
-**Code**: `analysis/direction_c_odd_existence.py` — ring capacity, diversity, and extinction threshold analysis.
-
-### Direction 6: Proving the rot2 UNSAT Threshold at $n=31$
-
-We investigated the sharp SAT→UNSAT transition of the rot2 symmetry class at $n=31$ (44,828 solutions at $n=29$, zero at $n=31$).
-
-**What does NOT cause it:**
-
-1. **Not a center-crossing line capacity problem.** For every odd $n$, there are far more center-crossing lines than needed (e.g., $n=31$: 288 lines, only 31 needed).
-2. **Not a pairwise conflict problem.** The pair conflict graph (where two rot2 pairs conflict if their 4 points contain a collinear triple) has only $\le 3$ conflicts per pair out of 480 available pairs at $n=31$. The estimated independence number (Caro-Wei bound) is $\sim 311$, far above the 31 needed.
-3. **Not a center row/col constraint.** The constraints "exactly 1 pair on the center row" and "exactly 1 pair on the center column" are satisfiable for all odd $n$.
-
-**What does cause it:**
-
-The rot2 UNSAT is an **interaction-driven combinatorial threshold** — none of the individual constraints are problematic, but their **combined effect** becomes unsatisfiable at a critical density point:
-
-| $n$ | Available pairs | Constraints per variable | rot2 solvable? |
-|:---:|:--------------:|:----------------------:|:--------------:|
-| 27 | 364 | 68.3 | ✅ (17,332 solutions) |
-| 29 | 420 | 73.6 | ✅ (44,828 solutions) |
-| **31** | **480** | **78.9** | **❌ (0 solutions)** |
-| 33 | 544 | 84.2 | ❌ (0 solutions) |
-
-The transition occurs at **≈78.9 constraints per variable** — a density value beyond which solvability breaks down. While the empirical threshold is sharp, proving it analytically requires tools beyond a simple counting argument (the constraint graph is far from random).
-
-**Conclusion**: The rot2 UNSAT at $n=31$ is a verified empirical fact — a sharp unsatisfiability transition in a structured combinatorial problem, analogous in character to phase transitions observed in random constraint satisfaction problems. A compact mathematical proof remains an open challenge. To prove it would require either (a) UNSAT core extraction from a SAT solver, (b) a novel combinatorial invariant, or (c) a dedicated structural argument specific to the rot2 symmetry class.
-
-**Eliminated proof approaches** (all shown insufficient by our analysis):
-- ❌ Center-crossing line count (288 lines at $n=31$, only 31 needed)
-- ❌ Pairwise conflict graph (avg $<3$ conflicts per pair)
-- ❌ Direction uniqueness (287 distinct directions at $n=31$, 31 needed)
-- ❌ Row/col degree feasibility (always satisfiable)
-- ❌ Opposite-row direction overlap (always 100%)
-
-**Key theoretical contribution**: We proved that the collinearity constraint for rot2 on odd $n$ reduces to a **direction uniqueness condition**: no two selected pairs can share the same reduced direction from the center. This equivalence (proved via determinant of the matrix $[(i_1-m)(j_2-m)-(i_2-m)(j_1-m)]$) is itself a non-trivial result. The UNSAT threshold occurs because, at $n=31$, the intersection of the direction-uniqueness constraint with the degree constraints becomes globally unsatisfiable, even though each constraint individually remains easily satisfiable.
-
-**Code**: `analysis/direction_d_rot2_threshold.py` — line-capacity and constraint-density analysis; `analysis/direction_d_conflict_graph.py` — pairwise conflict graph and independence number estimation; `analysis/direction_d_deep_reason.py` — combinatorial threshold characterization.
-
-### Direction 7: The Even n Threshold — Empirically Characterized
-
-The even-$n$ missing-center threshold is now confirmed across a far wider range thanks to the Flammenkamp D₄-inequivalent database (n=8 to n=44):
-
-| n | Total | Missing | Rate | Available symmetry classes |
-|---|-------|---------|------|---------------------------|
-| 8 | 57 | 0 | 0.0% | iden, rot2, dia1, rot4, ort1 |
-| 10 | 156 | 0 | 0.0% | iden, rot2, dia1, dia2, full, rot4 |
-| 12 | 566 | 8 | 1.4% | iden, rot2, dia1, dia2, rot4 |
-| 14 | 1,366 | 11 | 0.8% | iden, rot2, dia1, dia2, rot4 |
-| 16 | 5,900 | 103 | 1.7% | iden, rot2, dia1, dia2, rot4 |
-| 18 | 19,204 | 345 | 1.8% | iden, rot2, dia1, dia2, rot4 |
-| 20 | 118,057 | 2,297 | 1.9% | iden, rot2, dia1, dia2, rot4 |
-| 22 | 1,275 | 21 | 1.6% | rot2, dia1, dia2, rot4 |
-| 24 | 2,920 | 54 | 1.8% | rot2, dia1, dia2, rot4 |
-| 26 | 4,949 | 106 | 2.1% | rot2, dia1, ort1, rot4 |
-| 28 | 12,203 | 306 | 2.5% | rot2, dia1, ort1, rot4 |
-| 30 | 24,925 | 534 | 2.1% | rot2, dia1, dia2, rot4 |
-| 32 | 175 | **0** | 0.0% | dia1, dia2, rot4 |
-| 34 | 172 | **0** | 0.0% | rot4 |
-| 36 | 282 | **0** | 0.0% | dia2, rot4 |
-| 38 | 338 | **0** | 0.0% | dia2, rot4 |
-| 40 | 541 | **0** | 0.0% | rot4 |
-| 42 | 747 | **0** | 0.0% | dia2, rot4 |
-| 44 | 1,017 | **0** | 0.0% | dia2, rot4 |
-
-**Three-phase evolution**:
-
-1. **Below threshold (n=8–10)**: Zero missing-center — the collinearity constraint eliminates all ring assignments despite the ring-capacity matrix being satisfiable alone.
-
-2. **Active region (n=12–30)**: Missing-center solutions appear and persist across the full range. The rate oscillates between 0.8% and 2.5%. The iden class (non-symmetric) contributes the majority of missing-center solutions up to n=20; beyond that, rot2 drives the count.
-
-3. **Extinction in catalogued classes (n≥32)**: Missing-center solutions vanish entirely from known catalogued solutions. This coincides with the disappearance of the rot2 and iden symmetry classes — only rot4 and dia2 survive. rot4 solutions always have the center as circumcenter (by the C₄ theorem), and dia2 solutions in the database also universally have the center as circumcenter, though a formal proof for dia2 is not yet established.
-
-**Caveat**: The zero missing-center count for n≥32 applies only to catalogued symmetry classes in the Flammenkamp database. The iden class (largest source of missing-center solutions at small n) is not tracked beyond n=20, so the possibility of iden-class missing-center solutions at larger n remains open. The threshold is an **empirical finding** — it has not been proven mathematically.
-
-### Z3 Solver Cross-Validation (analysis/z3_solver.py, analysis/z3_solver_v2.py)
-
-An independent validation using Z3 SMT solver to encode the problem as a constraint satisfaction system:
-
-- **Variables**: x[r][c] ∈ {0,1} for each grid cell
-- **Constraints**: PbEq exactly 2 per row/col, PbLe at most 2 per line, PbLe at most 2 per distance ring
-- **v1 (ternary clauses)**: ~20K clauses for n=16 → works for n≤14
-- **v2 (PbLe optimization)**: 7–8.5× fewer constraints → n=12 in 3.5s, but n=16 still times out at 10min
-
-Results:
-| n | Missing-center | Result | Time |
-|---|--------------|--------|------|
-| 6 | No (known) | UNSAT ✅ | <1s |
-| 12 | Yes (52) | SAT ✅ | 3.5s |
-| 14 | Yes (11 inequiv.) | SAT ✅ | ~10s |
-| 16 | Yes (103 inequiv.) | UNKNOWN | 10min |
-
-The Z3 solver independently confirms our n=12 and n=14 missing-center results using a completely different algorithmic paradigm (SMT vs backtracking). This cross-validation strengthens the reliability of the empirical findings.
-
-### Relaxing the Row Constraint — Explored
-
-Removing the "2 points per row" constraint massively increases the solution space (n=7: 132→1.3M solutions, 4→11,922 missing-center). However, the even-n threshold at n=12 remains intact — confirming it is a genuine geometric property, not a search heuristic artifact.
-
-**Code**: `d4_relaxed.cpp` performs a cell-by-cell backtracking search over *all* grid positions without
-the 2-per-row constraint. It uses the same backtracking approach but allows 0–N points per row.
-This is a distinct algorithm from `no3line.cpp` and lives in its own file for clarity.
-
-## D₄ Full Reconstruction and Quantitative Model
-
-### D₄ Equivalence Class → Full Solution Counts
+### 3.7 D₄ Reconstruction & Quantitative Model
+#### D₄ Equivalence Class → Full Solution Counts
 
 The Flammenkamp database stores **D₄-inequivalent solutions** (one representative per D₄ orbit). We verified the D₄ orbit multipliers empirically by applying all 8 group transformations to sampled solutions:
 
@@ -768,7 +524,7 @@ Cross-validation against C++ full enumeration matches D₄-inequivalent counts f
 
 † For n≤13, Full counts are cross-validated against C++ full enumeration (2-per-row constraint). For n≥14, Full Missing is estimated as D₄_miss × (Full_total / D₄_total), assuming the D₄ symmetry class distribution of missing-center solutions mirrors the overall distribution. Exact per-class verification pending. D₄ totals and D₄ missing are authoritative (verified against Flammenkamp RLE database).
 
-### Three-Factor Quantitative Model
+#### Three-Factor Quantitative Model
 
 Using corrected D₄-inequivalent counts (verified against Flammenkamp RLE database) and exact ring counts $R$ (ring pairs $= \binom{R}{2}$), we built a weighted least squares regression model (n=7—20, 14 data points):
 
@@ -785,7 +541,7 @@ Using corrected D₄-inequivalent counts (verified against Flammenkamp RLE datab
 
 **Key finding**: With corrected data, the dominant predictor is primality (prime n ≈ 3% higher missing rates). The previously reported strong negative log(ring-pairs) effect (−2.29) was an artifact of incorrect missing-center detection in the reconstruction file. The log(ring-pairs) coefficient is now small and positive — ring-pair density has minimal direct explanatory power, and its sign is likely an artifact of collinearity with n (larger grids have both more ring pairs and more missing solutions in absolute terms). The moderate R² (0.834, 14 data points with 4 parameters → adj. R² ≈ 0.78) suggests additional structural factors not captured by these three features alone.
 
-### Refined Model: Sum-of-Two-Squares Theory
+#### Refined Model: Sum-of-Two-Squares Theory
 
 The number-theoretic structure of distance rings provides a more powerful explanation. For each squared distance $d = x^2 + y^2$, the number of integer representations $r_2(d)$ is given by:
 
@@ -816,37 +572,158 @@ A refined weighted least squares model incorporating $r_2$-based features achiev
 **Code**: `analysis/d4_reconstruct.py` (reconstruction), `analysis/sum_of_two_squares.py` (number theory),
 `analysis/three_factor_model.txt` (results)
 
-### Structure of C₄ Solutions and the Row-Degree Theorem
+### 3.8 Ring Collision Graph — Sum-of-Two-Squares Structure
 
-We discovered a fundamental structural property of C₄ (90° rotational symmetric) solutions:
+The **ring collision graph** connects two distance rings if they contain points that form a collinear triple. Understanding this graph is key to explaining why the collinearity constraint eliminates certain orbit selections.
 
-**Theorem (Row-Degree Equivalence for C₄)**. For any C₄-symmetric 2n-point solution on an even n×n grid, let m = n/2 and represent the solution by its m C₄ orbits (i₁,j₁), …, (iₘ,jₘ) with iₖ, jₖ ∈ [0,m-1]. Define the degree of vertex k as
+We computed the collision graph for $n=12$ to $n=30$ and correlated each ring's collision degree (percentage of other rings it conflicts with) with its population size, $r_2(d)$ (number of representations as sum of two squares), and 4k+1 prime factor count.
 
-    deg(k) = |{orbits where i=k}| + |{orbits where j=k}|.
+**Key findings**:
 
-Then the row constraint (each row 0..n-1 has exactly 2 points) is equivalent to deg(k) = 2 for all k ∈ [0,m-1].
+1. **Collision degree is primarily driven by population size**, not by $r_2(d)$ or 4k+1 primes directly:
 
-**Proof**: Each orbit (i,j) contributes 4 points to rows {i, j, n-1-i, n-1-j} — one per row via each of the four C₄ rotations. For any row r ∈ [0, n-1], the two C₄ copies that land in row r are those with first coordinate = r (from orbit (r, *) or its rotation) or second coordinate = r (from orbit (*, r) or its rotation). Row r therefore contains exactly deg(r) points when r < m, and exactly deg(n-1-r) points when r ≥ m. Hence every row has 2 points ⇔ deg(k) = 2 for all k.
+| Ring population | Avg collision degree (n=12→30) |
+|:--------------:|:------------------------------:|
+| pop=4 | 35–62% |
+| pop=8 | 44–75% |
+| pop=12 | 74–97% |
+| pop=16 | 80–100% |
 
-**Computational verification**: All 33,534 unique C₄ solutions in Flammenkamp's database (n=12..56) satisfy this theorem at 100% — matching exactly the rot4 counts per n in the table above (sum = 33,534 for n=12..56).
+2. **The $d^2=32$ ring (pop=16) is 100% collision across all n** — it conflicts with every other ring. This is because $32=2^5$ has many integer lattice points at radius $\sqrt{32}$, and these points participate in collinear triples with points from every other ring.
 
-**Consequence**: A C₄ solution is exactly a 2-regular graph on m vertices. Each edge (i,j) in the graph corresponds to one C₄ orbit, and the 4 rotated copies of each orbit automatically guarantee correct row coverage. This reduces the C₄ solution search from geometry to pure graph theory.
+3. **Collision degree monotonically decreases as n grows** — because more rings mean more pairwise diversity, reducing the proportional collision frequency.
 
-**Attempted n=74 C₄ solution**: Applying this to n=74 (m=37), the problem reduces to finding a 2-regular graph on 37 vertices where no 3 of the resulting 148 points are collinear. Multiple approaches were tested:
+4. **$r_2(d)$ matters indirectly**: more representations → larger population → more collisions. The $r_2(d)=2$ rings consistently have slightly higher collision degree than $r_2(d)=0$ or $r_2(d)=4$ rings, but the population size accounts for ~80% of the variance.
 
-| Approach | Method | Result | Time |
-|:---------|:-------|:-------|:----:|
-| Partition (28+9, 27+10, 18+12+7, etc.) | Fix DB solutions, search remainder | UNSAT (cross-block collinear) | ~1-2min |
-| Permutation Z3 | Search sigma ∈ S₃₇ with 2-cycle blocking | All 10,000 attempts collinear | ~1min |
-| 2-matching Z3 | Boolean orbit variables, incremental | 850 iterations, not converging | ~5min |
-| Small partitions (7+7+7+7+9, 6+6+6+6+6+7, etc.) | Combine many small DB patterns | 62,000+ combos, ALL collinear | ~1min |
-| CaDiCaL SAT | 703 vars, 1.17M clauses, direct encoding | Running 15min+, no result | ~15min |
+**Conclusion**: The original hypothesis is partially correct — the sum-of-two-squares structure predicts collision degree **through** population size, but there is no independent 4k+1 prime factor effect. The practical implication for the missing-center problem: **rings with pop≥12 are "dangerous"** because they collide with nearly all other rings, making it difficult to find co-usable pairs.
 
-The difficulty: among $C(703, 3) \approx 57.7$M possible orbit triples (counting each unordered $\{i,j\}$ orbit once with $i \le j$; the full $37^2 = 1369$ orbit space yields $C(1369, 3) \approx 427$M triples), an estimated ~2.04% (~1.18M) are collinear — a number derived from earlier C++ orbit enumeration and pending re-verification. Any 2-regular graph on 37 vertices selects $C(37,3) = 7{,}770$ triples of orbits, with ~159 expected collinear under uniform sampling. Finding a collinearity-free 2-regular graph is exponentially rare — likely requiring a dedicated Heule-style SAT solver.
+**Code**: `analysis/direction_b_ring_collision.py` — ring collision graph builder and correlation analysis.
 
-**Code**: `analysis/n74_sat_solver.py`, `analysis/n74_permutation_v2.py`, `analysis/n74_2matching_solver.py`
+### 3.9 Odd-n Missing-Center Existence Bounds
 
-### Empirical Observations on C₄ Solution Structure
+We analyzed the precise conditions under which odd $n$ grids admit missing-center solutions, using $n=7$ to $n=53$ with $D_4$-inequivalent data (n=7–45 from Flammenkamp, n=47–53 from mvr/no-three-in-line rct4 data).
+
+**Key findings:**
+
+1. **Absence in catalogued symmetry classes at $n\ge 33$.** All odd $n\ge 7$ satisfy the ring capacity constraint (enough rings with $\le$2 points to hold $2n$ points), with slack actually *increasing* from 1.36× at $n=7$ to 5.21× at $n=45$. Within the catalogued symmetry classes:
+
+   - At $n=31$, **rot2 solutions become empirically unsatisfiable** — zero solutions remain
+   - At $n\ge 33$, **only rct4 solutions survive in the database**
+   - rct4 solutions inherently have $\ge 4$ points per distance ring ($D_4$ orbit structure) → center is always a circumcenter
+   - Therefore missing-center solutions are not found in any tracked symmetry class for odd $n\ge 33$. **Caveat**: iden-class solutions are only tracked up to $n=20$.
+
+2. **The $n=11$ acceleration in absolute count.** At $n=11$, the ring-pair collinearity density crosses $\binom{r}{2} = 190$, enabling the absolute count to jump from 8 (at $n=9$) to 36.
+
+3. **The $15\rightarrow 17$ near-plateau** (354 vs 357 missing-center solutions) remains unexplained — the near-equality suggests a balancing effect between parity and compositeness, but no single mechanism has been confirmed.
+
+4. **Capacity is never the bottleneck.** The $n=9$ anomaly (only 1 missing-center solution despite 105 ring pairs) shows that collinearity constraints, not capacity, drive the pattern.
+
+**Code**: `analysis/direction_c_odd_existence.py` — ring capacity, diversity, and extinction threshold analysis.
+
+### 3.10 The rot2 UNSAT Threshold at n=31
+
+We investigated the sharp SAT→UNSAT transition of the rot2 symmetry class at $n=31$ (44,828 solutions at $n=29$, zero at $n=31$).
+
+**What does NOT cause it:**
+
+1. **Not a center-crossing line capacity problem.** For every odd $n$, there are far more center-crossing lines than needed (e.g., $n=31$: 288 lines, only 31 needed).
+2. **Not a pairwise conflict problem.** The pair conflict graph (where two rot2 pairs conflict if their 4 points contain a collinear triple) has only $\le 3$ conflicts per pair out of 480 available pairs at $n=31$. The estimated independence number (Caro-Wei bound) is $\sim 311$, far above the 31 needed.
+3. **Not a center row/col constraint.** The constraints "exactly 1 pair on the center row" and "exactly 1 pair on the center column" are satisfiable for all odd $n$.
+
+**What does cause it:**
+
+The rot2 UNSAT is an **interaction-driven combinatorial threshold** — none of the individual constraints are problematic, but their **combined effect** becomes unsatisfiable at a critical density point:
+
+| $n$ | Available pairs | Constraints per variable | rot2 solvable? |
+|:---:|:--------------:|:----------------------:|:--------------:|
+| 27 | 364 | 68.3 | ✅ (17,332 solutions) |
+| 29 | 420 | 73.6 | ✅ (44,828 solutions) |
+| **31** | **480** | **78.9** | **❌ (0 solutions)** |
+| 33 | 544 | 84.2 | ❌ (0 solutions) |
+
+The transition occurs at **≈78.9 constraints per variable** — a density value beyond which solvability breaks down. While the empirical threshold is sharp, proving it analytically requires tools beyond a simple counting argument (the constraint graph is far from random).
+
+**Conclusion**: The rot2 UNSAT at $n=31$ is a verified empirical fact — a sharp unsatisfiability transition in a structured combinatorial problem, analogous in character to phase transitions observed in random constraint satisfaction problems. A compact mathematical proof remains an open challenge. To prove it would require either (a) UNSAT core extraction from a SAT solver, (b) a novel combinatorial invariant, or (c) a dedicated structural argument specific to the rot2 symmetry class.
+
+**Eliminated proof approaches** (all shown insufficient by our analysis):
+- ❌ Center-crossing line count (288 lines at $n=31$, only 31 needed)
+- ❌ Pairwise conflict graph (avg $<3$ conflicts per pair)
+- ❌ Direction uniqueness (287 distinct directions at $n=31$, 31 needed)
+- ❌ Row/col degree feasibility (always satisfiable)
+- ❌ Opposite-row direction overlap (always 100%)
+
+**Key theoretical contribution**: We proved that the collinearity constraint for rot2 on odd $n$ reduces to a **direction uniqueness condition**: no two selected pairs can share the same reduced direction from the center. This equivalence (proved via determinant of the matrix $[(i_1-m)(j_2-m)-(i_2-m)(j_1-m)]$) is itself a non-trivial result. The UNSAT threshold occurs because, at $n=31$, the intersection of the direction-uniqueness constraint with the degree constraints becomes globally unsatisfiable, even though each constraint individually remains easily satisfiable.
+
+**Code**: `analysis/direction_d_rot2_threshold.py` — line-capacity and constraint-density analysis; `analysis/direction_d_conflict_graph.py` — pairwise conflict graph and independence number estimation; `analysis/direction_d_deep_reason.py` — combinatorial threshold characterization.
+
+### 3.11 The Even-n Threshold — Empirically Characterized
+
+The even-$n$ missing-center threshold is now confirmed across a far wider range thanks to the Flammenkamp D₄-inequivalent database (n=8 to n=44):
+
+| n | Total | Missing | Rate | Available symmetry classes |
+|---|-------|---------|------|---------------------------|
+| 8 | 57 | 0 | 0.0% | iden, rot2, dia1, rot4, ort1 |
+| 10 | 156 | 0 | 0.0% | iden, rot2, dia1, dia2, full, rot4 |
+| 12 | 566 | 8 | 1.4% | iden, rot2, dia1, dia2, rot4 |
+| 14 | 1,366 | 11 | 0.8% | iden, rot2, dia1, dia2, rot4 |
+| 16 | 5,900 | 103 | 1.7% | iden, rot2, dia1, dia2, rot4 |
+| 18 | 19,204 | 345 | 1.8% | iden, rot2, dia1, dia2, rot4 |
+| 20 | 118,057 | 2,297 | 1.9% | iden, rot2, dia1, dia2, rot4 |
+| 22 | 1,275 | 21 | 1.6% | rot2, dia1, dia2, rot4 |
+| 24 | 2,920 | 54 | 1.8% | rot2, dia1, dia2, rot4 |
+| 26 | 4,949 | 106 | 2.1% | rot2, dia1, ort1, rot4 |
+| 28 | 12,203 | 306 | 2.5% | rot2, dia1, ort1, rot4 |
+| 30 | 24,925 | 534 | 2.1% | rot2, dia1, dia2, rot4 |
+| 32 | 175 | **0** | 0.0% | dia1, dia2, rot4 |
+| 34 | 172 | **0** | 0.0% | rot4 |
+| 36 | 282 | **0** | 0.0% | dia2, rot4 |
+| 38 | 338 | **0** | 0.0% | dia2, rot4 |
+| 40 | 541 | **0** | 0.0% | rot4 |
+| 42 | 747 | **0** | 0.0% | dia2, rot4 |
+| 44 | 1,017 | **0** | 0.0% | dia2, rot4 |
+
+**Three-phase evolution**:
+
+1. **Below threshold (n=8–10)**: Zero missing-center — the collinearity constraint eliminates all ring assignments despite the ring-capacity matrix being satisfiable alone.
+
+2. **Active region (n=12–30)**: Missing-center solutions appear and persist across the full range. The rate oscillates between 0.8% and 2.5%. The iden class (non-symmetric) contributes the majority of missing-center solutions up to n=20; beyond that, rot2 drives the count.
+
+3. **Extinction in catalogued classes (n≥32)**: Missing-center solutions vanish entirely from known catalogued solutions. This coincides with the disappearance of the rot2 and iden symmetry classes — only rot4 and dia2 survive. rot4 solutions always have the center as circumcenter (by the C₄ theorem), and dia2 solutions in the database also universally have the center as circumcenter, though a formal proof for dia2 is not yet established.
+
+**Caveat**: The zero missing-center count for n≥32 applies only to catalogued symmetry classes in the Flammenkamp database. The iden class (largest source of missing-center solutions at small n) is not tracked beyond n=20, so the possibility of iden-class missing-center solutions at larger n remains open. The threshold is an **empirical finding** — it has not been proven mathematically.
+
+### 3.12 Relaxing the Row Constraint
+
+Our primary algorithm imposes "exactly 2 points per row" as a search heuristic. To verify that this does not distort the qualitative behavior, we implemented a **cell-by-cell backtracking** that imposes no row constraint (directory `d4/`).
+
+| n | Row Constraint | Total Solutions | Missing Center | Ratio |
+|---|---------------|----------------|---------------|-------|
+| 5 | 2-per-row | 32 | 4 | 12.5% |
+| 5 | Unconstrained | 3,209 | 28 | 0.87% |
+| 6 | 2-per-row | 50 | 0 | 0% |
+| 6 | Unconstrained | 91,358 | 0 | **0%** |
+| 7 | 2-per-row | 132 | 4 | 3.0% |
+| 7 | Unconstrained | 1,310,234 | 11,922 | **0.91%** |
+
+**Key finding**: The even‑n threshold (n=12) is **not** an artifact of the row constraint. Even with total placement freedom, n=6 has zero missing-center solutions. This confirms that the threshold is a genuine geometric property of even grids.
+
+**Code**: `d4_relaxed.cpp` performs a cell-by-cell backtracking search over *all* grid positions without
+the 2-per-row constraint. It uses the same backtracking approach but allows 0–N points per row.
+This is a distinct algorithm from `no3line.cpp` and lives in its own file for clarity.
+
+### 3.13 Construction Attempts & Open Problems
+
+A natural next step is to turn the invariants above into an **explicit construction** of 2n-point solutions for a whole infinite sub-family of even n (e.g. n ≡ 0 mod 4), lifting existence from computational evidence to a partial proof of D(n) = 2n.
+
+The C₂ theorem (§2.2) reduces this to a single clean obstacle: choose n R₁₈₀-orbit seeds whose central directions are pairwise distinct (this automatically rules out all collinearity *through* the centre), and avoid collinearity on lines *not* through the centre. Three explicit generators were tested and all failed broadly:
+
+- **Modular polynomial seeds** `c(i) = f(i) mod n`, R₁₈₀-doubled — across 8 formulas and even n ≤ 80, only n = 4 succeeded.
+- **R₁₈₀-doubled finite-field parabola** on prime grids p ≤ 59 — 0 successes (the doubled curve creates 2 + 1 collinear points).
+- **Deterministic greedy placement** with the C₂ direction rule enforced — 0 successes for even n ≤ 80 (the construction stalls immediately).
+
+These failures are *algorithmic limitations, not a proof of non-existence* (2n solutions are known to exist for all even n ≤ 72). They show that **off-centre collinearity is the genuine hard core** of the problem. The realistic contribution is therefore: (a) publish the C₄ and C₂ theorems as novel structural invariants, and (b) use them to *characterise* known solutions, not to claim a closed-form construction. The existence question D(n) ≥ 2n remains open in general.
+
+### 3.14 Empirical Observations on C₄ Solution Structure
 
 *(These observations are based on computational analysis of all 33,534 unique C₄ solutions in the Flammenkamp database (n=12..56). They are **empirical regularities**, not proven theorems.)*
 
@@ -867,8 +744,15 @@ The difficulty: among $C(703, 3) \approx 57.7$M possible orbit triples (counting
 
 ---
 
-## Side Exploration: Higher-Dimensional Generalizations
+## 4. Methodology & Verification
 
+**Exhaustive search (`no3line.cpp`).** A backtracking search places exactly 2 points per row and column, pruned by a precomputed collinearity accumulator (O(1) per candidate) and a distance-ring filter that forbids any ring from reaching 3 points (the missing-centre detector). Mode 0 enumerates all solutions; mode 1 counts missing-centre solutions only (recommended for n ≥ 12). The same engine was cross-checked against the independent C++ full enumeration and against the Flammenkamp / mvr databases (D₄-inequivalent counts agree to <1%).
+
+**Independent verifier (`verify_solution.py`).** Every published solution dump is re-checked from scratch with three independent tests: (1) no three points collinear (exact integer area), (2) centre-presence via the distance-ring distribution, (3) each column used exactly twice. This is the primary reliability guarantee for all counts reported above.
+
+**Unconstrained search (`d4_relaxed.cpp`).** A cell-by-cell backtrack with no 2-per-row rule, used to confirm that the even-n threshold is geometric, not a search artefact (§3.12).
+
+## 5. Higher-Dimensional Generalizations
 We extended the No-Three-In-Line problem to higher dimensions (3D and beyond), building on the foundational work of Pór and Wood (2004).
 
 **Background**: The 3D problem asks for the maximum number of points in an n×n×n grid with no three collinear. Pór and Wood proved this is Θ(n²) by constructing Vp = {(x, y, x²+y² mod p)} for primes p ≡ 3 (mod 4), and showed the minimum bounding box volume for 3D drawings of Kn is Θ(n^{3/2}).
@@ -930,8 +814,117 @@ All higher-dimensional analysis scripts are in the [`analysis/`](analysis/) dire
 
 ---
 
-## References
+## Usage
+### Build
 
+**Linux**:
+```bash
+make
+```
+
+**Windows (MinGW)**:
+```batch
+compile.bat
+```
+
+**Windows (MSVC)**:
+The batch file auto-detects MSVC if MinGW is not found.
+
+### Run
+
+```bash
+# Mode 0: Full search (count all solutions + missing-center)
+./no3line <n> 0 <threads>
+
+# Mode 1: Missing-center only (distance pruning, recommended for n≥12)
+./no3line <n> 1 <threads>
+
+# Examples
+./no3line 12 1 16    # n=12 missing-center only, 16 threads
+./no3line 15 1 16    # n=15 (needs cloud-grade hardware)
+```
+
+### Batch run
+
+**Linux**: `./run_cloud.sh [mode] [threads] ["n1 n2 n3 ..."]`
+**Windows**: Edit `run.bat` or run `run.bat`
+
+## Repository Structure
+```
+├── no3line.cpp                  # C++ source: backtracking search for missing-center solutions
+│                                #   mode 0 = full enumeration
+│                                #   mode 1 = missing-center only (distance pruning)
+├── d4_relaxed.cpp               # C++ source: unconstrained search
+│                                #   cell-by-cell backtracking w/o "2-per-row" rule
+├── verify_solution.py           # Python: independent solution verifier
+│                                #   checks: (a) no 3 collinear, (b) center presence
+├── visualize.py                 # Python: distance-ring colored grid visualization
+│                                #   supports: SVG (standalone) + matplotlib (rich)
+├── Makefile                     # Linux build (g++ -static -O3 -march=native)
+├── compile.bat                  # Windows MinGW build
+├── run.bat                      # Windows batch runner
+├── run_cloud.sh                 # Linux batch runner (threads and n-range presets)
+├── README.md                    # This file
+├── solutions/
+│   └── sols_n12.csv             # All 28 (base) missing-center solutions for n=12
+├── results/
+│   ├── result_n5_mode0.csv .. result_n13_mode1.csv   (2-per-row search)
+│   └── result_d4_n5.csv .. result_d4_n7.csv           (unconstrained search)
+├── analysis/
+│   ├── analyze.py               # Distance ring statistics for 2-per-row solutions
+│   ├── analyze_d3.py            # Even-n threshold: matrix M[i][j] analysis
+│   ├── analyze_rle.py           # RLE parser: analyze mvr/no-three-in-line GPU data
+│   ├── analyze_cycles.py        # Column-pairing cycle decomposition analysis
+│   ├── symmetry_analysis.py     # D₄ symmetry classification of solutions
+│   ├── find_hidden_symmetries.py# GL(2,p) affine transformation search
+│   ├── analyze_d2_spectrum.py   # Circumcircle spectrum
+│   ├── analyze_d2_deep.py       # Deep D2: cross-solution spectrum comparison
+│   ├── construct_n14.py         # Construction tests: ring replacement analysis
+│   ├── analyze_assignments.py   # Ring assignment pattern analysis
+│   ├── prove_c4_theorem.py      # C₄ theorem: empirical verification script
+│   ├── c4_evolution.py          # C₄ evolution analysis: n=12,14,16,18,72 comparison
+│   ├── n72_rot4_coords.txt      # Full coordinate list of n=72 rot4 solution (144 pts)
+│   ├── n72_raw.html             # Raw CGI data from Flammenkamp database (n=72)
+│   ├── odd_n_deep.py            # Deep structural analysis of odd n (n=3-19)
+│   ├── odd_n_deeper.py          # Sum-of-two-squares ring structure & parity
+│   ├── odd_n_conjecture.py      # Unified theory conjecture for odd n
+│   ├── flammenkamp_analyzer.py  # Download & analyze Flammenkamp DB (n=7-30, all symmetries)
+│   ├── n12_rot4.html            # Raw CGI data: n=12 rot4 solution
+│   ├── n14_rot4.html            # Raw CGI data: n=14 rot4 solution
+│   ├── n16_rot4.html            # Raw CGI data: n=16 rot4 solution
+│   ├── n18_rot4.html            # Raw CGI data: n=18 rot4 solution
+│   └── ring_solver/             # Ring-guided construction solver
+│       ├── ring_guided_solver.cpp  # C++ solver: given ring assignment → placement
+│       ├── ring_solver.py          # Python ring-by-ring search prototype
+│       ├── prep_ring_assignment.py # Extract ring assignments from RLE solutions
+│       ├── analyze_all_assignments.py  # Compare ring patterns across solutions
+│       └── ring_assignment_n12_from_rle.txt  # Example working assignment
+└── viz_output/
+    └── solution_12_0.svg        # Sample visualization (auto-generated by visualize.py)
+```
+
+## Results Data
+Each CSV row: `n,total_solutions,with_center,missing_center,time_seconds,mode`
+
+- Mode 0: total includes all solutions, with_center = total − missing
+- Mode 1: only missing_center is counted (with distance pruning)
+- D4 CSVs: unconstrained search results
+
+**Verification**: All solution dumps can be independently verified with `verify_solution.py`:
+
+```bash
+python verify_solution.py solutions/sols_n12.csv
+# Output: All 28 solutions valid — no collinear triples found.
+```
+
+This produces a report with three independent checks:
+1. **No-three-in-line**: O(k³) exhaustive point-triple area check
+2. **Center presence**: Distance ring distribution analysis (max ring count ≥ 3?)
+3. **Column usage**: Verification that each column appears exactly twice
+
+The repository also includes **RLE-format solution analysis** (`results/result_rle_n7-19.csv`), computed by parsing GPU-generated solution files from [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) using `analysis/analyze_rle.py`. This extends the missing-center analysis to n = 7–19 without requiring local exhaustive search for n ≥ 14.
+
+## References
 1. **P. Erdős**, "On a problem of combinatorial geometry," *American Mathematical Monthly*, vol. 42, 1935, pp. 586–589. — The original formulation of the No-Three-In-Line problem.
 
 2. **R. K. Guy and P. A. Kelly**, "The No-Three-In-Line Problem," *Canadian Mathematical Bulletin*, vol. 11, 1968, pp. 527–531. — Early survey of known results.
@@ -953,16 +946,14 @@ All higher-dimensional analysis scripts are in the [`analysis/`](analysis/) dire
 10. **T. Agama** (Theophilus Agama), "On the general no-three-in-line problem," arXiv:2106.15621v9, 2021–2026. — Extended the problem to arbitrary dimensions using the compression method, achieving Ω(n^{d-1}·d^{1/(2d)}) points in a d-dimensional n-grid. Implies vol(n,4,1) = O(n^{4/3}). **Caveat**: this paper has not appeared in a peer-reviewed venue as of 2026.
 
 ## Acknowledgments
-
 The author gratefully acknowledges:
 
 - **Achim Flammenkamp** for maintaining the comprehensive No-Three-In-Line database ([wwwhomes.uni-bielefeld.de/achim/no3in/](https://wwwhomes.uni-bielefeld.de/achim/no3in/)) spanning nearly three decades, and for making all configuration files publicly available.
 - **Marijn J. H. Heule** (CMU) for the discovery of the n=72 rot4 solution (2026-06-25), which provided key validation of the C₄ theorem at large scale.
 - **mvr** for the GPU-based exhaustive search of n≤19 and the RLE solution format used in [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line).
-- The developers of [Z3](https://github.com/Z3Prover/z3) (SMT solver) and [SCIP](https://www.scipopt.org/) (MIP solver) used for independent cross-validation.
+- The developers of [Z3](https://github.com/Z3Prover/z3) (SMT solver) and [SCIP](https://www.scipopt.org/) (MIP solver), evaluated as candidate engines for the attempted n=74 C₄-solution search (§2.5).
 
 ## Citation
-
 If you use this work in research, please cite this repository:
 
 ```
@@ -975,5 +966,4 @@ If you use this work in research, please cite this repository:
 ```
 
 ## License
-
 MIT
