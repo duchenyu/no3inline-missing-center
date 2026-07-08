@@ -133,7 +133,7 @@ The complete odd-$n$ spectrum (n=7→45) reveals three distinct evolutionary pha
 | **31** | **0** | 480 | 31 | **78.8** |
 | 33 | 0 | 544 | 33 | 84.1 |
 
-The empirical threshold lies at ≈74 triples per available pair — the constraint density crosses a critical value where no rot2 assignment satisfies all collinearity constraints simultaneously. The exact mechanism remains an open combinatorial problem. Only rct4 solutions survive at n≥31 in the database, and all known rct4 solutions have the center as circumcenter (by a symmetry argument: rct4 orbits have size 4, forcing ≥4 points per distance ring). **Missing-center solutions are not found in any known symmetry class for odd n ≥ 33. However, iden-class (non-symmetric) solutions are only tracked up to n=20 in the database, so the possibility of iden-class missing-center solutions at larger n remains open.**
+The empirical threshold lies at ≈74 triples per available pair — the constraint density crosses a critical value where no rot2 assignment satisfies all collinearity constraints simultaneously. The exact mechanism remains an open combinatorial problem. Only rct4 solutions survive at n≥31 in the database, and all known rct4 solutions have the center as circumcenter (verified on all 326 catalogued odd-n rct4 solutions; a general proof is not established). Note that rct4 is R₁₈₀-invariant (hence governed by the C₂ theorem below), but its orbits can have size 2 (points on a reflection axis), so the "≥4 points per ring" argument used for C₄ does not apply. **Missing-center solutions are not found in any known symmetry class for odd n ≥ 33. However, iden-class (non-symmetric) solutions are only tracked up to n=20 in the database, so the possibility of iden-class missing-center solutions at larger n remains open.**
 
 | n | 31 | 33 | 35 | 37 | 39 | 41 | 43 | 45 |
 |---|----|----|----|----|----|----|----|-----|
@@ -312,9 +312,13 @@ A broader symmetry invariant, proved in `analysis/lemmas_c2_ring.md` and verifie
 
 > **Theorem.** Let *S* be a 2n-point no-three-in-line solution on an even n×n grid that is invariant under the half-turn R₁₈₀ about the grid centre C. Then *S* decomposes into n R₁₈₀-orbits {p, R₁₈₀(p)}; each orbit defines a line through C; and these n central lines are pairwise distinct (two orbits on one central line would put 4 points on that line, violating no-three-in-line).
 
-The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes whose group contains the half-turn: **rot2** (C₂), **rot4** (C₄, since R₁₈₀ = R₉₀²), and **dia2** (V₄ = {id, R₁₈₀, d₁, d₂}, with R₁₈₀ = d₁∘d₂). Classes iden, dia1 (single diagonal reflection only), and ort1/ort2 do **not** contain R₁₈₀ and lie outside the theorem's scope.
+The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes whose group contains the half-turn: **rot2** (C₂), **rot4** (C₄, since R₁₈₀ = R₉₀²), and **dia2** (V₄ = {id, R₁₈₀, d₁, d₂}, with R₁₈₀ = d₁∘d₂), and **rct4** (V₄ = {id, R₁₈₀, two perpendicular axis reflections}; verified R₁₈₀-invariant on all 326 catalogued rct4 solutions, though not R₉₀-invariant). Classes iden, dia1 (single diagonal reflection only), and ort1/ort2 do **not** contain R₁₈₀ and lie outside the theorem's scope.
 
 Consequence for the D(n)=2n problem: any R₁₈₀-invariant construction automatically eliminates all collinearity *through the centre*; the remaining obstacle is collinearity on lines not through C. This reframes the existence question (the genuinely open lower bound D(n) ≥ 2n) as a constrained-combinatorics problem rather than a pigeonhole upper bound.
+
+#### Four-colouring invariant (verified)
+
+Colour the `n × n` grid by parity class `(r mod 2, c mod 2)` into 4 classes. For any line of reduced direction `(a, b)` (with `gcd(a, b) = 1`), the colour `(r mod 2, c mod 2)` advances by `(a mod 2, b mod 2) ∈ {(1,1), (1,0), (0,1)}` at each step, so **the line meets at most 2 of the 4 classes**. Consequently every no-three-in-line set is a 2-colour set on each line — a necessary structural property. (This is distinct from, and does not replace, the trivial row-based upper bound `D(n) ≤ 2n`.) For the R₁₈₀-invariant classes above (rot2, rot4, dia2, rct4), the 4 parity classes are themselves permuted by the symmetry, giving an additional exact balance constraint on any 2n solution in those classes.
 
 ### 5. Relaxing the Row Constraint
 
@@ -519,10 +523,10 @@ Analysis of all known rot4 solutions (n=12, 14, 16, 18, 58–72) from the [Flamm
 | n | Orbits | Rings | R/O | Orbits = n/2? | Pure orbits | Ring pop. |
 |---|--------|-------|-----|---------------|-------------|-----------|
 | 12 | 6 | 6 | 1.00 | ✓ | 100% | All 4 |
-| 14 | 7 | 6 | 1.17 | ✓ | 100% | 4 or 8 |
+| 14 | 7 | 6 | 1.17 | ✓ | 100% | 4/8 |
 | 16 | 8 | 8 | 1.00 | ✓ | 100% | All 4 |
-| 18 | 9 | 8 | 1.12 | ✓ | 100% | 4 or 8 |
-| **72** | **36** | **34** | **1.06** | ✓ | **100%** | **4 or 8** |
+| 18 | 9 | 8 | 1.12 | ✓ | 100% | 4/8 |
+| **72** | **36** | **34** | **1.06** | ✓ | **100%** | **4/8/12/16** |
 
 **Consistently observed patterns (from available rot4 data):**
 
@@ -530,9 +534,9 @@ Analysis of all known rot4 solutions (n=12, 14, 16, 18, 58–72) from the [Flamm
 
 2. **100% pure orbit→ring mapping**: Each orbit's 4 points lie at the exact same distance from the center. Orbits never split across multiple rings. This means the C₄ orbit structure is perfectly aligned with the distance ring geometry.
 
-3. **Ring sharing**: When orbits > rings (n=14, 18, 72), exactly two orbits share one ring, producing rings of 8 points. Ring population is always 4 or 8 — never 12 or higher. Each ring is either a single orbit (4 pts) or two coalesced orbits (8 pts).
+3. **Ring population (a proved multiple of 4)**: Each C₄ orbit is a square of 4 points equidistant from the centre, so every distance ring is a union of complete orbits — its population is a multiple of 4. Empirically the observed populations are 4, 8, 12, or 16 (one orbit = 4 pts; two, three, or four coalesced orbits give 8, 12, or 16). When orbits exceed rings (n=14, 18, 72), multiple orbits share a ring, but the total is always a multiple of 4.
 
-4. **n=72 confirms all patterns at a larger scale**: At n=72 (6× larger than n=12), the same structure appears: 100% pure orbit-to-ring mapping, 4-or-8 ring populations, and n/2 orbit count. This consistency across scales is notable, though the small sample size (5 data points) precludes a claim of proven scale invariance.
+4. **n=72 confirms all patterns at a larger scale**: At n=72 (6× larger than n=12), the same structure appears: 100% pure orbit-to-ring mapping, multiple-of-4 ring populations (4/8/12/16), and n/2 orbit count. This consistency across scales is notable, though the small sample size (5 data points) precludes a claim of proven scale invariance.
 
 **Context for n=71**: The n=72 solution achieved 2n points through C₄ symmetry, which reduces the SAT search from selecting individual points to selecting fundamental orbits. n=71, being odd, cannot exploit C₄ symmetry — its rotation center is a lattice point, breaking the clean orbit structure. This structural difference helps explain the uneven SAT record: Heule solved D(n)=2n for n=70 and n=72 (even, via C₄) and for n=65, 67, 69 (odd, via rct4/D₄ symmetry — *not* C₄), but n=71 remains unsolved.
 
