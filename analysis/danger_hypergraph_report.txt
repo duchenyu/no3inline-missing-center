@@ -1,0 +1,33 @@
+
+====================================================================
+n=12  orbits=72  solutions-loaded=4
+  orbit-triples tested     : 59,640
+  FORBIDDEN triples (off-centre collinear): 7,238  (12.14% of all triples)
+  distinct directions with danger>0: 58 / 72
+  danger-degree: mean=374.4  max=3261  (over directions that appear)
+  most dangerous directions: [((1, 1), 3261), ((1, -1), 3261), ((3, 1), 669), ((3, -1), 669), ((1, 3), 669), ((1, -3), 669)]
+  known solutions that are independent sets: 0/4 (must be all)
+  solution mean-danger: 650.29
+  RANDOM n-subset mean-danger: 749.97  (solution should be <= this if it avoids danger)
+
+====================================================================
+n=16  orbits=128  solutions-loaded=13
+  orbit-triples tested     : 341,376
+  FORBIDDEN triples (off-centre collinear): 27,988  (8.20% of all triples)
+  distinct directions with danger>0: 98 / 128
+  danger-degree: mean=856.8  max=10434  (over directions that appear)
+  most dangerous directions: [((1, 1), 10434), ((1, -1), 10434), ((3, 1), 2404), ((3, -1), 2404), ((1, -3), 2404), ((1, 3), 2404)]
+  known solutions that are independent sets: 0/13 (must be all)
+  solution mean-danger: 1242.59
+  RANDOM n-subset mean-danger: 1926.85  (solution should be <= this if it avoids danger)
+
+====================================================================
+n=20  orbits=200  solutions-loaded=16
+  orbit-triples tested     : 1,313,400
+  FORBIDDEN triples (off-centre collinear): 72,434  (5.51% of all triples)
+  distinct directions with danger>0: 166 / 200
+  danger-degree: mean=1309.0  max=25057  (over directions that appear)
+  most dangerous directions: [((1, 1), 25057), ((1, -1), 25057), ((3, 1), 4110), ((3, -1), 4110), ((1, 3), 4110), ((1, -3), 4110)]
+  known solutions that are independent sets: 0/16 (must be all)
+  solution mean-danger: 2163.49
+  RANDOM n-subset mean-danger: 3530.29  (solution should be <= this if it avoids danger)

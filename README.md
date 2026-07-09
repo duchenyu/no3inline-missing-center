@@ -780,8 +780,6 @@ These failures are *algorithmic limitations, not a proof of non-existence* (2n s
 
 **3. Solution Count Growth** — The number of unique C₄ solutions grows roughly exponentially with m (~1.4–1.6× per step), from 3 at m=6 to 10,175 at m=28.
 
-**Code**: `analysis/validate_all_directions.py`
-
 ### 3.15 Lemma‑1 Reduction, Conflict Hypergraph & GPU Exact Solver
 
 *(Detailed in `analysis/spectral_struct_n0mod4.md`. Honest scope labels: PROVEN / EMPIRICAL / COMPUTATIONAL EVIDENCE.)*

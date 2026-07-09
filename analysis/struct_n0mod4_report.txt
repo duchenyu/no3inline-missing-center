@@ -1,0 +1,196 @@
+
+======================================================================
+n=12  rot4 solutions loaded: 4  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 12/12.0/12  (Lemma1 predicts exactly n=12)
+  Lemma1 distinct-direction check: 4/4 solutions have all n directions distinct
+  90-degree closure check:        4/4 solutions closed under +pi/2
+  candidate directions available: 58 ; used by >=1 solution: 36
+  FORBIDDEN directions (never used): 22  (37.9% of candidate space)
+  RARE directions (used <= 1 times): 28
+  angular gap MEAN  : real=0.2618  random=0.2618  paired-random=0.3979
+  angular gap MIN   : real=0.0492  random=0.0367  paired-random=0.0636
+  angular gap STD   : real=0.1993  random=0.2106  paired-random=0.4179
+  sample forbidden directions (small magnitude): [(5, -1), (5, 1), (1, 5), (1, -5), (3, 7), (7, -3), (7, 3), (3, -7)]
+
+======================================================================
+n=16  rot4 solutions loaded: 13  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 16/16.0/16  (Lemma1 predicts exactly n=16)
+  Lemma1 distinct-direction check: 13/13 solutions have all n directions distinct
+  90-degree closure check:        13/13 solutions closed under +pi/2
+  candidate directions available: 98 ; used by >=1 solution: 78
+  FORBIDDEN directions (never used): 20  (20.4% of candidate space)
+  RARE directions (used <= 1 times): 24
+  angular gap MEAN  : real=0.1963  random=0.1963  paired-random=0.2886
+  angular gap MIN   : real=0.0328  random=0.0205  paired-random=0.0354
+  angular gap STD   : real=0.1415  random=0.1771  paired-random=0.3379
+  sample forbidden directions (small magnitude): [(3, -1), (1, 3), (3, -5), (7, -1), (5, 3), (1, 7), (3, 7), (7, -3)]
+
+======================================================================
+n=20  rot4 solutions loaded: 16  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 20/20.0/20  (Lemma1 predicts exactly n=20)
+  Lemma1 distinct-direction check: 16/16 solutions have all n directions distinct
+  90-degree closure check:        16/16 solutions closed under +pi/2
+  candidate directions available: 166 ; used by >=1 solution: 122
+  FORBIDDEN directions (never used): 44  (26.5% of candidate space)
+  RARE directions (used <= 1 times): 42
+  angular gap MEAN  : real=0.1571  random=0.1571  paired-random=0.2435
+  angular gap MIN   : real=0.0177  random=0.0126  paired-random=0.0224
+  angular gap STD   : real=0.1122  random=0.1395  paired-random=0.3321
+  sample forbidden directions (small magnitude): [(5, -1), (1, 5), (7, -1), (1, 7), (3, 7), (1, 9), (9, -1), (7, -3)]
+
+======================================================================
+n=24  rot4 solutions loaded: 23  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 24/24.0/24  (Lemma1 predicts exactly n=24)
+  Lemma1 distinct-direction check: 23/23 solutions have all n directions distinct
+  90-degree closure check:        23/23 solutions closed under +pi/2
+  candidate directions available: 234 ; used by >=1 solution: 194
+  FORBIDDEN directions (never used): 40  (17.1% of candidate space)
+  RARE directions (used <= 1 times): 52
+  angular gap MEAN  : real=0.1309  random=0.1309  paired-random=0.1963
+  angular gap MIN   : real=0.0177  random=0.0084  paired-random=0.0142
+  angular gap STD   : real=0.1019  random=0.1189  paired-random=0.2875
+  sample forbidden directions (small magnitude): [(1, -9), (9, 1), (9, -5), (1, -13), (5, 9), (13, 1), (1, 15), (15, -1)]
+
+======================================================================
+n=28  rot4 solutions loaded: 58  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 28/28.0/28  (Lemma1 predicts exactly n=28)
+  Lemma1 distinct-direction check: 58/58 solutions have all n directions distinct
+  90-degree closure check:        58/58 solutions closed under +pi/2
+  candidate directions available: 310 ; used by >=1 solution: 298
+  FORBIDDEN directions (never used): 12  (3.9% of candidate space)
+  RARE directions (used <= 1 times): 34
+  angular gap MEAN  : real=0.1122  random=0.1122  paired-random=0.1784
+  angular gap MIN   : real=0.0098  random=0.0062  paired-random=0.0100
+  angular gap STD   : real=0.0904  random=0.1050  paired-random=0.2809
+  sample forbidden directions (small magnitude): [(1, 15), (15, -1), (7, 17), (17, -7), (5, 21), (21, -5), (25, -17), (17, 25)]
+
+======================================================================
+n=32  rot4 solutions loaded: 101  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 32/32.0/32  (Lemma1 predicts exactly n=32)
+  Lemma1 distinct-direction check: 101/101 solutions have all n directions distinct
+  90-degree closure check:        101/101 solutions closed under +pi/2
+  candidate directions available: 426 ; used by >=1 solution: 414
+  FORBIDDEN directions (never used): 12  (2.8% of candidate space)
+  RARE directions (used <= 1 times): 14
+  angular gap MEAN  : real=0.0982  random=0.0982  paired-random=0.1522
+  angular gap MIN   : real=0.0084  random=0.0047  paired-random=0.0078
+  angular gap STD   : real=0.0803  random=0.0930  paired-random=0.2612
+  sample forbidden directions (small magnitude): [(11, -9), (9, 11), (29, 27), (27, -29), (27, 31), (31, 27), (27, -31), (31, -27)]
+
+======================================================================
+n=36  rot4 solutions loaded: 281  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 36/36.0/36  (Lemma1 predicts exactly n=36)
+  Lemma1 distinct-direction check: 281/281 solutions have all n directions distinct
+  90-degree closure check:        281/281 solutions closed under +pi/2
+  candidate directions available: 514 ; used by >=1 solution: 512
+  FORBIDDEN directions (never used): 2  (0.4% of candidate space)
+  RARE directions (used <= 1 times): 2
+  angular gap MEAN  : real=0.0873  random=0.0873  paired-random=0.1414
+  angular gap MIN   : real=0.0071  random=0.0035  paired-random=0.0058
+  angular gap STD   : real=0.0721  random=0.0837  paired-random=0.2650
+  sample forbidden directions (small magnitude): [(29, 33), (33, -29)]
+
+======================================================================
+n=40  rot4 solutions loaded: 541  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 40/40.0/40  (Lemma1 predicts exactly n=40)
+  Lemma1 distinct-direction check: 541/541 solutions have all n directions distinct
+  90-degree closure check:        541/541 solutions closed under +pi/2
+  candidate directions available: 634 ; used by >=1 solution: 630
+  FORBIDDEN directions (never used): 4  (0.6% of candidate space)
+  RARE directions (used <= 2 times): 2
+  angular gap MEAN  : real=0.0785  random=0.0785  paired-random=0.1225
+  angular gap MIN   : real=0.0058  random=0.0031  paired-random=0.0050
+  angular gap STD   : real=0.0653  random=0.0765  paired-random=0.2385
+  sample forbidden directions (small magnitude): [(37, -39), (37, 39), (39, -37), (39, 37)]
+
+======================================================================
+n=44  rot4 solutions loaded: 1016  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 44/44.0/44  (Lemma1 predicts exactly n=44)
+  Lemma1 distinct-direction check: 1016/1016 solutions have all n directions distinct
+  90-degree closure check:        1016/1016 solutions closed under +pi/2
+  candidate directions available: 798 ; used by >=1 solution: 798
+  FORBIDDEN directions (never used): 0  (0.0% of candidate space)
+  RARE directions (used <= 5 times): 10
+  angular gap MEAN  : real=0.0714  random=0.0714  paired-random=0.1135
+  angular gap MIN   : real=0.0045  random=0.0025  paired-random=0.0043
+  angular gap STD   : real=0.0606  random=0.0705  paired-random=0.2255
+  sample forbidden directions (small magnitude): []
+
+======================================================================
+n=56  rot4 solutions loaded: 10441  (source ext: (plain))
+======================================================================
+  orbit count per solution: min/mean/max = 56/56.0/56  (Lemma1 predicts exactly n=56)
+  Lemma1 distinct-direction check: 10441/10441 solutions have all n directions distinct
+  90-degree closure check:        10441/10441 solutions closed under +pi/2
+  candidate directions available: 1270 ; used by >=1 solution: 1270
+  FORBIDDEN directions (never used): 0  (0.0% of candidate space)
+  RARE directions (used <= 52 times): 24
+  angular gap MEAN  : real=0.0561  random=0.0561  paired-random=0.0892
+  angular gap MIN   : real=0.0030  random=0.0015  paired-random=0.0024
+  angular gap STD   : real=0.0482  random=0.0555  paired-random=0.1980
+  sample forbidden directions (small magnitude): []
+
+======================================================================
+n=60  rot4 solutions loaded: 32  (source ext: .few)
+======================================================================
+  orbit count per solution: min/mean/max = 60/60.0/60  (Lemma1 predicts exactly n=60)
+  Lemma1 distinct-direction check: 32/32 solutions have all n directions distinct
+  90-degree closure check:        32/32 solutions closed under +pi/2
+  candidate directions available: 1458 ; used by >=1 solution: 1020
+  FORBIDDEN directions (never used): 438  (30.0% of candidate space)
+  RARE directions (used <= 1 times): 500
+  angular gap MEAN  : real=0.0524  random=0.0524  paired-random=0.0827
+  angular gap MIN   : real=0.0022  random=0.0013  paired-random=0.0021
+  angular gap STD   : real=0.0449  random=0.0532  paired-random=0.1875
+  sample forbidden directions (small magnitude): [(21, 1), (9, 13), (13, -9), (1, -21), (13, -11), (1, 23), (23, 1), (11, 13)]
+
+======================================================================
+n=64  rot4 solutions loaded: 25  (source ext: .few)
+======================================================================
+  orbit count per solution: min/mean/max = 64/64.0/64  (Lemma1 predicts exactly n=64)
+  Lemma1 distinct-direction check: 25/25 solutions have all n directions distinct
+  90-degree closure check:        25/25 solutions closed under +pi/2
+  candidate directions available: 1650 ; used by >=1 solution: 942
+  FORBIDDEN directions (never used): 708  (42.9% of candidate space)
+  RARE directions (used <= 1 times): 540
+  angular gap MEAN  : real=0.0491  random=0.0491  paired-random=0.0736
+  angular gap MIN   : real=0.0025  random=0.0012  paired-random=0.0019
+  angular gap STD   : real=0.0424  random=0.0489  paired-random=0.1648
+  sample forbidden directions (small magnitude): [(5, -1), (1, 5), (1, -13), (13, 1), (11, 5), (15, -1), (3, -13), (1, 15)]
+
+======================================================================
+n=68  rot4 solutions loaded: 2  (source ext: .few)
+======================================================================
+  orbit count per solution: min/mean/max = 68/68.0/68  (Lemma1 predicts exactly n=68)
+  Lemma1 distinct-direction check: 2/2 solutions have all n directions distinct
+  90-degree closure check:        2/2 solutions closed under +pi/2
+  candidate directions available: 1878 ; used by >=1 solution: 128
+  FORBIDDEN directions (never used): 1750  (93.2% of candidate space)
+  RARE directions (used <= 1 times): 120
+  angular gap MEAN  : real=0.0462  random=0.0462  paired-random=0.0716
+  angular gap MIN   : real=0.0008  random=0.0011  paired-random=0.0015
+  angular gap STD   : real=0.0424  random=0.0468  paired-random=0.1707
+  sample forbidden directions (small magnitude): [(1, 3), (3, -1), (5, 1), (5, -1), (1, 5), (1, -5), (7, -1), (3, 5)]
+
+======================================================================
+n=72  rot4 solutions loaded: 1  (source ext: .few)
+======================================================================
+  orbit count per solution: min/mean/max = 72/72.0/72  (Lemma1 predicts exactly n=72)
+  Lemma1 distinct-direction check: 1/1 solutions have all n directions distinct
+  90-degree closure check:        1/1 solutions closed under +pi/2
+  candidate directions available: 2106 ; used by >=1 solution: 72
+  FORBIDDEN directions (never used): 2034  (96.6% of candidate space)
+  RARE directions (used <= 1 times): 72
+  angular gap MEAN  : real=0.0436  random=0.0436  paired-random=0.0702
+  angular gap MIN   : real=0.0013  random=0.0008  paired-random=0.0014
+  angular gap STD   : real=0.0320  random=0.0440  paired-random=0.1721
+  sample forbidden directions (small magnitude): [(1, -1), (1, 1), (1, 3), (3, -1), (1, -3), (3, 1), (5, -1), (1, 5)]
