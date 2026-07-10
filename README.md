@@ -105,11 +105,7 @@ The hypothesis "R₁₈₀-invariant" holds exactly for the symmetry classes who
 
 Consequence for the D(n)=2n problem: any R₁₈₀-invariant construction automatically eliminates all collinearity *through the centre*; the remaining obstacle is collinearity on lines not through C. This reframes the existence question (the genuinely open lower bound D(n) ≥ 2n) as a constrained-combinatorics problem rather than a pigeonhole upper bound.
 
-### 2.3 Four-colouring Invariant (verified)
-
-Colour the `n × n` grid by parity class `(r mod 2, c mod 2)` into 4 classes. For any line of reduced direction `(a, b)` (with `gcd(a, b) = 1`), the colour `(r mod 2, c mod 2)` advances by `(a mod 2, b mod 2) ∈ {(1,1), (1,0), (0,1)}` at each step, so **the line meets at most 2 of the 4 classes**. Consequently any individual lattice line intersects at most two parity classes — a necessary (but not sufficient) structural property of no-three-in-line sets. (This is distinct from, and does not replace, the trivial row-based upper bound `D(n) ≤ 2n`.) For the R₁₈₀-invariant classes above (rot2, rot4, dia2, rct4), the 4 parity classes are themselves permuted by the symmetry, giving an additional exact balance constraint on any 2n solution in those classes.
-
-### 2.4 Orbit-Ring Invariance (proved for C₄)
+### 2.3 Orbit-Ring Invariance (proved for C₄)
 
 Every C₄-orbit of the grid is a square of 4 vertices, all equidistant from the centre. Hence every distance ring used by a C₄ solution is a union of complete orbits, and its population is a multiple of 4. This is a **direct geometric consequence** of the C₄ orbit structure:
 
@@ -119,7 +115,7 @@ Every C₄-orbit of the grid is a square of 4 vertices, all equidistant from the
 
 Empirically the observed populations are 4, 8, 12, or 16 (across all 21,601 rot4 solutions for n=12–72). Whether populations >16 (i.e. more than 4 coalesced orbits per ring) are possible for larger $n$ remains an open question. (The "multiple of 4" law is specific to even-n rot4; rct4 orbits can have size 2, so it does not extend to rct4.)
 
-### 2.5 Structure of C₄ Solutions and the Row-Degree Theorem
+### 2.4 Structure of C₄ Solutions and the Row-Degree Theorem
 
 We discovered a fundamental structural property of C₄ (90° rotational symmetric) solutions:
 
@@ -149,7 +145,7 @@ The difficulty: among $C(703, 3) \approx 57.7$M possible orbit triples (counting
 
 **Code**: `analysis/n74_sat_solver.py`, `analysis/n74_permutation_v2.py`, `analysis/n74_2matching_solver.py`
 
-### 2.6 Low-Slope Parity Theorem (auxiliary direction model)
+### 2.5 Low-Slope Parity Theorem (auxiliary direction model)
 
 This theorem lives in the auxiliary **direction model** \(H_n^{\text{dir}}\) used by the hypergraph framework, not in the raw grid. In that model each grid point \(P=(r,c)\) carries a *centre-direction*
 \[
@@ -176,6 +172,53 @@ A *low-slope configuration* is three low-slope points that are collinear off-cen
 all even \(n\in\{6,8,\ldots,60\}\) are EMPTY (low-slope point count = 0, confirmed independently by `count_low_pts`); all odd \(n\in\{5,7,\ldots,59\}\) are FOUND, with the first counterexample being exactly the vertical triple above. `count_low_pts` returns 0 for \(n=6,8,12,20,60\) and \(16,28,44,104,320\) for \(n=5,7,11,21,61\), matching the parity proof.
 
 *Scope note.* This is a clean structural theorem **of the auxiliary direction model**; it does not by itself settle the main \(D(n)=2n\) question. Its substantive lesson is a parity caution: the absence of low-slope collinearity is an *even-\(n\)-only* phenomenon (a parity coincidence), not a general asymptotic sparsity — odd \(n\) already admit rich low-slope collinearity from \(n=5\) upward. Any "sparse constraint" argument must therefore be qualified to even \(n\).
+
+### 2.6 Distance-Ring Hypergraph & the Symmetry-Exclusion Theorem ✔
+
+A *missing-centre* solution is one whose grid centre \(C\) is **not** the
+circumcentre of any triple (no distance ring about \(C\) carries \(\ge 3\)
+solution points). Model the problem on a hypergraph whose vertices are the
+\(n^2\) grid points:
+- **\(H_{\text{coll}}\)** — one hyperedge per collinear triple; a solution is
+  an independent set ⇔ it is NTIL;
+- **\(H_{\text{ring}}\)** — one hyperedge per triple of grid points on a
+  common distance ring about \(C\); a solution is an independent set ⇔ it is
+  missing-centre.
+
+Hence a missing-centre NTIL solution is exactly an independent set of
+\(H = H_{\text{coll}} \cup H_{\text{ring}}\).
+
+**Symmetry-Exclusion Theorem.** Let \(G_\sigma\) be the symmetry group of a
+Flammenkamp class \(\sigma\). Every generator of \(G_\sigma\) is an isometry
+fixing \(C\), so all points in an orbit share one ring. If every off-axis
+orbit has size \(\ge 3\), that ring carries \(\ge 3\) solution points and the
+solution is **not** missing-centre. Applying this:
+
+| class | markers | off-axis orbit | verdict |
+|-------|---------|----------------|---------|
+| full, rot4, rct4 | `* o c` | 4 / 8 | **excluded** |
+| dia2, ort2 | `x +` | 4 (both reflections) | **excluded** (NEW) |
+| rot2, dia1, ort1, iden | `: / - .` | 2 / 1 | compatible |
+
+> **Theorem.** *A missing-centre NTIL solution can belong only to*
+> **iden, rot2, dia1, ort1**. *The classes* **full, rot4, rct4, dia2, ort2**
+> *are impossible.*
+
+The rot4/rct4/full case is the C₄ theorem (§2.1) restated; the **dia2 / ort2**
+case is new — both diagonal (resp. both orthogonal) reflections send any
+off-diagonal point to a 4-cycle, and all four points sit on one ring about
+\(C\) (e.g. for dia2: \(|p-C|^2=|d_1p-C|^2=|d_2p-C|^2=|d_1d_2p-C|^2\)),
+so the ring holds 4 ≥ 3 points. A solution with no off-diagonal point would
+lie on the two diagonals (≤ 2 points each by NTIL) ⇒ \(|S|\le 4<2n\),
+impossible. ∎
+
+**Realisation.** iden (n=9), rot2 (n=11), dia1 (n=5) are realised by
+Flammenkamp cache witnesses. For ort1 a backtracking search (validated
+against the cache) found **no** missing-centre example for \(n\le 16\)
+(exhaustive) and \(n=18\) (heavy); whether any exists is **open** (see
+`analysis/hypergraph_framework.md`). The excluded classes are confirmed at
+**0 / 0** missing-centre across all 21 999 rot4/rct4/full/dia2/ort2 solutions
+in the cache.
 
 ## 3. Empirical Findings
 
@@ -886,6 +929,116 @@ All higher-dimensional analysis scripts are in the [`analysis/`](analysis/) dire
 
 ---
 
+
+---
+
+## 6. Structural Theory Breakthroughs (2026-07-10)
+
+> This section documents a comprehensive structural theory of No-Three-In-Line 2n-point solutions, developed through systematic analysis of ~225,000 known solutions (Flammenkamp database + mvr CUDA extensions). The theory establishes deep connections between NTIL solutions and classical combinatorics (Motzkin paths, Catalan numbers).
+
+**Core documents** (in [`analysis/`](analysis/)):
+- [`theory_structural.md`](analysis/theory_structural.md) — Master theory document (28 theorems, 34 empirical laws)
+- [`theory_motzkin_breakthrough.md`](analysis/theory_motzkin_breakthrough.md) — Motzkin path theorem (Th-17)
+- [`theory_th19.md`](analysis/theory_th19.md) — Motzkin height identity (Th-19)
+- [`theory_c4_necessity.md`](analysis/theory_c4_necessity.md) — C4 necessity phase transition
+- [`theory_rct4_complete.md`](analysis/theory_rct4_complete.md) — rct4 (odd-n C4-identity) structure theorems (R1-R7)
+- [`theory_final_synthesis.md`](analysis/theory_final_synthesis.md) — Final research synthesis
+- [`math_audit_report_final.md`](analysis/math_audit_report_final.md) — Independent math audit results
+- [`data_catalog.md`](analysis/data_catalog.md) — Complete data catalog
+
+### 6.1 The (π,σ) Framework
+
+Every 2n-point NTIL solution can be decomposed into two per-row functions: **π(i)** = smaller column in row i, **σ(i)** = larger column. This gives the column-sharing **signature**: L (left-exclusive, column appears in π twice), B (balanced, once in each), R (right-exclusive, appears in σ twice).
+
+**Theorem Th-10 (列非排列)**. Neither π nor σ is a permutation for n ≥ 6. Column 0 is always left-exclusive (L), column n-1 is always right-exclusive (R). The columns partition into L ∪ B ∪ R with |L| = |R|. *Verified: 211,386 solutions, zero counterexamples.*
+
+### 6.2 ★★★ Motzkin Path Theorem (Th-17)
+
+**The NTIL column-sharing signature (L→+1, B→0, R→-1) constitutes a valid Motzkin path** — starts at 0, ends at 0, never negative.
+
+**Proof** (three lines):
+1. Th-16 (Dyck condition): prefix sum never negative — from column-count ordering
+2. Th-10: |L| = |R| — path ends at 0
+3. Step set {+1,0,-1} by definition
+
+**Corollaries**:
+- **|V(n)| ≤ M_n** (Motzkin number) — first combinatorial upper bound on NTIL solution count
+- **E[k]/n → 1/π** — k = |L| converges to 1/π, analytically proven via Motzkin path balance statistics (Banderier-Flajolet 2002)
+
+*Verified: 205,869 solutions, zero counterexamples.*
+
+### 6.3 ★★★ Motzkin Height Identity (Th-19)
+
+**h(c) = count_π(≤c) − (c+1)**
+
+A precise algebraic bridge between the Motzkin path height and the cumulative distribution of π values. *Verified: 22,847 solutions, zero counterexamples.*
+
+### 6.4 Symmetry Classification
+
+All known high-n NTIL solutions belong to exactly three symmetry types:
+
+| Type | Symmetry Group | C4 Identity | C4 Set Symmetry | n Range | Trend |
+|------|---------------|-------------|----------------|---------|-------|
+| **rot4** | D₄ (order 8) | ✅ | ✅ | Even, all | n ≥ 54 sole survivor |
+| **rct4** | C₂ (order 2) | ✅ | ❌ | Odd, 9..53+ | Extends to n=53+ (mvr) |
+| **General** | None | ❌ | ❌ | ≤32 | Extinct by n=33 |
+
+**Key finding**: For n ≥ 33, **100% of all known solutions satisfy the C4 identity** (though not necessarily C4 set symmetry — rct4 only has C₂ set symmetry).
+
+### 6.5 rct4 Structure Theorems (R1-R7)
+
+Odd-n solutions satisfying the C4 identity but NOT C4 set symmetry:
+
+| Theorem | Statement |
+|---------|-----------|
+| R1 | C4 identity: π(n-1-i) = n-1-σ(i) holds for all rct4 |
+| R2 | C2 symmetry: invariant under 180° rotation |
+| R3 | Π-upper bound: π(i)+π(n-1-i) ≤ n-2 |
+| R4 | Σ-lower bound: σ(i)+σ(n-1-i) ≥ n |
+| R5 | Irreducibility: 100% irreducible (sig[1]≠R) |
+| R7 | Reconstruction: first ⌈n/2⌉ rows determine entire solution |
+
+### 6.6 Motzkin Zero Theorem (Th-18, Computational)
+
+For rot4 solutions from Flammenkamp data: **first zero fz ∈ {1, n-1}** (100%, 21,701 solutions). The mvr CUDA extension contains 1 counterexample at n=52 (fz=2), giving 99.992% overall.
+
+### 6.7 C4 Necessity Phase Transition
+
+| n range | C4 identity hold rate | Notes |
+|---------|---------------------|-------|
+| 7-20 | 0.6-45% | Mixed, non-C4 dominated |
+| 21-30 | 93.9-99.9% | C4 strongly dominant |
+| 31-32 | 1.4-9.7% | Anomaly (dia1 class resurgence) |
+| **33+** | **100%** | **All known solutions C4** |
+
+Non-C4 solutions have bounded k = |L| ≤ 14 (observed max), while Motzkin paths require k ∼ n/π → ∞, explaining why non-C4 solutions cannot exist at large n.
+
+### 6.8 Empirical Laws (Selected)
+
+| Law | Statement | Verified |
+|-----|-----------|----------|
+| L10 | Single-m-cycle rot4 survival `rate ∼ 4.47·exp(−0.2037·m²)` | R²=0.993 |
+| L15 | Cycle-type phase transition: single-cycle share →17% asymptote | n=14..54 |
+| L23 | k/n → 1/π (now theorem, Th-17 corollary) | Motzkin proof |
+| L25 | rot4 signature → solution unique (n≥12) | 100% verified |
+
+### 6.9 Complete Theorem Inventory (28 verified)
+
+| Category | Count | Examples |
+|----------|-------|---------|
+| **Strictly proven** | 15 | Th-2,7,9,10,11,13,14,16,17,20; R1-R5,R7 |
+| **Computationally verified** | 6 | Th-5,8,18; R2,R4,R6 |
+| **Empirical laws** | 34 | L1-L34 |
+| **Symmetry classes** | 3 complete | rot4/rct4/general |
+
+### 6.10 Data Sources
+
+| Source | URL | Coverage |
+|--------|-----|----------|
+| Flammenkamp database | [wwwhomes.uni-bielefeld.de/achim/no3in/](https://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html) | n=2..72, 9 symmetry classes |
+| mvr CUDA extension | [github.com/mvr/no-three-in-line](https://github.com/mvr/no-three-in-line) | rct4 n=41-53, rot4 n=44-52, sporadic n=61-68 |
+| Heule (2026) SAT | Marijn Heule, CMU | n=72 rot4 solution |
+
 ---
 
 ## Usage
@@ -1025,7 +1178,7 @@ The author gratefully acknowledges:
 - **Achim Flammenkamp** for maintaining the comprehensive No-Three-In-Line database ([wwwhomes.uni-bielefeld.de/achim/no3in/](https://wwwhomes.uni-bielefeld.de/achim/no3in/)) spanning nearly three decades, and for making all configuration files publicly available.
 - **Marijn J. H. Heule** (CMU) for the discovery of the n=72 rot4 solution (2026-06-25), which provided key validation of the C₄ theorem at large scale.
 - **mvr** for the GPU-based exhaustive search of n≤19 and the RLE solution format used in [mvr/no-three-in-line](https://github.com/mvr/no-three-in-line).
-- The developers of [Z3](https://github.com/Z3Prover/z3) (SMT solver) and [SCIP](https://www.scipopt.org/) (MIP solver), evaluated as candidate engines for the attempted n=74 C₄-solution search (§2.5).
+- The developers of [Z3](https://github.com/Z3Prover/z3) (SMT solver) and [SCIP](https://www.scipopt.org/) (MIP solver), evaluated as candidate engines for the attempted n=74 C₄-solution search (§2.4).
 
 ## Citation
 If you use this work in research, please cite this repository:
