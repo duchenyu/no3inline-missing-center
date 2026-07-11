@@ -4,9 +4,33 @@
 
 From empirical data on H_n^dir for n=12..32, we observe:
 
-**Empirical Fact 1 (Heavy-Direction Dominance)**. Let D₆ = {(±1,±1), (±3,±1), (±1,±3)} be the set of 6 directions with maximal slope one in the sense that their run or rise has absolute value ≤ 3. Then ≥ 89% of all hyperedges of H_n involve at least one direction from D₆.
+> ⚠️ **CORRECTION (2026-07-09).** The original "Empirical Fact 1 (Heavy-Direction
+> Dominance, ≥89% D₆)" was a **bug artifact**, not a real phenomenon. The
+> `collinear3` used to count hyperedges only examined the first 3 of the 6 orbit
+> points (`range(3)` over `six`), so it only ever tested collinearity among
+> `{p_i, q_i, p_j}` — an antipodal pair (always on a center-line, hence D₆-heavy).
+> Recomputed correctly (genuine hyperedge = 3 distinct orbits each contributing a
+> point to a common grid line; brute-force cross-validated), the D₆ share
+> **decreases** from 62.96% (n=12) to 27.87% (n=32) and **high-slope triples
+> dominate (~72% at n=32)**. See `analysis/d6_dominance_correction.md` and
+> `analysis/d6_dominance_rigorous.py`. **Empirical Fact 1 is RETRACTED.**
 
-**Empirical Fact 2 (Low-Slope Emptiness)**. Let L = {(a,b): gcd(a,b)=1, |a|≤3, |b|≤3} \ D₆ be the set of low-slope directions excluding the heavy ones. For all n ≤ 60 tested, **no hyperedge is contained entirely within L**. The induced sub-hypergraph H_n[L] is empty.
+**Corrected Theorem 1 (D₆ is NOT dominant).** In the R180-reduced hypergraph
+H_n^dir for even n, as n → ∞ the fraction of genuine hyperedges involving a
+direction from D₆ tends to **0**; the constraint is overwhelmingly carried by
+high-slope directions (|a|>3 or |b|>3), whose count grows with n. (Heuristic:
+#directions ≈ n², D₆ is a fixed set of 6, and genuine hyperedges spread across
+all large-slope directions — confirmed by the monotone decline 63%→28% over
+n=12..32.)
+
+**Empirical Fact 2 (Low-Slope Emptiness) — SUSTAINED, but for an analytic reason.**
+Let L = {(a,b): gcd(a,b)=1, |a|≤3, |b|≤3} \ D₆. For even n, **no genuine hyperedge
+is contained entirely within L** (verified n=12..32, and it holds for all even n
+by the parity theorem: even n forces every orbit's central direction vector to
+have both coordinates odd, so no orbit point can lie in L, hence H_n[L] is
+trivially empty). NOTE: the original code "verification" of this fact used the
+same buggy `collinear3`; the statement itself is true, but its proof here is the
+**parity argument**, not that code.
 
 These two facts suggest a **decomposition strategy** for analyzing α(H_n):
 

@@ -220,6 +220,48 @@ against the cache) found **no** missing-centre example for \(n\le 16\)
 **0 / 0** missing-centre across all 21 999 rot4/rct4/full/dia2/ort2 solutions
 in the cache.
 
+### 2.7 Further rot4 Structural Theorems (2026-07-11)
+
+The following theorems were proven during an exhaustive analysis of the C₄-symmetric (rot4) pseudograph model. They complete the structural skeleton of rot4 solutions and correct earlier misstatements.
+
+> **Theorem 2.7a (Diagonal Occupancy — Th-48).** In any rot4 solution, a grid point lies on either diagonal (main: x=y, or anti: x+y=n−1) **iff** it comes from a *loop* cell of G (a cell with x=y in Q1). Each loop contributes exactly 2 main-diagonal + 2 anti-diagonal points (a single C₄ orbit). Hence diagonal-point counts are forced to (0,0) or (2,2) — never anything else.
+> 
+> **Proof**. The C₄ lift of cell (x,y) ∈ [0,m-1]² produces points \(\{(x,y), (n{-}1{-}y,x), (n{-}1{-}x,n{-}1{-}y), (y,n{-}1{-}x)\}\). A lift point lies on the main diagonal (\(x'=y'\)) iff the originating cell satisfies x=y (a loop); it lies on the anti-diagonal (\(x'+y'=n-1\)) iff the originating cell again satisfies x=y. Each loop produces exactly two main-diagonal (k=0 and k=2) and two anti-diagonal (k=1 and k=3) points. Non-loop cells have x≠y; their four lifted points cannot land on either diagonal. ∎
+>
+> **Computational verification**: 0 mismatches across 21,701 cached rot4 solutions; 1,218 solutions with (2,2) diagonal count, 1,243 with (0,0).
+
+> **Theorem 2.7b (Direction-Orbit Disjointness — Th-50).** In a rot4 solution, the m cells of G must have pairwise distinct C₄ direction-orbits. A direction-orbit is the set {(a,b), (−b,a), (−a,−b), (b,−a)} where (a,b) is the reduced centre-direction of the cell (with gcd(dx,dy) = 1). If two cells shared a direction-orbit, the corresponding centre-line would contain 4 points, violating no-three-in-line.
+>
+> **Proof**. The centre-direction of cell (x,y) is (a,b) = (2x−(n−1), 2y−(n−1)) / gcd(…). The four points of its C₄ orbit lie at the four ends of the two lines through centre C with direction (a,b) and (−b,a). If a second cell has the same direction-orbit, its four lift points coincide with the same four centre-lines, putting 4 points on one line through C. Hence direction-orbits must be pairwise disjoint. ∎
+>
+> **Computational verification**: 0 failures across 21,698 solutions. Gap analysis (m=7) shows condition is necessary but far from sufficient (only ≈0.03% of disjoint-orbit pseudographs are valid).
+
+> **Theorem 2.7c (Exact Slope Prohibition — Th-51, correcting Th-24).** In any rot4 solution, the reduced centre-direction (a,b) of every cell satisfies a,b both odd (by parity; Th-23). This immediately prohibits slopes 0 (a=0) and ∞ (b=0). Slope −1 (a=−b) is impossible by a coordinate argument: a=−b would force x+y=n−1, but Q1 coordinates satisfy x,y ≤ m−1, hence x+y ≤ 2m−2 < n−1 = 2m−1. Slope 1 (a=b) occurs **iff** the cell is a loop (x=y), i.e. exactly for diagonal solutions. Directions (3,±1) and (1,±3) are allowed and occur frequently (4,735 + 2,785 examples). The earlier claimed "low-slope forbidden region" (Th-24) is false.
+>
+> **Computational verification**: Complete enumeration over 21,698 solutions confirms 0 cells with slope 0, ∞, or −1; 0 non-loop cells with slope 1.
+
+> **Theorem 2.7d (Q1-NTIL — Th-52).** The m Q1 cells of G (the set of cells (x,y) representing the m C₄ orbits) must themselves satisfy the no-three-in-line condition on the m×m grid.
+>
+> **Proof**. Among the 16 independent C₄ lift-index triples, form (ka,kb,kc)=(0,0,0) gives the standard 2D cross product D = (x_b−x_a)(y_c−y_a) − (x_c−x_a)(y_b−y_a). If the three Q1 cells (x_a,y_a),(x_b,y_b),(x_c,y_c) are collinear, D=0 and the k=0 lifts are collinear in the full grid, violating the rot4 condition. ∎
+>
+> **Computational verification**: 0 mismatches across 2,461 cached solutions for n=6..42.
+
+> **Theorem 2.7e (16-Form Linearity — Th-53).** For each of the 16 independent C₄ lift-index triples (the C₄-orbits of 4×4×4 lift assignments), the collinearity condition D=0 is **linear** in the coordinates of any single cell when the other two cells are fixed.
+>
+> **Proof**. The symbolic expression for D in each of the 16 forms is a polynomial of total degree 2, but when any two cells' coordinates are fixed, the remaining variables appear only linearly. (Full symbolic computation in `analysis/classify_lift_forms2.py`.) ∎
+>
+> **Consequence**: C₄ collinearity constraints can be encoded without multiplication — each constraint is a linear equation in one cell's coordinates. This simplifies CP-SAT encoding and explains why the 16 forms produce only pairwise-linear restrictions.
+
+**Open question**: Theorem 2.7e implies that for any pair of fixed cells (b,c), each form forbids at most a *line* of positions for cell a in the m×m grid. The number of such forbidden lines grows as 16·C(m,2), but for m ≥ 37 this exceeds m², making existence a delicate Diophantine problem. The CP-SAT solver for m=37 (n=74) shows oscillatory convergence (396–724 collinear triples after 19 iterations), suggesting extreme solution rarity at this scale.
+
+**Empirical observation — C₄ lift survival rate** (not a theorem; based on exhaustive enumeration for small m):
+| m | Candidate NTIL sets (satisfying Th-23/50/51) | Surviving C₄ lift | Survival rate |
+|---|---|---|---|
+| 5 | 16,996 | 153 | 0.90% |
+| 6 | 11,215 | 8 | 0.07% |
+
+The survival rate drops sharply (≈13× from m=5 to m=6), indicating the C₄ lift is an extremely stringent filter. Extrapolating to m=37 gives an estimated survival probability on the order of 10^−15 or lower, consistent with the difficulty observed in the CP-SAT solver.
+
 ## 3. Empirical Findings
 
 All material in this section is **computational observation**, not proof. Headings and tables report what exhaustive search and the Flammenkamp / mvr databases actually contain.

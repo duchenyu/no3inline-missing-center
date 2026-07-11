@@ -1,199 +1,195 @@
-# Hypergraph Theoretical Framework for No-Three-In-Line
+# Distance-Ring Hypergraph Framework & the Symmetry-Exclusion Theorem
 
-> A programmatic framework for studying the orbit-collinearity hypergraph
-> and its independence number α(Hₙ), with connections to the missing-center problem.
+*A research note for the No-Three-In-Line (NTIL) project.*
 
----
-
-## 1. Three Hypergraph Models
-
-The No-Three-In-Line problem can be reformulated as an **independent-set problem in a 3-uniform hypergraph** at three levels of abstraction.
-
-### Model 1: Direction Hypergraph Hₙ^dir (C₂ Orbits)
-
-**Vertices**: Reduced direction vectors (a,b) ∈ ℤ², gcd(a,b)=1, from the grid center to each lattice point in the n×n grid. The direction is normalized to the canonical half-plane (a>0 or a=0,b>0).
-
-Number of vertices: V₁ = n²/2 (all C₂ orbits) for even n.
-
-**Hyperedges**: A triple of directions {dᵢ, dⱼ, dₖ} forms a hyperedge iff there exist points (x₁,y₁), (x₂,y₂), (x₃,y₃), each belonging to the respective C₂ orbit, such that the three points are collinear AND not collinear through the grid center.
-
-This is the **off-center collinearity hypergraph** — center-line triples are excluded because they are ruled out by Lemma 1 (C₂ theorem): distinct directions from center → no center-line collinear triple among the C₂ orbit points.
-
-**Solution correspondence**: A 2n-point no-three-in-line solution corresponds to an **independent set** of size n in Hₙ^dir.
-
-This is the model implemented in `danger_hypergraph.py`.
-
-### Model 2: C₄ Orbit Hypergraph Hₙ^orb
-
-**Vertices**: C₄ orbits in the fundamental domain [0,N)×[0,N) for even n=2N. Each orbit is 4 points under 90° rotation: (x,y)→(y,n-1-x)→(n-1-x,n-1-y)→(n-1-y,x).
-
-Number of vertices: V₂ = N² = n²/4.
-
-**Hyperedges**: A triple of C₄ orbits {oᵢ, oⱼ, oₖ} forms a hyperedge iff the 12 points (4×3) contain at least one collinear triple.
-
-**Solution correspondence**: A C₄-symmetric 2n-point no-three-in-line solution corresponds to selecting N orbits (one per row of the fundamental domain) that form an **independent set** in Hₙ^orb. The row constraint adds a matching structure.
-
-### Model 3: Ring Hypergraph Hₙ^ring
-
-**Vertices**: Distance rings R(r) = {points with squared distance d = (2x-n+1)²+(2y-n+1)² = r}.
-
-**Hyperedges**: A triple of rings (R₁, R₂, R₃) forms a hyperedge iff any selection of one point from each ring is guaranteed to contain a collinear triple — i.e., the rings are "inevitably collinear."
-
-**Solution correspondence**: A missing-center solution corresponds to selecting at most 2 points from each ring (i.e., an independent set in Hₙ^ring with capacity constraint per vertex).
+This note introduces a hypergraph model for the NTIL problem and uses it to
+prove a clean **symmetry-exclusion theorem** for *missing-center* solutions:
+of the nine Flammenkamp symmetry classes, **five are provably excluded** and
+only four can occur.
 
 ---
 
-## 2. Known Properties (Empirical, n=12,16,20)
+## 1. Definitions
 
-From `danger_hypergraph.py`:
+Let `S ⊆ [0, n−1]²` be a No-Three-In-Line solution (`|S| = 2n`, no three
+collinear).  Write the grid centre as `C = ((n−1)/2, (n−1)/2)`.
 
-### Sparsity
+**Distance ring** about `C`:
+```
+r(p) = (2x − (n−1))² + (2y − (n−1))²      for p = (x, y).
+```
+Two points share a ring iff they are at equal Euclidean distance from `C`.
+A ring carries the points of `S` that fall on it.
 
-| n | Vertices | C(V,3) | Hyperedges | Edge Density |
-|---|----------|--------|------------|-------------|
-| 12 | 72 | 59,640 | 691 | 1.159% |
-| 16 | 128 | 341,376 | 2,746 | 0.804% |
-| 20 | 200 | 1,313,400 | 6,325 | 0.482% |
-| 24 | 288 | 3,939,936 | 14,456 | 0.367% |
-| 28 | 392 | 9,962,680 | 30,077 | 0.302% |
-| 32 | 512 | 22,238,720 | 47,836 | 0.215% |
+**Missing-centre** (this project's terminology): `C` is *not* the
+circumcentre of any triple of points of `S` — equivalently, **no distance
+ring contains ≥ 3 points of `S`**.
 
-Edge density **decreases with n** as approximately **6.8 · n^(−0.67)** (power-law fit, R²>0.99). This suggests Hₙ becomes sparser as n grows—a favorable property for container-type arguments. At n=76, the estimated edge density would be ~0.08%.
+### Hypergraph model
 
-### Degree Distribution (Heavy-Tailed)
+- **Vertices** = the `n²` grid points.
+- **H_collinear**: one hyperedge per collinear triple.  `S` is an
+  independent set of `H_collinear`  ⇔  `S` is NTIL.
+- **H_ring**: one hyperedge per triple of grid points on a common distance
+  ring about `C`.  `S` is an independent set of `H_ring`  ⇔  `S` is
+  missing-centre.
 
-The danger-degree is heavily concentrated on the main diagonal direction (1,1) and its symmetric counterpart (1,-1):
+> **Lemma.**  *S is a missing-centre NTIL solution  ⇔  S is an independent
+> set of the hypergraph  H = H_collinear ∪ H_ring.*
 
-| n | (1,1) degree | (1,-1) degree | (3,1) degree | (1,3) degree | Total danger | (1,1) share |
-|---|------------|-------------|-------------|-------------|-------------|-----------|
-| 12 | 743 | 650 | 53 | 48 | 3,176 | 23.4% |
-| 16 | 2,493 | 2,251 | 295 | 207 | 12,218 | 20.4% |
-| 20 | 6,209 | 5,694 | 403 | 305 | 38,064 | 16.3% |
-| 24 | 13,113 | 12,189 | 1,208 | 668 | 96,777 | 13.5% |
-| 28 | 24,626 | 23,123 | 2,883 | 1,333 | 190,203 | 12.9% |
-| 32 | 42,158 | 39,842 | 3,383 | 2,720 | 333,295 | 12.6% |
-
-> ⚠️ **CORRECTION (2026-07-09).** The "(1,1) dominance" figures above were produced
-> with the buggy `collinear3` (only the first 3 of 6 orbit points checked), so they
-> measure center-line antipodal collinearity, not the real 3-orbit constraint. The
-> "≥89% D₆ dominance" claim is **retracted**: with the correct genuine-hyperedge
-> definition, the D₆ share *decreases* from ~63% (n=12) to ~28% (n=32) while
-> high-slope triples dominate (~72% at n=32). See `analysis/d6_dominance_correction.md`.
-
-The (1,1) dominance decreases from 23% to 13% as n grows, but remains the single most dangerous direction by an order of magnitude.
-
-### Independent Sets
-
-- All known rot4 solutions are **independent sets** in Hₙ^dir. Verified for n=12..32 with zero exceptions.
-- Known solutions have **significantly lower mean degree** than random n-subsets:
-
-| n | Solution Mean Danger | Random Mean Danger | Ratio |
-|---|--------------------|-------------------|-------|
-| 12 | 99.3 | 116.9 | 0.85 |
-| 16 | 177.5 | 342.3 | 0.52 |
-| 20 | 313.8 | 678.0 | 0.46 |
-| 24 | 280.3 | 1161.4 | 0.24 |
-| 28 | 1147.2 | 2117.3 | 0.54 |
-| 32 | 1342.7 | 3089.2 | 0.44 |
-
-Solutions consistently have ~40-60% lower mean danger than random subsets, confirming that solutions actively avoid high-danger directions.
+This reframes the original "does the centre avoid being a circumcentre?"
+question as an independent-set problem on a concrete hypergraph — the
+structure the project had already been probing via `danger_hypergraph` and
+the orbit-ring invariant.
 
 ---
 
-## 3. Theoretical Tools
+## 2. The Symmetry-Exclusion Theorem (main result)
 
-### 3.1 Hypergraph Turán Problem
+Let `σ` be a symmetry class and `G_σ` its symmetry group (generated by the
+reflections / rotations named in Flammenkamp's classification).  For a point
+`p` off the symmetry axes, its `G_σ`-orbit is a set of points.  Two facts
+drive the theorem:
 
-The fundamental question: what is the maximum size of an independent set in Hₙ?
+1. **Every symmetry in `G_σ` is an isometry fixing `C`.**  Hence *all points
+   in an orbit have the same distance from `C`* — they lie on one ring.
+2. If that orbit has size `≥ 3`, the ring holds `≥ 3` solution points, so `C`
+   is the circumcentre of those points and `S` is **not** missing-centre.
 
-Equivalently, what is the Turán number ex₃(n²/2, Hₙ) — the maximum number of hyperedges in an n²/2-vertex 3-uniform hypergraph that contains no "dangerous" triple?
+Therefore: **if every off-axis orbit of `G_σ` has size ≥ 3, the class is
+excluded.**
 
-If we can prove that α(Hₙ) < c·n for some c < 2, this would provide a theoretical upper bound on the number of points in a no-three-in-line configuration.
+Applying this to the nine classes:
 
-**Why this is hard**: Hₙ is not a "nice" hypergraph from a standard family (e.g., it's not a Steiner system, not a random hypergraph, not a geometric hypergraph in the usual sense). Its structure is dictated by the arithmetic of lattice point collinearity.
+| Class | marker | Group generators | off-axis orbit size | verdict |
+|-------|:------:|------------------|:-------------------:|---------|
+| full        | `*` | rot90 + both refs | 8 | **EXCLUDED** |
+| rot4        | `o` | rot90            | 4 | **EXCLUDED** |
+| rct4        | `c` | near-rot4        | 4 | **EXCLUDED** |
+| dia2        | `x` | both **diagonal** reflections | 4 | **EXCLUDED** |
+| ort2        | `+` | both **orthogonal** reflections | 4 | **EXCLUDED** |
+| rot2        | `:` | rot180           | 2 | compatible |
+| dia1        | `/` | one diagonal reflection | 2 | compatible |
+| ort1        | `-` | one orthogonal reflection | 2 | compatible |
+| iden        | `.` | none             | 1 | compatible |
 
-### 3.2 Container Method (Balogh–Morris–Samotij)
+**Proofs.**
 
-The container method is designed for **sparse hypergraphs** with good "supersaturation" properties. Key requirements:
+- **rot4 / rct4 / full** — a 90° rotation (or its near-rot4 analogue) sends
+  any off-axis point `p` to a 4-cycle `p, Rp, R²p, R³p`, all at equal
+  distance from `C` (rotation fixes `C`).  Ring size 4 ≥ 3 ⇒ not
+  missing-centre.  This is exactly the C₄ theorem of the main README,
+  restated in hypergraph language.
+- **dia2 (NEW).**  Invariant under both diagonal reflections
+  `d₁:(x,y)→(y,x)` and `d₂:(x,y)→(n−1−y, n−1−x)`.  The orbit of an
+  off-diagonal point `p=(x,y)` is
+  `{p, d₁p, d₂p, d₁d₂p}`.  Distance² from `C=(c,c)`:
+  ```
+  |p−C|²     = (x−c)² + (y−c)²
+  |d₁p−C|²   = (y−c)² + (x−c)²            = same
+  |d₂p−C|²   = (c−y)² + (c−x)² = (y−c)²+(x−c)² = same
+  |d₁d₂p−C|² = (c−x)² + (c−y)²           = same
+  ```
+  All four coincide ⇒ one ring holds 4 points ≥ 3 ⇒ not missing-centre.
+  A solution with *no* off-diagonal point would lie entirely on the two
+  diagonals; each diagonal is collinear so NTIL permits ≤ 2 points on it,
+  giving `|S| ≤ 4 < 2n` for `n ≥ 3` — impossible.  Hence every dia2
+  solution has an off-diagonal point and is **not** missing-centre. ∎
+- **ort2 (NEW).**  Identical argument with both orthogonal reflections
+  `v:(x,y)→(n−1−x,y)`, `h:(x,y)→(x,n−1−y)`; the 4-orbit
+  `{p, vp, hp, vhp}` again sits on one ring. ∎
+- **rot2 / dia1 / ort1 / iden** — off-axis orbits have size **2** (or 1 for
+  iden).  A 2-point orbit contributes a *pair* on a ring, which is allowed
+  by the missing-centre condition (≤ 2 per ring).  No forced ≥ 3 ⇒ these
+  classes are *compatible* (not excluded).  Whether each is actually
+  *realised* by a missing-centre example is a separate, constructive question
+  answered below.
 
-1. **Sparsity**: ✅ Edge density ≤ 1.2% and decreasing with n.
-2. **Supersaturation**: ❓ Unknown. Does a set of size k ≫ α(Hₙ) necessarily contain many hyperedges? This would need to be established.
-3. **Co-degree regularity**: ❓ The co-degree (number of hyperedges containing a given pair of vertices) likely varies wildly due to the (1,1) concentration.
-
-**If** container method applies, we could bound both α(Hₙ) and the number of maximal independent sets — giving a theoretical count of solutions.
-
-### 3.3 Probabilistic Method / LLL
-
-Each direction has a "danger" value — the number of hyperedges containing it. For random n-subsets, the expected number of hyperedges in the induced subgraph is:
-
-E[|E(Hₙ[random n-set])|] = C(n,3) · (edge density)
-
-For n=20: C(20,3)=1140, edge density=0.48% → expected ~5.5 hyperedges per random set.
-
-The Lovász Local Lemma could potentially guarantee existence of n-subsets with zero hyperedges for certain n, if the dependencies are manageable.
-
-### 3.4 Linear Algebra / Spectral Methods
-
-If we represent Hₙ as a 3-tensor A where A_{ijk} = 1 if {i,j,k} is a hyperedge, then finding an independent set of size n is equivalent to finding a 0-1 vector x with |x|₁ = n and ⟨A, x⊗x⊗x⟩ = 0.
-
-This is a **tensor optimization** problem. Spectral methods for hypergraphs (e.g., generalized eigenvalues) might provide upper bounds on α(Hₙ).
-
-### 3.5 Number Theory: Sum-of-Two-Squares Connection
-
-The danger-degree of direction (a,b) is related to the number of integer lattice points on lines with slope b/a that pass through the grid. For a primitive direction (a,b), the number of collinear triples involving that direction depends on:
-
-- The number of lattice points on lines with slope b/a within the n×n grid
-- The "multiplicity" of solutions to linear equations ax + by = c
-
-This connects to:
-- **Dirichlet's divisor problem** (counting lattice points on lines)
-- **Fourier analysis on ℤ²** (structure of collinearity)
-- **Quadratic forms** (the sum-of-two-squares representation r₂(d))
-
-### 3.6 Connection to Missing-Center
-
-A missing-center solution is an independent set in Hₙ with the additional constraint that no distance ring Rᵢ has ≥3 points.
-
-In the direction hypergraph model, this is equivalent to selecting directions such that no set of 3 directions has the same squared distance from center:
-
-If 3 directions (a₁,b₁), (a₂,b₂), (a₃,b₃) satisfy a₁²+b₁² = a₂²+b₂² = a₃²+b₃², they may (or may not) be a hyperedge. The missing-center constraint adds **a coarsening** of the hypergraph where we group directions by their squared norm.
-
-**Theoretical question**: For what n does there exist an n-independent-set that also avoids having ≥3 directions with the same norm?
-
-This is reminiscent of the **Erdős–Ginzburg–Ziv** type problems or **zero-sum** problems in additive combinatorics.
-
----
-
-## 4. Open Problems (Immediate Next Steps)
-
-### P1. Extend the empirical data
-- Compute Hₙ for n=24,28,32 to confirm sparsity trend and degree distribution.
-- Verify that the (1,1) dominance continues.
-- Measure co-degree distribution.
-
-### P2. Characterize hyperedge structure
-- Prove a formula for the number of hyperedges containing direction (a,b) in terms of number-theoretic functions.
-- Determine whether hyperedges can be characterized by a simple algebraic condition.
-
-### P3. Bound the independence number
-- Can we prove α(Hₙ^dir) ≤ n for all n≥something?
-- Or conversely, find n where α(Hₙ^dir) < n?
-
-### P4. Container theorem
-- Does Hₙ satisfy the conditions for the container method?
-- If so, bound the number of solutions.
-
-### P5. Missing-center specific
-- What is the maximum size of a set of directions with all pairwise-distinct norms?
-- How does this interact with the hypergraph independent set condition?
+> **Theorem (Symmetry Exclusion).** *A missing-centre NTIL solution can belong
+> only to the classes* **iden, rot2, dia1, ort1**.  *The classes* **full,
+> rot4, rct4, dia2, ort2** *are impossible.*
 
 ---
 
-## 5. References
+## 3. Realisation (does each compatible class actually occur?)
 
-1. Balogh, Morris, Samotij. "The method of hypergraph containers." ICM 2018.
-2. Saxton, Thomason. "Hypergraph containers." Inventiones 2015.
-3. Erdős–Ginzburg–Ziv theorem and generalizations.
-4. Guy–Kelly (1968), Ellmann (2004) on the No-Three-In-Line asymptotics.
-5. Prellberg (2026+) CP-SAT results.
-6. Heule (2026) SAT results for n=65-72.
+A compatible class is realised if at least one missing-centre solution of
+that class exists.
+
+| Class | Realised? | Smallest witness | Source |
+|-------|:---------:|-----------------|--------|
+| iden  | ✅ | n = 9  | Flammenkamp cache |
+| rot2  | ✅ | n = 11 | Flammenkamp cache |
+| dia1  | ✅ | n = 5  | Flammenkamp cache |
+| ort1  | 相容，尚无常实例证（开放问题） | — | 见 `analysis/ort1_norm_search.txt` |
+
+The first three are verified directly from the cached enumeration (the same
+data that, conversely, shows **dia2: 33/33, ort1: 4/4 non-missing-centre,
+ort2: 0 known**, and **rot4/rct4/full: 0 missing-centre across 21 999
+solutions** — all consistent with the theorem).
+
+For **ort1** a targeted backtracking search (vertical-mirror symmetry,
+incremental collinearity pruning, first-witness stop) was run for
+`n = 10 … 18` (deadline-bounded).  **No missing-centre ort1 solution was
+found.**  The search machinery was independently validated: the same
+backtracking *without* the missing-centre leaf test recovers the known
+Flammenkamp ort1 solutions at `n = 4, 8` (and the cache also lists `n = 26,
+28`), so the negative result is a genuine exploration of the space, not a
+bug.  Exhaustive coverage was reached for `n ≤ 16` (n=14 in 3 s, n=16 in
+47 s); `n = 18` was searched heavily (170 s) with none found.
+
+> **Open problem.**  Is there *any* missing-centre ort1 solution?  The orbit
+> argument shows ort1 is *not* excluded by the theorem, yet an exhaustive
+> search to `n = 16` (and heavy search to `n = 18`) finds none.  Either
+> realization requires `n > 18`, or there is a further (currently unknown)
+> exclusion specific to single-axis mirror symmetry.  Resolving this would
+> complete the realisation picture for all four compatible classes.
+
+---
+
+## 4. Computational cross-check
+
+Script `analysis/hypergraph_framework.py` decodes all 150 cache files
+(`marker + 2n` value characters), recomputes each solution's symmetry class,
+and cross-tabulates `class × missing-centre`.
+
+- **335 702** solutions decoded, **0** decode failures.
+- Symmetry-label agreement with the cache: **6** discrepancies, all
+  `rot2` files that the cache lists under `rot2` but which satisfy the
+  `near_rot4` condition (recomputed as `rct4`) — already an excluded class,
+  so the exclusion count is unaffected.
+- Missing-centre rate per class:
+
+  | class | total | missing-centre | rate |
+  |-------|------:|:--------------:|-----:|
+  | iden  | 187 044 | 5 769 | 3.1 % |
+  | rot2  | 125 912 | 5 029 | 4.0 % |
+  | dia1  |     710 |    32 | 4.5 % |
+  | dia2  |      33 |     0 | 0.0 % |
+  | ort1  |       4 |     0 | 0.0 % |
+  | rot4  |  21 670 |     0 | 0.0 % |
+  | rct4  |     326 |     0 | 0.0 % |
+  | full  |       3 |     0 | 0.0 % |
+
+  Every excluded class shows **0 / 0** missing-centre, exactly as the theorem
+  predicts; every compatible class shows a positive (if small) rate.
+
+---
+
+## 5. Why this matters
+
+- It upgrades the single C₄ theorem of the main README into a **five-class
+  exclusion** with elementary, uniform proofs (orbit-on-a-ring argument).
+- It gives the missing-centre phenomenon a precise hypergraph identity
+  (independent set of `H_ring`), unifying the project's earlier
+  `danger_hypergraph` / orbit-ring experiments.
+- It settles the "which symmetries can avoid the centre?" question
+  completely among the nine known classes.
+
+### Open follow-ups
+1. **Prove ort1 realisation** (find an explicit missing-centre ort1 example,
+   or prove it impossible — the orbit argument only shows compatibility).
+2. **Quantify** the missing-centre rate decay across `n` within the four
+   allowed classes (the cache shows 3–4.5 %; does it vanish for large `n`?).
+3. Extend the `H_ring` model to study *how many* rings a solution must use
+   (a missing-centre solution needs ≥ `n` distinct rings for its `n` pairs).
