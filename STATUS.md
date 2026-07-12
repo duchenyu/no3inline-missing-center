@@ -28,6 +28,7 @@
 | Th-54 / Th-55 | displacement 2-cover equivalence; row/column safety | (in README §2) |
 | Th-57 / Th-58 | cross-resonance criterion (necessary); s=1 Sidon (necessary) | (in README §2) |
 | Container foundation | `2n` configurations = independent sets of the danger hypergraph `Hₙ`; codegree exactly `n−2` | `hypergraph_framework.md` (hard result) |
+| **Costas C1–C5** (FDR-transfer) | A Costas array can have exactly **6** D₄ symmetry types; `H`/`V` reflection **impossible** (ort1-boundary analogue); full D₄ impossible; `C4` needs `n ≡ 0,1 (mod 4)`.  Empirically confirmed to n=13 (`D4(full)=0`; `C2=C4=D2=0`). | `analysis/results/costas_symmetry_theorem.md` |
 
 ---
 
@@ -48,8 +49,11 @@
 - **m=37 rot4 existence** — the frontier.  ⇔ satisfiability of the R8 quadratic
   CSP.  Exact CP-SAT re-encoding: **1,264,378** per-line at-most-2 constraints
   over 1,369 binary vars (`analysis/results/cpsat_encoding.md`).  OR-Tools
-  attack launched (background task `fkB7gu`, 1800 s budget) — result pending.
-  **OPEN.**
+  attack (`fkB7gu`) launched 2026-07-13 00:14, **terminated by user ~00:15
+  (no solution found within budget, 3.8 GB peak)**.  Still **OPEN** — the
+  encoding is proven sound + reachable (m=3..15 discovery all pass full 64/24
+  check; m=36 instance admits its cached solution); only the m=37 search was
+  halted.  Redux at a larger time budget is a clean future task.
 - **Guy–Kelly D(n)=2n** infinite family — holds for *some* n≤72, not all.
 - **C4 necessity** ⇔ no collinearity 2-factor (Th-39 direction).
 - **α lower bound ~1.5n** (Hall 1975) for general NTIL.
@@ -86,6 +90,16 @@ symmetry G ≤ D₄
    → R7 gap: linear insufficient (cross-quadrant collinearity is quadratic)
    → Layer 2 GEOMETRIC rigidity (R8, THEOREM): (X)∧(S) quadratic CSP ⇔ NTIL
    → R6: Layer-2 system is 0-dimensional (over-determined)
-   → m=37 existence = Layer-2 CP-SAT (1.26M per-line constraints)  [OPEN, attack running]
+   → m=37 existence = Layer-2 CP-SAT (1.26M per-line constraints)  [OPEN, attack halted per user]
 ```
+**Cross-application (NEW 2026-07-13):** the FDR symmetry lens transfers to the
+Costas array problem — same D₄ lattice, complementary classification:
+```
+symmetry G ≤ D₄  (Costas)
+   → C1: H/V reflection impossible (permutation-matrix structure)  [= FDR ort1 boundary]
+   → C5: only 6 admissible types; full D₄ impossible
+   → C2: C4 needs n ≡ 0,1 (mod 4)
+   → empirical: C2/C4/D2 absent to n=13  ⇒  "do rotational Costas arrays exist?" open
+```
+See `costas_symmetry_theorem.md`, `costas_rigidity.md`.
 See `two_layer_rigidity.md` for the full synthesis.

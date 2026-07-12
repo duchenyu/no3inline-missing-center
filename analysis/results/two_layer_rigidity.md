@@ -176,8 +176,22 @@ hard foundation: codegree is exactly `n−2`, so all `2n` configurations lie in
    per-line at-most-2 space** (`cpsat_encoding.md`, `cpsat_m37.py`): validated
    sound (m=3..15 discovery → full `(X)+(S)` check passes) and reachable
    (m=36 instance admits its cached solution).  OR-Tools attack on m=37 launched
-   (background, 1800 s).  **OPEN.**
+   2026-07-13 00:14, **terminated by user ~00:15** (no solution found within
+   budget; 3.8 GB peak).  The encoding remains the right tool for a future
+   larger-budget run.  **OPEN.**
 3. **Extremal-config taxonomy.**  Beyond symmetric (Layer-1/2) families, the
    abandoned SE conjecture leaves a larger question: how many *structure types*
    do extremal configurations have (symmetric / asymmetric / sporadic)?  This is
    the natural next frontier once the symmetric rigidity is fully mapped.
+
+4. **Costas cross-application (NEW 2026-07-13).**  The two-layer / FDR symmetry
+   lens transfers to the Costas array problem — the *same* D₄ lattice, classified
+   from the complementary side ("which subgroups *can occur*").  Result: a Costas
+   array admits exactly **6** D₄ symmetry types; `H`/`V` reflection is impossible
+   (the FDR `ort1` boundary lifted to permutation-matrix structure); full D₄ is
+   impossible; `C4` requires `n ≡ 0,1 (mod 4)` (`costas_symmetry_theorem.md`,
+   theorems C1–C5).  Empirically (scan to n=13) `D4(full)=0` everywhere and
+   `C2=C4=D2=0` — raising the open question of whether *rotational* Costas
+   symmetry exists at all.  This narrows any symmetric witness at the open orders
+   32/33 to the six-type list, and `cpsat_m37.py` is a direct template for the
+   exact distinct-displacement CP-SAT attack on 32/33.

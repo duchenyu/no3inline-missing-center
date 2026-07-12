@@ -459,6 +459,20 @@ The quadratic gap (R7, §2.12) shows that linear Sidon laws are insufficient. Th
 
 **m=37 precision.** The C₄ lift of a candidate at n=74 (m=37) is a system of **140,304** quadratic non-equality constraints over **1,369 binary selection variables** (choose an m-subset of the m×m quadrant — *not* a permutation matrix, and *not* "74 variables"): X-layer = C(37,3)×16 = 124,320; S-layer = 37×12×36 = 15,984. (Non-reduced full 64/24 count = 529,248; the C₄ reduction saves ≈3.77×.) Existence of a rot4 solution at n=74 is exactly the satisfiability of this quadratic CSP — consistent with the Complete-Determination Principle (§2.12). Minimal-count derivation: `analysis/results/r8_minimal_csp.md`. Status: the system is fully written down and the solver lives in its space, but satisfiability itself remains **OPEN** (Monte-Carlo finds no random hit; bounded backtracking characterises pruning strength but cannot complete at m=37 within budget).
 
+### 2.15 Costas Array Symmetry Classification — FDR-transfer (NEW 2026-07-13) ★
+
+The FDR symmetry-classification lens (§2.10) transfers to the **Costas array** problem — the *same* D₄ subgroup lattice, classified from the complementary side ("which subgroups *can occur*", not "which *force* rigidity").
+
+> **Theorem (Costas admissible symmetry, C1–C5 — PROVED 2026-07-13).** A Costas array of order `n>1` can have exactly **six** D₄ symmetry types — `{id}`, `{id,C2}`, `<C4>`, `{id,D}`, `{id,AD}`, `{id,C2,D,AD}` (Klein four) — and **no others**:
+> - **C1 (ort1-boundary analogue).** `H`/`V` reflection is impossible (a permutation matrix invariant under H would force `π(i)=(n−1)/2` for all `i`, not a permutation). This is the FDR `ort1` exclusion lifted to permutation-matrix structure.
+> - **C5.** Full D₄ symmetry is impossible (it contains `H`,`V`).
+> - **C2.** `C4` symmetry requires `n ≡ 0,1 (mod 4)` (orbit counting: 4-cycles, plus a centre fixed point only when `n` is odd).
+> - **C3/C4.** `C2`, `D`, `AD` impose no congruence restriction.
+
+**Empirical confirmation (scan to n=13, sanity-checked against the known count sequence).** `D4(full)=0` at every order (confirms C5); moreover `C2=C4=D2=0` up to n=13 — *stronger* than the theorem, raising the open question of whether **rotational** Costas symmetry exists at all. `diag = anti` at every order (the `D↔AD` duality); `trivial` dominates (asymmetry is the norm, paralleling NTIL).
+
+**Why this advances Costas.** Orders **32 and 33** are the first orders with *no known* Costas array (counts are known only to 29). The theorem narrows any symmetric witness there to the six-type list (and `C4` is allowed at both 32 and 33), while `cpsat_m37.py`'s per-line at-most-2 encoding is a direct template for the exact distinct-displacement CP-SAT attack on 32/33. Full statement, proof, and table: `analysis/results/costas_symmetry_theorem.md`; the broader bridge (FDR as 1-D Sidon shadow of Costas's 2-D Sidon; Welch-construction contrast) is in `analysis/results/costas_rigidity.md`.
+
 ## 3. Empirical Findings
 
 All material in this section is **computational observation**, not proof. Headings and tables report what exhaustive search and the Flammenkamp / mvr databases actually contain.
