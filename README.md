@@ -40,6 +40,8 @@ This section collects every result that is **proven** (theorem or lemma with pro
 > 7. **The m=37 window (§2.13).** Structural and algebraic scalings place m=37 inside the satisfiable regime — indirect evidence that a C₄ solution at n=74 exists.
 >
 > Supporting results (low-slope parity §2.5, distance-ring hypergraph §2.6, further rot4 theorems §2.7, container method §2.8, structural invariants §2.13) shore up this spine. The missing-center question that started the project is recorded in §3 as empirical background.
+>
+> **Navigation:** every result is tagged Proven / Evidence / Conjecture / Revised in [`STATUS.md`](./STATUS.md); the two-layer rigidity synthesis (linear FDR → quadratic R8) is in `analysis/results/two_layer_rigidity.md`.
 
 ### 2.1 Theorem: C₄ Symmetry Implies Non-Missing-Center ✔ *(historical origin of the project)*
 A solution has **C₄ symmetry** if it is invariant under 90° rotation about the grid center. We prove:
