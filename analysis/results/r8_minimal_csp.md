@@ -98,3 +98,26 @@ budget by **≈3.77×** (529,248 → 140,304).
   its space; the satisfiability itself remains **OPEN** (Stage M of the
   solver: Monte-Carlo finds no random hit, bounded backtracking characterises
   pruning strength but cannot complete at m=37 within budget).
+
+---
+
+### Important: Two model interpretations
+
+The 140,304 constraint count assumes the **m-coordinate model**:
+variables = the coordinates `(x₁,y₁),...,(x_m,y_m)` of the m selected cells.
+Each constraint is a 3-body determinant inequality among three cell indices,
+precisely as enumerated by `16·C(m,3) + 12·m·(m−1)`.
+
+If instead one uses the **boolean model** (1369 binary variables
+`x_{r,c} ∈ {0,1}` with `Σ x = m`), the constraint set is different:
+every triple of candidate cells `(a,b,c)` with collinear C4 lifts generates a
+constraint `x_a + x_b + x_c ≤ 2` (i.e., "forbid selecting all three"). The
+number of such constraints depends on the board geometry, not on which cells
+happen to be selected.  Empirically, the number of forbidden triples among the
+1369 candidates is much larger than 140,304, since most candidate triples are
+automatically allowed (they produce non-collinear lifts for all C4 rotations).
+
+The m-coordinate model is better for theoretical analysis (smaller, cleaner);
+the boolean model is what the CP-SAT encoder actually implements, and its
+constraint count is the number of board lines with ≥2 candidate cells
+(≈ O(m³) for the full board, but O(m²) with symmetry reduction).

@@ -20,7 +20,7 @@ We prove that any symmetry group $G\le D_4$ preserving the $\{\text{slope}\pm1\}
 
 Together these four parts form the **Symmetry-Induced Rigidity Hierarchy (SIRH)**: a one-way implication from symmetry to rigidity, with the quadratic layer as the true algebraic characterization.  
 
-Supporting results include the explicit graph-theoretic characterization $\text{\textbf{Th-44}}$ (rot4 NTIL $\Leftrightarrow$ $2$-regular graph on $m=n/2$ vertices), and the cycle-type refinement $\text{\textbf{T15}}$ (3-cycles are provably baseframe-safe; 2-cycles empirically rare but not structurally forbidden).  
+Supporting results include the explicit graph-theoretic partial characterization **Th-44** (rot4 NTIL $\Rightarrow$ 2-regular graph on $m=n/2$ vertices; the converse requires additional $(X)+(S)$ quadratic constraints), and the cycle-type refinement **T15** (3-cycles are provably baseframe-safe; 2-cycles empirically rare but not structurally forbidden).  
 
 The hierarchy leaves one open instance: whether a $C_4$-symmetric $2n$-point configuration exists at $n=74$ ($m=37$). Six computational directions are evaluated and found insufficient under current tools, suggesting that $m=37$ requires a genuinely new algebraic or number-theoretic insight.
 
@@ -49,7 +49,7 @@ We do not search for new solutions. Instead, we prove that *extremal symmetry fo
 | III | R8-G: $G$-symmetric NTIL $\Leftrightarrow$ finite quadratic CSP | **Proven** (constructive + verified) |
 | IV | Sidon $\nRightarrow$ symmetry; asymmetry dominant | **Proven negatively** |
 
-Supporting structural results: **Th-44** (rot4 $\Leftrightarrow$ 2-regular graph), **T15** (cycle-type refinement).
+Supporting structural results: **Th-44** (rot4 NTIL $\Leftrightarrow$ 2-regular $\wedge$ (X) $\wedge$ (S)), **T15** (cycle-type refinement).
 
 ---
 
@@ -84,15 +84,17 @@ $$(a,b) \xrightarrow{\rho} (-b,a) \xrightarrow{\rho} (-a,-b) \xrightarrow{\rho} 
 
 This lifts $m$ quadrant cells to $4m$ points on a $(2m-1)\times(2m-1)$ odd-lattice grid.
 
-### 2.4 The 2-Regular Characterization (Th-44)  
+### 2.4 The 2-Regular Partial Characterization (Th-44)  
 
-**Theorem (Th-44).** A $C_4$-symmetric $2n$-point configuration on $2m\times 2m$ ($n=2m$) is NTIL **iff** the $m$ selected cells in the top-left quadrant form the edge set of a $2$-regular (pseudo)graph on $m$ vertices: for each $i\in\{0,\dots,m-1\}$,
+**Theorem (Th-44 — Necessary Condition).** Every $C_4$-symmetric $2n$-point NTIL configuration on $2m\times 2m$ ($n=2m$) satisfies: the $m$ selected cells in the top-left quadrant form the edge set of a $2$-regular (pseudo)graph on $m$ vertices: for each $i\in\{0,\dots,m-1\}$,
 
 $$\text{rowSum}(i) + \text{colSum}(i) = 2$$
 
 where $\text{rowSum}(i) = \#\{j: (i,j)\in S\}$ and $\text{colSum}(i) = \#\{j: (j,i)\in S\}$.
 
-*Proof.* The $4m$ lifted points must respect the $2$-per-row constraint of extremal NTIL: each row of the $2m\times2m$ grid contains exactly 2 points. The $C_4$ rotation maps the $i$-th row of the top-left quadrant to the $i$-th column; the rotation of the top-right quadrant fills the remaining rows. The $2$-regular condition is the exact translation of the $2$-per-row constraint under $C_4$ symmetry. ∎
+**The converse does NOT hold.** Satisfying 2-regularity alone does not guarantee NTIL; the lifted configuration can still have collinear triples. The full equivalence requires additional quadratic constraints (X) and (S) from Part III.
+
+*Proof of necessity.* The $4m$ lifted points must respect the $2$-per-row constraint of extremal NTIL: each row of the $2m\times2m$ grid contains exactly 2 points. The $C_4$ rotation maps the $i$-th row of the top-left quadrant to the $i$-th column; the rotation of the top-right quadrant fills the remaining rows. The $2$-regular condition is the exact translation of the $2$-per-row constraint under $C_4$ symmetry. ∎
 
 ---
 
